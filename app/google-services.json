@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "756839058105",
+    "firebase_url": "https://tinkoffsiriusmobile.firebaseio.com",
+    "project_id": "tinkoffsiriusmobile",
+    "storage_bucket": "tinkoffsiriusmobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:756839058105:android:baf55334388d8ca0",
+        "android_client_info": {
+          "package_name": "com.anikinkirill.tinkoffsiriusmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "756839058105-tpbheu78444de2oph9uab9v8h59cplbn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anikinkirill.tinkoffsiriusmobile",
+            "certificate_hash": "02de54d84d72579deae4c623e4f22674edf55a79"
+          }
+        },
+        {
+          "client_id": "756839058105-mj38thfhj2779fu7nm05q46c2ikdrose.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7JhjANFxsxNAMX9lbheWkt9wjOAv890U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "756839058105-mj38thfhj2779fu7nm05q46c2ikdrose.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
