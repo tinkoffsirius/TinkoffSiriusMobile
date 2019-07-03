@@ -15,17 +15,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void sn(View v){
-        try {
-            Intent i = new Intent(this, SignInActivity.class);
-            startActivity(i);
-        }catch(Exception e){
-            Toast.makeText(this,e+"",Toast.LENGTH_SHORT).show();
-        }
+    public void signIn(View v){
+        Intent i = new Intent(this, SignInActivity.class);
+        startActivity(i);
     }
 
-    public void sp(View v){
-        Intent i=new Intent(this,SignUpActivity.class);
+    public void signUp(View v){
+        Intent i = new Intent(this,SignUpActivity.class);
         startActivity(i);
     }
 

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TinkoffSiriusMobile</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
 </resources>

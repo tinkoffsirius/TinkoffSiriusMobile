@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,24 +9,30 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/buttonsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:weightSum="100"
         android:layout_gravity="bottom"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/si"
-            android:layout_width="163dp"
-            android:layout_height="wrap_content"
-            android:onClick="sn"
-            android:text="Sign in" />
+            android:id="@+id/signIn"
+            android:layout_weight="50"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="signIn"
+            android:text="@string/sign_in" />
 
         <Button
-            android:id="@+id/su"
+            android:id="@+id/signUp"
+            android:layout_weight="50"
+            android:background="@color/colorPrimary"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="sp"
-            android:text="Sign up" />
+            android:layout_height="50dp"
+            android:onClick="signUp"
+            android:text="@string/sign_up" />
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>
