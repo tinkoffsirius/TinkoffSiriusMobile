@@ -1,6 +1,8 @@
-package com.anikinkirill.tinkoffsiriusmobile;
+package com.anikinkirill.tinkoffsiriusmobile.dependencyinjection.app;
 
 import android.app.Application;
+
+import com.anikinkirill.tinkoffsiriusmobile.BaseApplication;
 
 import javax.inject.Singleton;
 
@@ -19,7 +21,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
                 AndroidSupportInjectionModule.class
         }
 )
-public abstract class AppComponent implements AndroidInjector<BaseApplication> {
+public interface AppComponent extends AndroidInjector<BaseApplication> {
 
     @Component.Builder
     interface Builder {
