@@ -7,21 +7,26 @@ import javax.inject.Singleton;
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjector;
+import dagger.android.support.AndroidSupportInjectionModule;
 
 /**
  * CREATED BY ANIKINKIRILL
  */
 
 @Singleton
-@Component
-public abstract class AppComponent implements AndroidInjector {
-    
+@Component(
+        modules = {
+                AndroidSupportInjectionModule.class
+        }
+)
+public abstract class AppComponent implements AndroidInjector<BaseApplication> {
+
     @Component.Builder
     interface Builder {
         @BindsInstance
         Builder application(Application application);
 
-        Application build();
+        AppComponent build();
     }
 
 }
