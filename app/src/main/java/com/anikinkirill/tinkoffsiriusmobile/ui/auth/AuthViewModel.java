@@ -52,14 +52,12 @@ public class AuthViewModel extends ViewModel {
                 if(task.isSuccessful()){
                     Log.d(TAG, "onComplete: user created account");
                     goToMainActivity();
-                }
-                if(task.getException() instanceof FirebaseAuthUserCollisionException){
+                }else if(task.getException() instanceof FirebaseAuthUserCollisionException){
                     Log.d(TAG, "onComplete: user's been already created");
                     authUser(email, password);
-                }
-                if(!task.isSuccessful()){
+                }else if(!task.isSuccessful()){
                     Log.d(TAG, "onComplete: error while signing in : " + task.getException().getMessage());
-                    Snackbar.make(view, task.getException().getMessage(), Snackbar.LENGTH_LONG);
+                    Snackbar.make(view, task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -80,11 +78,12 @@ public class AuthViewModel extends ViewModel {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     Log.d(TAG, "onComplete: user logged in successfully");
+                    Snackbar.make(view, "User has logged in", Snackbar.LENGTH_LONG).show();
                     goToMainActivity();
                 }
                 if(!task.isSuccessful()){
                     Log.d(TAG, "onComplete: user's credentials're incorrect");
-                    Snackbar.make(view, "Login or password is incorrect", Snackbar.LENGTH_LONG);
+                    Snackbar.make(view, "Login or password is incorrect", Snackbar.LENGTH_LONG).show();
                 }
             }
         });
