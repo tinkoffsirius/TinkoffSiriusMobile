@@ -1,7 +1,10 @@
 package com.anikinkirill.tinkoffsiriusmobile.ui.auth;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -10,7 +13,6 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.anikinkirill.tinkoffsiriusmobile.R;
 import com.anikinkirill.tinkoffsiriusmobile.viewmodel.ViewModelProviderFactory;
-import com.google.firebase.auth.FirebaseAuth;
 
 import javax.inject.Inject;
 
@@ -63,8 +65,15 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
         switch (view.getId()){
             case R.id.signInButton:{
                 viewModel.signInUser(userLogin.getText().toString().trim(), userPassword.getText().toString().trim(), relativeLayout);
+                hideSoftKeyboard(this, view);
                 break;
             }
         }
     }
+
+    private void hideSoftKeyboard(Context context, View view){
+        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
 }
