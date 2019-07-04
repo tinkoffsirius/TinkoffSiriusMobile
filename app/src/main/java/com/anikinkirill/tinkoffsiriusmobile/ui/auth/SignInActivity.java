@@ -53,27 +53,4 @@ public class SignInActivity extends DaggerAppCompatActivity {
         viewModel = ViewModelProviders.of(this, providerFactory).get(SignInViewModel.class);
     }
 
-    public void signIn(View v){
-        try{
-            if(!new File(getCacheDir().toString()+"user").exists()){
-                Toast.makeText(this, "You have not signed up yet", Toast.LENGTH_SHORT).show();
-            }else {
-                FileInputStream fis = new FileInputStream(getCacheDir().toString() + "user");
-                byte[] b = new byte[fis.available()];
-                fis.read(b);
-                fis.close();
-                String s = new String(b);
-                fis.close();
-                String s2 = "{\n  \"login\": \"" + userLogin.getText().toString() + "\"\n  \"password\": \"" + userPassword.getText().toString() + "\"\n}";
-                if (s.equals(s2)) {
-                    Toast.makeText(this, "Signed in successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "Login or password is incorrect", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }catch(Exception e){
-            Toast.makeText(this,e+"",Toast.LENGTH_SHORT).show();
-        }
-    }
-
 }
