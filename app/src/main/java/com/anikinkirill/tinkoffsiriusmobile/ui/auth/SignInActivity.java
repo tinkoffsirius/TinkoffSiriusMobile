@@ -40,8 +40,8 @@ public class SignInActivity extends DaggerAppCompatActivity {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
-       init();
-       initViewModel();
+        init();
+        initViewModel();
     }
 
     private void init(){
