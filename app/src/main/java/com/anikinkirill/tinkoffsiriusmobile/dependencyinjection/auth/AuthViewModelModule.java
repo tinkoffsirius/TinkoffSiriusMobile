@@ -2,7 +2,7 @@ package com.anikinkirill.tinkoffsiriusmobile.dependencyinjection.auth;
 
 import androidx.lifecycle.ViewModel;
 
-import com.anikinkirill.tinkoffsiriusmobile.ui.auth.SignInViewModel;
+import com.anikinkirill.tinkoffsiriusmobile.ui.auth.AuthViewModel;
 import com.anikinkirill.tinkoffsiriusmobile.viewmodel.ViewModelKey;
 
 import dagger.Binds;
@@ -18,7 +18,7 @@ public abstract class AuthViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(SignInViewModel.class)
-    abstract ViewModel bindSignInViewModel(SignInViewModel viewModel);
+    @ViewModelKey(AuthViewModel.class)
+    abstract ViewModel bindSignInViewModel(AuthViewModel viewModel);
 
 }

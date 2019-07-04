@@ -2,16 +2,15 @@ package com.anikinkirill.tinkoffsiriusmobile.ui.auth;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.RelativeLayout;
 
 import androidx.lifecycle.ViewModelProviders;
 
 import com.anikinkirill.tinkoffsiriusmobile.R;
 import com.anikinkirill.tinkoffsiriusmobile.viewmodel.ViewModelProviderFactory;
-
-import java.io.File;
-import java.io.FileInputStream;
+import com.google.firebase.auth.FirebaseAuth;
 
 import javax.inject.Inject;
 
@@ -23,7 +22,7 @@ import dagger.android.support.DaggerAppCompatActivity;
  * Activity where user can sign in to his account
  */
 
-public class SignInActivity extends DaggerAppCompatActivity {
+public class AuthActivity extends DaggerAppCompatActivity implements View.OnClickListener {
 
     // Injections
     @Inject
@@ -32,9 +31,11 @@ public class SignInActivity extends DaggerAppCompatActivity {
     // UI
     private EditText userLogin;
     private EditText userPassword;
+    private Button authUserButton;
+    private RelativeLayout relativeLayout;
 
     // Vars
-    private SignInViewModel viewModel;
+    private AuthViewModel viewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -45,12 +46,25 @@ public class SignInActivity extends DaggerAppCompatActivity {
     }
 
     private void init(){
+        relativeLayout = findViewById(R.id.signIn_relativeLayout);
         userLogin = findViewById(R.id.userLogin);
         userPassword = findViewById(R.id.userPassword);
+        authUserButton = findViewById(R.id.signInButton);
+
+        authUserButton.setOnClickListener(this);
     }
 
     private void initViewModel(){
-        viewModel = ViewModelProviders.of(this, providerFactory).get(SignInViewModel.class);
+        viewModel = ViewModelProviders.of(this, providerFactory).get(AuthViewModel.class);
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.signInButton:{
+                viewModel.signInUser(userLogin.getText().toString().trim(), userPassword.getText().toString().trim(), relativeLayout);
+                break;
+            }
+        }
+    }
 }

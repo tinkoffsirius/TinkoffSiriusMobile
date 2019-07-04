@@ -1,11 +1,9 @@
 package com.anikinkirill.tinkoffsiriusmobile.dependencyinjection.app;
 
 import com.anikinkirill.tinkoffsiriusmobile.dependencyinjection.auth.AuthViewModelModule;
-import com.anikinkirill.tinkoffsiriusmobile.ui.auth.SignInActivity;
+import com.anikinkirill.tinkoffsiriusmobile.ui.auth.AuthActivity;
 
-import dagger.Binds;
 import dagger.Module;
-import dagger.Provides;
 import dagger.android.ContributesAndroidInjector;
 
 /**
@@ -20,7 +18,7 @@ public abstract class ActivityBuildersModule {
                     AuthViewModelModule.class
             }
     )
-    abstract SignInActivity contributeSignInActivity();
+    abstract AuthActivity contributeSignInActivity();
 
 
 }
