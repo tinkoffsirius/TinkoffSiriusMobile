@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.anikinkirill.tinkoffsiriusmobile.R;
 import com.anikinkirill.tinkoffsiriusmobile.viewmodel.ViewModelProviderFactory;
-import com.google.firebase.auth.FirebaseAuth;
 
 import javax.inject.Inject;
 
