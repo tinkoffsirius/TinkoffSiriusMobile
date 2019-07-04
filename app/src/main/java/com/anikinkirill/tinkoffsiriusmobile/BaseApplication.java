@@ -1,5 +1,7 @@
 package com.anikinkirill.tinkoffsiriusmobile;
 
+import com.anikinkirill.tinkoffsiriusmobile.dependencyinjection.app.DaggerAppComponent;
+
 import dagger.android.AndroidInjector;
 import dagger.android.support.DaggerApplication;
 
