@@ -10,13 +10,13 @@ import javax.inject.Inject;
  * CREATED BY ANIKINKIRILL
  */
 
-public class SignInViewModel extends ViewModel {
+public class AuthViewModel extends ViewModel {
 
-    private static final String TAG = "SignInViewModel";
+    private static final String TAG = "AuthViewModel";
 
     @Inject
-    public SignInViewModel(){
-        Log.d(TAG, "SignInViewModel: viewmodel is working...");
+    public AuthViewModel(){
+        Log.d(TAG, "AuthViewModel: viewmodel is working...");
     }
 
 }

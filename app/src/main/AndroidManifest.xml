@@ -11,9 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.auth.SignInActivity">
+        <activity android:name=".ui.auth.AuthActivity">
             <intent-filter>
-                <action android:name="android.intent.action.SignIn" />
+                <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
