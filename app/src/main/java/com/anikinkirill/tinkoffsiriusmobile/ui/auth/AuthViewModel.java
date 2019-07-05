@@ -1,5 +1,6 @@
 package com.anikinkirill.tinkoffsiriusmobile.ui.auth;
 
+import android.content.Intent;
 import android.util.Log;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -95,6 +96,8 @@ public class AuthViewModel extends ViewModel {
 
     private void goToMainActivity(){
         Log.d(TAG, "goToMainActivity: called");
+        Intent intent = new Intent("android.intent.action.MapActivity");
+        view.getContext().startActivity(intent);
     }
 
 }
