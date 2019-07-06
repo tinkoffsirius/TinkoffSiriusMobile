@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.format.Time;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -27,8 +28,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * CREATED BY ANIKINKIRILL
@@ -43,6 +49,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private Runnable mRunnable;
     private static final int LOCATION_UPDATE_INTERVAL = 3000;
     private FusedLocationProviderClient fusedLocation;
+    ArrayList<LatLng> arrayList = new ArrayList<>();
+    public String login;
+    private String date = "";
+    private ArrayList<Map<String,String>> forSending=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +61,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         fusedLocation = LocationServices.getFusedLocationProviderClient(this);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        setDate();
     }
 
     @Override
@@ -87,7 +98,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         fusedLocation.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
             @Override
             public void onComplete(@NonNull Task<Location> task) {
-                
+                Location currentLocation = task.getResult();
+                passValuesToFirebase(currentLocation);
             }
         });
     }
@@ -108,5 +120,64 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         googleMap.setMyLocationEnabled(true);
 
+    }
+
+    public void setDate(){
+        Time time=new Time(Time.getCurrentTimezone());
+        time.setToNow();
+        if(time.monthDay<10){
+            date+="0"+time.monthDay+"_";
+        }else{
+            date+=time.monthDay+"_";
+        }
+        if((time.month+1)<10){
+            date+="0"+(time.monthDay+1)+"_";
+        }else{
+            date+=(time.monthDay+1)+"_";
+        }
+        date+=time.year;
+    }
+
+    public void passValuesToFirebase(Location location){
+        double lat = location.getLatitude();
+        double lon = location.getLongitude();
+        LatLng latLng = new LatLng(lat,lon);
+        arrayList.add(latLng);
+        LatLng position = new LatLng(lat,lon);
+        if(arrayList.size()==1) {
+            googleMap.addMarker(new MarkerOptions().position(position).title("Start position"));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
+            login= FirebaseAuth.getInstance().getCurrentUser().getUid();
+            Log.e(TAG,login);
+            Map<String,String> map=new HashMap<>();
+            map.put("latitude",lat+"");
+            map.put("longitude",lon+"");
+            DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
+            if(!login.equals("")) {
+                Log.e(TAG,login);
+                databaseReference.child(date).child("users").child(login).child("start_coordinates").setValue(map);
+            }else{
+                databaseReference.child(date).child("users").child("user3").child("start_coordinates").setValue(map);
+            }
+        }else{
+            Time time = new Time(Time.getCurrentTimezone());
+            time.setToNow();
+            Map<String,String> map = new HashMap<>();
+            map.put("latitude",lat + "");
+            map.put("longitude",lon + "");
+            map.put("order", (forSending.size() + 1) + "");
+            String resultTime = time.hour+":"+time.minute+":"+time.second;
+            map.put("time", resultTime);
+            forSending.add(map);
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+            if(!date.equals("")) {
+                databaseReference.child(date).child("users").child(login).child("history").setValue(forSending);
+            }else{
+                databaseReference.child("06_07_2019").child("users").child(login).child("history").setValue(forSending);
+            }
+        }
+        PolylineOptions polylineOptions = new PolylineOptions().addAll(arrayList).color(Color.RED).width(15);
+        googleMap.addPolyline(polylineOptions);
     }
 }
