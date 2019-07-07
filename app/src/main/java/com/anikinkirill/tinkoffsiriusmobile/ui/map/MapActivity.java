@@ -36,11 +36,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import dagger.android.support.DaggerAppCompatActivity;
+
 /**
  * CREATED BY ANIKINKIRILL
  */
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCallback {
 
     private static final String TAG = "MapActivity";
 
