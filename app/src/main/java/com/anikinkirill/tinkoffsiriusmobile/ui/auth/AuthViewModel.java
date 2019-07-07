@@ -1,6 +1,7 @@
 package com.anikinkirill.tinkoffsiriusmobile.ui.auth;
 
 import android.content.Intent;
+import android.text.format.Time;
 import android.util.Log;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -14,6 +15,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import javax.inject.Inject;
 
@@ -28,9 +31,12 @@ public class AuthViewModel extends ViewModel {
     // Vars
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private RelativeLayout view;
+    private String date = "";
+    private String login;
 
     @Inject
     public AuthViewModel(){
+        setDate();
         Log.d(TAG, "AuthViewModel: viewmodel is working...");
     }
 
@@ -46,6 +52,7 @@ public class AuthViewModel extends ViewModel {
 
     public void signInUser(String login, final String password, final RelativeLayout view){
         this.view = view;
+        this.login = login;
         final String email = login + "@mail.ru";
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -96,8 +103,35 @@ public class AuthViewModel extends ViewModel {
 
     private void goToMainActivity(){
         Log.d(TAG, "goToMainActivity: called");
+        saveUserLogin(login);
         Intent intent = new Intent("android.intent.action.MapActivity");
         view.getContext().startActivity(intent);
+    }
+
+    public void saveUserLogin(String login){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child(date)
+                .child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("login")
+                .setValue(login);
+    }
+
+    public void setDate(){
+        Log.d(TAG, "setDate: called");
+        Time time=new Time(Time.getCurrentTimezone());
+        time.setToNow();
+        if(time.monthDay<10){
+            date+="0"+time.monthDay+"_";
+        }else{
+            date+=time.monthDay+"_";
+        }
+        if((time.month+1)<10){
+            date+="0"+(time.month+1)+"_";
+        }else{
+            date+=(time.month+1)+"_";
+        }
+        date+=time.year;
     }
 
 }
