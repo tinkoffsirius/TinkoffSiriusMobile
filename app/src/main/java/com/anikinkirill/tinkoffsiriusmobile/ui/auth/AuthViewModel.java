@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
+import com.anikinkirill.tinkoffsiriusmobile.services.SenderService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -104,8 +105,12 @@ public class AuthViewModel extends ViewModel {
     private void goToMainActivity(){
         Log.d(TAG, "goToMainActivity: called");
         saveUserLogin(login);
-        Intent intent = new Intent("android.intent.action.MapActivity");
-        view.getContext().startActivity(intent);
+
+        /* Intent intent = new Intent("android.intent.action.MapActivity");
+        view.getContext().startActivity(intent); */
+
+        Intent intent = new Intent(view.getContext(), SenderService.class);
+        view.getContext().startService(intent);
     }
 
     public void saveUserLogin(String login){
