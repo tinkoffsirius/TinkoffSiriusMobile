@@ -131,7 +131,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             date+=time.monthDay+"_";
         }
         if((time.month+1)<10){
-            date+="0"+(time.monthDay+1)+"_";
+            date+="0"+(time.month+1)+"_";
         }else{
             date+=(time.monthDay+1)+"_";
         }
