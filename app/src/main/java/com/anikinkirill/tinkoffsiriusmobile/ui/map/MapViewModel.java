@@ -47,7 +47,7 @@ public class MapViewModel extends ViewModel {
     // Vars
     private Handler mHandler = new Handler();
     private Runnable mRunnable;
-    private static final int LOCATION_UPDATE_INTERVAL = 3000;
+    private static final int LOCATION_UPDATE_INTERVAL = 12000;
     private String date = "";
     private Context context;
     private FusedLocationProviderClient fusedLocation;
