@@ -27,9 +27,11 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.anikinkirill.tinkoffsiriusmobile.R;
 import com.anikinkirill.tinkoffsiriusmobile.services.SenderService;
+import com.anikinkirill.tinkoffsiriusmobile.ui.map.MapActivity;
 import com.anikinkirill.tinkoffsiriusmobile.viewmodel.ViewModelProviderFactory;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.security.Permission;
 import java.security.Permissions;
@@ -81,8 +83,15 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     @Override
     protected void onStart() {
         super.onStart();
+
         Intent intent = new Intent(this, SenderService.class);
         stopService(intent);
+
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            Intent mapIntent = new Intent(this, MapActivity.class);
+            startActivity(mapIntent);
+        }
+
     }
 
     private void init(){
