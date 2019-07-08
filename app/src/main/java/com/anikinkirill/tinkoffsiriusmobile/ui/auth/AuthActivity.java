@@ -26,6 +26,7 @@ import androidx.core.content.PermissionChecker;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.anikinkirill.tinkoffsiriusmobile.R;
+import com.anikinkirill.tinkoffsiriusmobile.services.SenderService;
 import com.anikinkirill.tinkoffsiriusmobile.viewmodel.ViewModelProviderFactory;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -68,13 +69,20 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
-        
+
         if(checkMapServices()){
             checkDevicePermissions();
         }
 
         init();
         initViewModel();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = new Intent(this, SenderService.class);
+        stopService(intent);
     }
 
     private void init(){
