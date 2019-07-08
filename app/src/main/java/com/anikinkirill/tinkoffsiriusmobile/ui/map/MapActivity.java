@@ -23,12 +23,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,6 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -63,6 +64,7 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
     private FusedLocationProviderClient fusedLocation;
     private MapViewModel viewModel;
     private String date="";
+    private ArrayList<String> others=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +89,6 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
     private void init(){
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        FloatingActionButton logoutButton = findViewById(R.id.logout);
-        logoutButton.setAlpha(0.7f);
     }
 
     private void initViewModel(){
@@ -102,6 +101,9 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
         this.googleMap = googleMap;
 
         getRoute();
+        Other other=new Other();
+        other.start();
+        showStartCoordinates();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -149,5 +151,57 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
+    }
+
+    public void showStartCoordinates(){
+        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Map<String,String> map=(HashMap)dataSnapshot.child(date).child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("start_coordinates").getValue();
+                LatLng position=new LatLng(Double.parseDouble(map.get("latitude")),Double.parseDouble(map.get("longitude")));
+                googleMap.addMarker(new MarkerOptions().position(position).title("Start coordinates"));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
+    }
+
+    class Other extends Thread{
+        @Override
+        public void run(){
+            DatabaseReference dbr=FirebaseDatabase.getInstance().getReference();
+            dbr.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Iterable<DataSnapshot> iterable=dataSnapshot.child(date).child("users").getChildren();
+                    Iterator iterator=iterable.iterator();
+                    while(iterator.hasNext()){
+                        DataSnapshot string=(DataSnapshot) iterator.next();
+                        if(!others.contains(string.getKey())) {
+                            if(!string.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                others.add(string.getKey());
+                            }
+                        }
+                        googleMap.clear();
+                        showStartCoordinates();
+                        getRoute();
+                        for(String name:others){
+                            if(name!=FirebaseAuth.getInstance().getCurrentUser().getUid()) {
+                                DataSnapshot userValues = dataSnapshot.child(date).child("users").child(name).child("history");
+                                String login=dataSnapshot.child(date).child("users").child(name).child("login").getValue().toString();
+                                ArrayList<Map<String, String>> arrayList = (ArrayList) userValues.getValue();
+                                Map<String, String> map = arrayList.get(arrayList.size() - 1);
+                                MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(Double.parseDouble(map.get("latitude")), Double.parseDouble(map.get("longitude")))).title(login);
+                                googleMap.addMarker(markerOptions);
+                            }
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {}
+            });
+        }
     }
 }
