@@ -67,7 +67,6 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setDate();
-        getRoute();
         startService();
         setContentView(R.layout.activity_map);
         initViewModel();
@@ -97,6 +96,8 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
     public void onMapReady(final GoogleMap googleMap) {
         Log.d(TAG, "onMapReady: called");
         this.googleMap = googleMap;
+
+        getRoute();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
