@@ -106,11 +106,8 @@ public class AuthViewModel extends ViewModel {
         Log.d(TAG, "goToMainActivity: called");
         saveUserLogin(login);
 
-        /* Intent intent = new Intent("android.intent.action.MapActivity");
-        view.getContext().startActivity(intent); */
-
-        Intent intent = new Intent(view.getContext(), SenderService.class);
-        view.getContext().startService(intent);
+        Intent intent = new Intent("android.intent.action.MapActivity");
+        view.getContext().startActivity(intent);
     }
 
     public void saveUserLogin(String login){
