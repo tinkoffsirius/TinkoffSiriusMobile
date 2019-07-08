@@ -1,6 +1,7 @@
 package com.anikinkirill.tinkoffsiriusmobile.ui.map;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.anikinkirill.tinkoffsiriusmobile.R;
+import com.anikinkirill.tinkoffsiriusmobile.services.SenderService;
 import com.anikinkirill.tinkoffsiriusmobile.viewmodel.ViewModelProviderFactory;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -60,10 +62,16 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        startService();
         setContentView(R.layout.activity_map);
         initViewModel();
         initFusedLocationClient();
         init();
+    }
+
+    private void startService(){
+        Intent intent = new Intent(this, SenderService.class);
+        startService(intent);
     }
 
     private void initFusedLocationClient(){
