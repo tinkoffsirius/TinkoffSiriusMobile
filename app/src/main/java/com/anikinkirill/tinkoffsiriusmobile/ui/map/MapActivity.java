@@ -63,13 +63,10 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
     // Vars
     private FusedLocationProviderClient fusedLocation;
     private MapViewModel viewModel;
-    private String date="";
-    private ArrayList<String> others=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setDate();
         startService();
         setContentView(R.layout.activity_map);
         initViewModel();
@@ -100,10 +97,12 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
         Log.d(TAG, "onMapReady: called");
         this.googleMap = googleMap;
 
-        getRoute();
-        Other other=new Other();
+        viewModel.getRoute(googleMap);
+
+        MapViewModel.Other other = new MapViewModel.Other();
         other.start();
-        showStartCoordinates();
+
+        viewModel.showStartCoordinates();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -115,93 +114,9 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
 
     }
 
-    public void setDate(){
-        Time time=new Time(Time.getCurrentTimezone());
-        time.setToNow();
-        if(time.monthDay<10){
-            date+="0"+time.monthDay+"_";
-        }else{
-            date+=time.monthDay+"_";
-        }
-        if((time.month+1)<10){
-            date+="0"+(time.month+1)+"_";
-        }else{
-            date+=(time.month+1)+"_";
-        }
-        date+=time.year;
-    }
 
-    public void getRoute(){
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<Map<String,String>> arrayList = (ArrayList)dataSnapshot.child(date).child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("history").getValue();
-                ArrayList<LatLng> forSetting=new ArrayList<>();
-                if(arrayList != null){
-                    for(Map<String,String> map : arrayList){
-                        forSetting.add(new LatLng(Double.parseDouble(map.get("latitude")),Double.parseDouble(map.get("longitude"))));
-                    }
-                    PolylineOptions polylineOptions=new PolylineOptions().width(15).color(Color.RED);
-                    polylineOptions.addAll(forSetting);
-                    googleMap.addPolyline(polylineOptions);
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
-        });
-    }
 
-    public void showStartCoordinates(){
-        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Map<String,String> map=(HashMap)dataSnapshot.child(date).child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("start_coordinates").getValue();
-                LatLng position=new LatLng(Double.parseDouble(map.get("latitude")),Double.parseDouble(map.get("longitude")));
-                googleMap.addMarker(new MarkerOptions().position(position).title("Start coordinates"));
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
-        });
-    }
 
-    class Other extends Thread{
-        @Override
-        public void run(){
-            DatabaseReference dbr=FirebaseDatabase.getInstance().getReference();
-            dbr.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Iterable<DataSnapshot> iterable=dataSnapshot.child(date).child("users").getChildren();
-                    Iterator iterator=iterable.iterator();
-                    while(iterator.hasNext()){
-                        DataSnapshot string=(DataSnapshot) iterator.next();
-                        if(!others.contains(string.getKey())) {
-                            if(!string.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                                others.add(string.getKey());
-                            }
-                        }
-                        googleMap.clear();
-                        showStartCoordinates();
-                        getRoute();
-                        for(String name:others){
-                            if(name!=FirebaseAuth.getInstance().getCurrentUser().getUid()) {
-                                DataSnapshot userValues = dataSnapshot.child(date).child("users").child(name).child("history");
-                                String login=dataSnapshot.child(date).child("users").child(name).child("login").getValue().toString();
-                                ArrayList<Map<String, String>> arrayList = (ArrayList) userValues.getValue();
-                                Map<String, String> map = arrayList.get(arrayList.size() - 1);
-                                MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(Double.parseDouble(map.get("latitude")), Double.parseDouble(map.get("longitude")))).title(login);
-                                googleMap.addMarker(markerOptions);
-                            }
-                        }
-                    }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {}
-            });
-        }
-    }
 }
