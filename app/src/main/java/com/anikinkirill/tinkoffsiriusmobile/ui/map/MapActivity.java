@@ -29,8 +29,11 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,10 +61,13 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
     // Vars
     private FusedLocationProviderClient fusedLocation;
     private MapViewModel viewModel;
+    private String date="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setDate();
+        getRoute();
         startService();
         setContentView(R.layout.activity_map);
         initViewModel();
@@ -100,5 +106,43 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
 
         googleMap.setMyLocationEnabled(true);
 
+    }
+
+    public void setDate(){
+        Time time=new Time(Time.getCurrentTimezone());
+        time.setToNow();
+        if(time.monthDay<10){
+            date+="0"+time.monthDay+"_";
+        }else{
+            date+=time.monthDay+"_";
+        }
+        if((time.month+1)<10){
+            date+="0"+(time.month+1)+"_";
+        }else{
+            date+=(time.month+1)+"_";
+        }
+        date+=time.year;
+    }
+
+    public void getRoute(){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Map<String,String>> arrayList = (ArrayList)dataSnapshot.child(date).child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("history").getValue();
+                ArrayList<LatLng> forSetting=new ArrayList<>();
+                if(arrayList != null){
+                    for(Map<String,String> map : arrayList){
+                        forSetting.add(new LatLng(Double.parseDouble(map.get("latitude")),Double.parseDouble(map.get("longitude"))));
+                    }
+                    PolylineOptions polylineOptions=new PolylineOptions().width(15).color(Color.RED);
+                    polylineOptions.addAll(forSetting);
+                    googleMap.addPolyline(polylineOptions);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
     }
 }
