@@ -80,28 +80,9 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        try {
-            viewModel.startUserLocationsRunnable(this, fusedLocation, googleMap); // update user locations every 'LOCATION_UPDATE_INTERVAL'
-        }catch (Exception e){
-            Log.e(TAG, "onResume: ", e);
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        viewModel.stopLocationUpdates(); // stop updating user locations
-        super.onPause();
-    }
-
-
-    @Override
     public void onMapReady(final GoogleMap googleMap) {
         Log.d(TAG, "onMapReady: called");
         this.googleMap = googleMap;
-
-        viewModel.startUserLocationsRunnable(this, fusedLocation, googleMap); // update user locations every 'LOCATION_UPDATE_INTERVAL'
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
