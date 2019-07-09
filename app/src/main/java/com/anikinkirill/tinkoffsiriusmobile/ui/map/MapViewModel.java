@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
+import com.anikinkirill.tinkoffsiriusmobile.Constants;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -65,11 +66,11 @@ public class MapViewModel extends ViewModel {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<Map<String,String>> arrayList = (ArrayList)dataSnapshot.child(date).child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("history").getValue();
+                ArrayList<Map<String,String>> arrayList = (ArrayList)dataSnapshot.child(date).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(Constants.HISTORY).getValue();
                 ArrayList<LatLng> forSetting=new ArrayList<>();
                 if(arrayList != null){
                     for(Map<String,String> map : arrayList){
-                        forSetting.add(new LatLng(Double.parseDouble(map.get("latitude")),Double.parseDouble(map.get("longitude"))));
+                        forSetting.add(new LatLng(Double.parseDouble(map.get(Constants.LATITUDE)),Double.parseDouble(map.get(Constants.LONGITTUDE))));
                     }
                     PolylineOptions polylineOptions=new PolylineOptions().width(15).color(Color.RED);
                     polylineOptions.addAll(forSetting);
@@ -88,8 +89,8 @@ public class MapViewModel extends ViewModel {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 try {
-                    Map<String, String> map = (HashMap) dataSnapshot.child(date).child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("start_coordinates").getValue();
-                    LatLng position = new LatLng(Double.parseDouble(map.get("latitude")), Double.parseDouble(map.get("longitude")));
+                    Map<String, String> map = (HashMap) dataSnapshot.child(date).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(Constants.START_COORDINATES).getValue();
+                    LatLng position = new LatLng(Double.parseDouble(map.get(Constants.LATITUDE)), Double.parseDouble(map.get(Constants.LONGITTUDE)));
                     googleMap.addMarker(new MarkerOptions().position(position).title("Start coordinates"));
                 }catch (Exception e){
                     Log.d(TAG, "onDataChange: " + e.getMessage());
@@ -108,7 +109,7 @@ public class MapViewModel extends ViewModel {
             dbr.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Iterable<DataSnapshot> iterable=dataSnapshot.child(date).child("users").getChildren();
+                    Iterable<DataSnapshot> iterable=dataSnapshot.child(date).child(Constants.USERS).getChildren();
                     Iterator iterator=iterable.iterator();
                     while(iterator.hasNext()){
                         DataSnapshot string=(DataSnapshot) iterator.next();
@@ -122,11 +123,11 @@ public class MapViewModel extends ViewModel {
                         getRoute(googleMap);
                         for(String name:others){
                             if(name!=FirebaseAuth.getInstance().getCurrentUser().getUid()) {
-                                DataSnapshot userValues = dataSnapshot.child(date).child("users").child(name).child("history");
-                                String login=dataSnapshot.child(date).child("users").child(name).child("login").getValue().toString();
+                                DataSnapshot userValues = dataSnapshot.child(date).child(Constants.USERS).child(name).child(Constants.HISTORY);
+                                String login=dataSnapshot.child(date).child(Constants.USERS).child(name).child(Constants.LOGIN).getValue().toString();
                                 ArrayList<Map<String, String>> arrayList = (ArrayList) userValues.getValue();
                                 Map<String, String> map = arrayList.get(arrayList.size() - 1);
-                                MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(Double.parseDouble(map.get("latitude")), Double.parseDouble(map.get("longitude")))).title(login);
+                                MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(Double.parseDouble(map.get(Constants.LATITUDE)), Double.parseDouble(map.get(Constants.LONGITTUDE)))).title(login);
                                 googleMap.addMarker(markerOptions);
                             }
                         }
