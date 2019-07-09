@@ -1,5 +1,7 @@
 package com.anikinkirill.tinkoffsiriusmobile.ui.map;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.text.format.Time;
 import android.util.Log;
@@ -8,6 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
 import com.anikinkirill.tinkoffsiriusmobile.Constants;
+import com.anikinkirill.tinkoffsiriusmobile.models.Activity;
+import com.anikinkirill.tinkoffsiriusmobile.models.Agent;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -24,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -105,7 +111,14 @@ public class MapViewModel extends ViewModel {
         });
     }
 
-    static class Other extends Thread{
+    static class Other extends Thread {
+
+        Context context;
+
+        public Other(Context context){
+            this.context = context;
+        }
+
         @Override
         public void run(){
             DatabaseReference dbr=FirebaseDatabase.getInstance().getReference();
@@ -124,6 +137,7 @@ public class MapViewModel extends ViewModel {
                         googleMap.clear();
                         showStartCoordinates();
                         getRoute(googleMap);
+                        getCurrentUserActivities(context);
                         for(String name:others){
                             if(name!=FirebaseAuth.getInstance().getCurrentUser().getUid()) {
                                 DataSnapshot userValues = dataSnapshot.child(date).child(Constants.USERS).child(name).child(Constants.HISTORY);
@@ -140,6 +154,39 @@ public class MapViewModel extends ViewModel {
                 public void onCancelled(@NonNull DatabaseError databaseError) {}
             });
         }
+    }
+
+    private static void getCurrentUserActivities(Context context){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.CONSTANTS, Context.MODE_PRIVATE);
+        final String currentUserId = sharedPreferences.getString(Constants.CURRENT_USER_ID, "");
+
+        final BitmapDescriptor yellowMarker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child(Constants.SOLUTION).child(Constants.AGENTS).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.d(TAG, "onDataChange: currentUserId " + currentUserId);
+
+                for(DataSnapshot agent : dataSnapshot.getChildren()){
+                    if(agent.child("agent").child("id").getValue().toString().equals(currentUserId)){
+                        for(DataSnapshot activity : agent.child("activities").getChildren()){
+                            double latitude = Double.parseDouble(activity.child("coordinates").child("latitude").getValue().toString());
+                            double longitude = Double.parseDouble(activity.child("coordinates").child("longitude").getValue().toString());
+                            LatLng location = new LatLng(latitude, longitude);
+                            MarkerOptions markerOptions = new MarkerOptions().position(location).title(activity.child("id").getValue().toString()).icon(yellowMarker);
+                            googleMap.addMarker(markerOptions);
+                        }
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }

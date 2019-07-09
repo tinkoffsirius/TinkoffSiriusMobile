@@ -105,7 +105,7 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
 
         viewModel.getRoute(googleMap);
 
-        MapViewModel.Other other = new MapViewModel.Other();
+        MapViewModel.Other other = new MapViewModel.Other(this);
         other.start();
 
         viewModel.showStartCoordinates();

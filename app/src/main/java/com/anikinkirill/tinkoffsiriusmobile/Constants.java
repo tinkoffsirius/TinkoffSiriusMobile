@@ -1,11 +1,14 @@
 package com.anikinkirill.tinkoffsiriusmobile;
 
+import android.content.SharedPreferences;
+
 /**
  * CREATED BY ANIKINKIRILL
  */
 
 public class Constants {
 
+    public static final String CONSTANTS = "constants";
     public static final String USERS = "users";
     public static final String HISTORY = "history";
     public static final String LATITUDE = "latitude";
@@ -15,5 +18,8 @@ public class Constants {
     public static final String ORDERS = "orders";
     public static final String TIME = "time";
     public static final String LOGIN = "login";
+    public static final String SOLUTION = "solution";
+    public static final String AGENTS = "agents";
+    public static String CURRENT_USER_ID = "current_user_id";
 
 }

@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.PermissionChecker;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.anikinkirill.tinkoffsiriusmobile.Constants;
 import com.anikinkirill.tinkoffsiriusmobile.R;
 import com.anikinkirill.tinkoffsiriusmobile.services.SenderService;
 import com.anikinkirill.tinkoffsiriusmobile.ui.map.MapActivity;
@@ -112,6 +114,12 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
         switch (view.getId()){
             case R.id.signInButton:{
                 viewModel.signInUser(userLogin.getText().toString().trim(), userPassword.getText().toString().trim(), relativeLayout);
+
+                SharedPreferences sharedPreferences = getSharedPreferences(Constants.CONSTANTS, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(Constants.CURRENT_USER_ID, userLogin.getText().toString().trim());
+                editor.apply();
+
                 hideSoftKeyboard(this, view);
                 break;
             }
