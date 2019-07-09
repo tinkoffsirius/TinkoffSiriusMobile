@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
+import com.anikinkirill.tinkoffsiriusmobile.Constants;
 import com.anikinkirill.tinkoffsiriusmobile.services.SenderService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -113,9 +114,9 @@ public class AuthViewModel extends ViewModel {
     public void saveUserLogin(String login){
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child(date)
-                .child("users")
+                .child(Constants.USERS)
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child("login")
+                .child(Constants.LOGIN)
                 .setValue(login);
     }
 

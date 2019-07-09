@@ -14,5 +14,6 @@ public class Constants {
     public static final String END_COORDINATES = "end_coordinates";
     public static final String ORDERS = "orders";
     public static final String TIME = "time";
+    public static final String LOGIN = "login";
 
 }
