@@ -3,8 +3,13 @@ package com.anikinkirill.tinkoffsiriusmobile.ui.map;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
@@ -17,6 +22,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,11 +32,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.inject.Inject;
 
@@ -156,7 +166,7 @@ public class MapViewModel extends ViewModel {
         }
     }
 
-    private static void getCurrentUserActivities(Context context){
+    private static void getCurrentUserActivities(final Context context){
 
         SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.CONSTANTS, Context.MODE_PRIVATE);
         final String currentUserId = sharedPreferences.getString(Constants.CURRENT_USER_ID, "");
@@ -173,8 +183,44 @@ public class MapViewModel extends ViewModel {
                         for(DataSnapshot activity : agent.child("activities").getChildren()){
                             double latitude = Double.parseDouble(activity.child("coordinates").child("latitude").getValue().toString());
                             double longitude = Double.parseDouble(activity.child("coordinates").child("longitude").getValue().toString());
+
+                            int startTotalTime = Integer.parseInt(activity.child("readyTimeSeconds").getValue().toString());
+                            int endTotalTime = Integer.parseInt(activity.child("dueTimeSeconds").getValue().toString());
+
                             LatLng location = new LatLng(latitude, longitude);
-                            MarkerOptions markerOptions = new MarkerOptions().position(location).title(activity.child("id").getValue().toString()).icon(yellowMarker);
+                            MarkerOptions markerOptions = new MarkerOptions()
+                                    .position(location)
+                                    .title("Id: " + activity.child("id").getValue().toString())
+                                    .snippet("startTime: " + getActivityTime(startTotalTime) + "\n" +
+                                             "endTime: " + getActivityTime(endTotalTime))
+                                    .icon(yellowMarker);
+                            googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+                                @Override
+                                public View getInfoWindow(Marker marker) {
+                                    return null;
+                                }
+
+                                @Override
+                                public View getInfoContents(Marker marker) {
+                                    LinearLayout info = new LinearLayout(context);
+                                    info.setOrientation(LinearLayout.VERTICAL);
+
+                                    TextView title = new TextView(context);
+                                    title.setTextColor(Color.BLACK);
+                                    title.setGravity(Gravity.CENTER);
+                                    title.setTypeface(null, Typeface.BOLD);
+                                    title.setText(marker.getTitle());
+
+                                    TextView snippet = new TextView(context);
+                                    snippet.setTextColor(Color.GRAY);
+                                    snippet.setText(marker.getSnippet());
+
+                                    info.addView(title);
+                                    info.addView(snippet);
+
+                                    return info;
+                                }
+                            });
                             googleMap.addMarker(markerOptions);
                         }
                     }
@@ -187,6 +233,13 @@ public class MapViewModel extends ViewModel {
 
             }
         });
+    }
+
+    private static String getActivityTime(int totalSeconds){
+        int hours = totalSeconds / 3600;
+        int minutes = (totalSeconds % 3600) / 60;
+        int seconds = totalSeconds % 60;
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
 }
