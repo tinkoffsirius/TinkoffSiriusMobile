@@ -15,6 +15,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.anikinkirill.tinkoffsiriusmobile.Constants;
 import com.anikinkirill.tinkoffsiriusmobile.ui.map.MapViewModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -95,29 +96,29 @@ public class SenderService extends Service {
         LatLng position = new LatLng(lat,lon);
         if(arrayList.size()==1) {
             Map<String,String> map=new HashMap<>();
-            map.put("latitude",lat+"");
-            map.put("longitude",lon+"");
+            map.put(Constants.LATITUDE,lat+"");
+            map.put(Constants.LONGITTUDE,lon+"");
             DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
             if(!login.equals("")) {
-                databaseReference.child(date).child("users").child(login).child("start_coordinates").setValue(map);
+                databaseReference.child(date).child(Constants.USERS).child(login).child(Constants.START_COORDINATES).setValue(map);
             }else{
-                databaseReference.child(date).child("users").child("user3").child("start_coordinates").setValue(map);
+                databaseReference.child(date).child(Constants.USERS).child("user3").child(Constants.START_COORDINATES).setValue(map);
             }
         }else{
             Time time = new Time(Time.getCurrentTimezone());
             time.setToNow();
             Map<String,String> map = new HashMap<>();
-            map.put("latitude",lat + "");
-            map.put("longitude",lon + "");
-            map.put("order", (forSending.size() + 1) + "");
+            map.put(Constants.LATITUDE,lat + "");
+            map.put(Constants.LONGITTUDE,lon + "");
+            map.put(Constants.ORDERS, (forSending.size() + 1) + "");
             String resultTime = time.hour+":"+time.minute+":"+time.second;
-            map.put("time", resultTime);
+            map.put(Constants.TIME, resultTime);
             forSending.add(map);
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
             if(!date.equals("")) {
-                databaseReference.child(date).child("users").child(login).child("history").setValue(forSending);
+                databaseReference.child(date).child(Constants.USERS).child(login).child(Constants.HISTORY).setValue(forSending);
             }else{
-                databaseReference.child("07_07_2019").child("users").child(login).child("history").setValue(forSending);
+                databaseReference.child("07_07_2019").child(Constants.USERS).child(login).child(Constants.HISTORY).setValue(forSending);
             }
         }
     }
@@ -143,7 +144,7 @@ public class SenderService extends Service {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<Map<String,String>> arrayList = (ArrayList)dataSnapshot.child(date).child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("history").getValue();
+                ArrayList<Map<String,String>> arrayList = (ArrayList)dataSnapshot.child(date).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(Constants.HISTORY).getValue();
                 if(arrayList != null){
                     forSending=arrayList;
                 }
