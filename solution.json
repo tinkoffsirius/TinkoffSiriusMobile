@@ -14,9 +14,9 @@
             "polar": false,
             "longitudeInternal": 52356402
           },
-          "dueTimeSeconds": 54000,
-          "arrivalTimeSeconds": 36600,
-          "readyTimeSeconds": 36000
+          "dueTimeSeconds": 54000,      время окончания встречи
+          "arrivalTimeSeconds": 36600,  время прибытия агента, подсчитанное алгаритмом
+          "readyTimeSeconds": 36000     время начала встречи
         },
         {
           "id": 19928298,
