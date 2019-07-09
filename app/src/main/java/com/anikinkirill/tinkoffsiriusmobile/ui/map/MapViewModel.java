@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.anikinkirill.tinkoffsiriusmobile.Constants;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -72,7 +74,7 @@ public class MapViewModel extends ViewModel {
                     for(Map<String,String> map : arrayList){
                         forSetting.add(new LatLng(Double.parseDouble(map.get(Constants.LATITUDE)),Double.parseDouble(map.get(Constants.LONGITTUDE))));
                     }
-                    PolylineOptions polylineOptions=new PolylineOptions().width(15).color(Color.RED);
+                    PolylineOptions polylineOptions=new PolylineOptions().width(15).color(Color.BLUE);
                     polylineOptions.addAll(forSetting);
                     googleMap.addPolyline(polylineOptions);
                 }
@@ -84,6 +86,7 @@ public class MapViewModel extends ViewModel {
     }
 
     public static void showStartCoordinates(){
+        final BitmapDescriptor blueMarker= BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
         DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -91,7 +94,7 @@ public class MapViewModel extends ViewModel {
                 try {
                     Map<String, String> map = (HashMap) dataSnapshot.child(date).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(Constants.START_COORDINATES).getValue();
                     LatLng position = new LatLng(Double.parseDouble(map.get(Constants.LATITUDE)), Double.parseDouble(map.get(Constants.LONGITTUDE)));
-                    googleMap.addMarker(new MarkerOptions().position(position).title("Start coordinates"));
+                    googleMap.addMarker(new MarkerOptions().position(position).title("Start coordinates")).setIcon(blueMarker);
                 }catch (Exception e){
                     Log.d(TAG, "onDataChange: " + e.getMessage());
                 }
