@@ -2,6 +2,7 @@ package com.anikinkirill.tinkoffsiriusmobile.ui.map;
 
 import android.graphics.Color;
 import android.text.format.Time;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
@@ -86,9 +87,13 @@ public class MapViewModel extends ViewModel {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Map<String,String> map=(HashMap)dataSnapshot.child(date).child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("start_coordinates").getValue();
-                LatLng position=new LatLng(Double.parseDouble(map.get("latitude")),Double.parseDouble(map.get("longitude")));
-                googleMap.addMarker(new MarkerOptions().position(position).title("Start coordinates"));
+                try {
+                    Map<String, String> map = (HashMap) dataSnapshot.child(date).child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("start_coordinates").getValue();
+                    LatLng position = new LatLng(Double.parseDouble(map.get("latitude")), Double.parseDouble(map.get("longitude")));
+                    googleMap.addMarker(new MarkerOptions().position(position).title("Start coordinates"));
+                }catch (Exception e){
+                    Log.d(TAG, "onDataChange: " + e.getMessage());
+                }
             }
 
             @Override

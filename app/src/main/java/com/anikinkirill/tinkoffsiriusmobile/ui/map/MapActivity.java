@@ -10,12 +10,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.anikinkirill.tinkoffsiriusmobile.R;
 import com.anikinkirill.tinkoffsiriusmobile.services.SenderService;
+import com.anikinkirill.tinkoffsiriusmobile.ui.auth.AuthActivity;
 import com.anikinkirill.tinkoffsiriusmobile.viewmodel.ViewModelProviderFactory;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -29,6 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,7 +52,7 @@ import dagger.android.support.DaggerAppCompatActivity;
  * CREATED BY ANIKINKIRILL
  */
 
-public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
     private static final String TAG = "MapActivity";
 
@@ -86,6 +89,9 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
     private void init(){
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        FloatingActionButton logoutButton = findViewById(R.id.logout);
+        logoutButton.setOnClickListener(this);
     }
 
     private void initViewModel(){
@@ -115,8 +121,20 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
     }
 
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.logout:{
+                Intent intent = new Intent(this, SenderService.class);
+                stopService(intent);
 
+                FirebaseAuth.getInstance().signOut();
 
-
-
+                Intent authIntent = new Intent(this, AuthActivity.class);
+                startActivity(authIntent);
+                finish();
+                break;
+            }
+        }
+    }
 }

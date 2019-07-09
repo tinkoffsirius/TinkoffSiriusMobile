@@ -1,10 +1,15 @@
 package com.anikinkirill.tinkoffsiriusmobile.services;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.text.format.Time;
 import android.util.Log;
 
@@ -33,9 +38,11 @@ public class SenderService extends Service {
 
     private String date = "";
     private FusedLocationProviderClient fusedLocation;
-    private ArrayList<Map<String,String>> forSending = new ArrayList<>();
+    private ArrayList<Map<String, String>> forSending = new ArrayList<>();
     ArrayList<LatLng> arrayList = new ArrayList<>();
     public String login;
+    Handler handler = new Handler(Looper.getMainLooper());
+    Runnable runnable;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -43,26 +50,25 @@ public class SenderService extends Service {
     }
 
     @Override
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
-        Log.i(TAG,"Service started");
+        Log.i(TAG, "Service started");
         setDate();
-        Log.i(TAG,"Date set: "+date);
+        Log.i(TAG, "Date set: " + date);
         login = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Log.i(TAG,"Date set: "+login);
+        Log.i(TAG, "Date set: " + login);
         checkNumber();
         fusedLocation = LocationServices.getFusedLocationProviderClient(this);
-        Log.i(TAG,"Initialized fusedLocation");
-        Sender sender = new Sender();
-        sender.start();
-        Log.i(TAG,"Sender started");
-    }
+        Log.i(TAG, "Initialized fusedLocation");
 
-    class Sender extends Thread{
-        @SuppressLint("MissingPermission")
-        @Override
-        public void run(){
-            while(true) {
+        handler.postDelayed(runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+                }
                 fusedLocation.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
@@ -73,14 +79,12 @@ public class SenderService extends Service {
                         } else {
                             Log.i(TAG, "Problem: " + task.getException() + "");
                         }
+                        handler.postDelayed(runnable, MapViewModel.LOCATION_UPDATE_INTERVAL);
                     }
                 });
-                try {
-                    sleep(MapViewModel.LOCATION_UPDATE_INTERVAL);
-                } catch (Exception e) {
-                }
             }
-        }
+        }, MapViewModel.LOCATION_UPDATE_INTERVAL);
+
     }
 
     public void passValuesToFirebase(Location location){
@@ -148,5 +152,11 @@ public class SenderService extends Service {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.d(TAG, "onDestroy: called");
+        handler.removeCallbacks(runnable);
     }
 }
