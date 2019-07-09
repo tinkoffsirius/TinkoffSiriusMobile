@@ -1,0 +1,1972 @@
+{
+  "agents": [
+    {
+      "agent": {
+        "id": 63921
+      },
+      "activities": [
+        {
+          "id": 19816078,
+          "coordinates": {
+            "latitude": 55.698091999999995,
+            "longitude": 52.356401999999996,
+            "latitudeInternal": 55698092,
+            "polar": false,
+            "longitudeInternal": 52356402
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 36600,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19928298,
+          "coordinates": {
+            "latitude": 55.702771999999996,
+            "longitude": 52.329553,
+            "latitudeInternal": 55702772,
+            "polar": false,
+            "longitudeInternal": 52329553
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 38305,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19906485,
+          "coordinates": {
+            "latitude": 55.703844,
+            "longitude": 52.336908,
+            "latitudeInternal": 55703844,
+            "polar": false,
+            "longitudeInternal": 52336908
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 39742,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19780624,
+          "coordinates": {
+            "latitude": 55.701727999999996,
+            "longitude": 52.341918,
+            "latitudeInternal": 55701728,
+            "polar": false,
+            "longitudeInternal": 52341918
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 41232,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19716649,
+          "coordinates": {
+            "latitude": 55.696214,
+            "longitude": 52.339014999999996,
+            "latitudeInternal": 55696214,
+            "polar": false,
+            "longitudeInternal": 52339015
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 42692,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19853014,
+          "coordinates": {
+            "latitude": 55.687233,
+            "longitude": 52.346283,
+            "latitudeInternal": 55687233,
+            "polar": false,
+            "longitudeInternal": 52346283
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 44304,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19631594,
+          "coordinates": {
+            "latitude": 55.677167,
+            "longitude": 52.329854999999995,
+            "latitudeInternal": 55677167,
+            "polar": false,
+            "longitudeInternal": 52329855
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 45311,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19909013,
+          "coordinates": {
+            "latitude": 55.679686,
+            "longitude": 52.338822,
+            "latitudeInternal": 55679686,
+            "polar": false,
+            "longitudeInternal": 52338822
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 46693,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19859909,
+          "coordinates": {
+            "latitude": 55.682911999999995,
+            "longitude": 52.341595999999996,
+            "latitudeInternal": 55682912,
+            "polar": false,
+            "longitudeInternal": 52341596
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 48238,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19107995,
+          "coordinates": {
+            "latitude": 55.701164999999996,
+            "longitude": 52.333743,
+            "latitudeInternal": 55701165,
+            "polar": false,
+            "longitudeInternal": 52333743
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 55842,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19863787,
+          "coordinates": {
+            "latitude": 55.692453,
+            "longitude": 52.34908,
+            "latitudeInternal": 55692453,
+            "polar": false,
+            "longitudeInternal": 52349080
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 57482,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19832113,
+          "coordinates": {
+            "latitude": 55.676026,
+            "longitude": 52.456430999999995,
+            "latitudeInternal": 55676026,
+            "polar": false,
+            "longitudeInternal": 52456431
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 60362,
+          "readyTimeSeconds": 54000
+        }
+      ]
+    },
+    {
+      "agent": {
+        "id": 58100
+      },
+      "activities": [
+        {
+          "id": 19725121,
+          "coordinates": {
+            "latitude": 55.766318999999996,
+            "longitude": 52.437701,
+            "latitudeInternal": 55766319,
+            "polar": false,
+            "longitudeInternal": 52437701
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 36600,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19321874,
+          "coordinates": {
+            "latitude": 55.766318999999996,
+            "longitude": 52.437701,
+            "latitudeInternal": 55766319,
+            "polar": false,
+            "longitudeInternal": 52437701
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 37800,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19735283,
+          "coordinates": {
+            "latitude": 55.757771,
+            "longitude": 52.425886,
+            "latitudeInternal": 55757771,
+            "polar": false,
+            "longitudeInternal": 52425886
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 39405,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19949684,
+          "coordinates": {
+            "latitude": 55.745934,
+            "longitude": 52.406645,
+            "latitudeInternal": 55745934,
+            "polar": false,
+            "longitudeInternal": 52406645
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 41260,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19838864,
+          "coordinates": {
+            "latitude": 55.747535,
+            "longitude": 52.408719999999995,
+            "latitudeInternal": 55747535,
+            "polar": false,
+            "longitudeInternal": 52408720
+          },
+          "dueTimeSeconds": 50400,
+          "arrivalTimeSeconds": 42577,
+          "readyTimeSeconds": 43200
+        },
+        {
+          "id": 19643219,
+          "coordinates": {
+            "latitude": 55.771944999999995,
+            "longitude": 52.42276,
+            "latitudeInternal": 55771945,
+            "polar": false,
+            "longitudeInternal": 52422760
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 45227,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19809631,
+          "coordinates": {
+            "latitude": 55.769689,
+            "longitude": 52.428079999999994,
+            "latitudeInternal": 55769689,
+            "polar": false,
+            "longitudeInternal": 52428080
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 46629,
+          "readyTimeSeconds": 46800
+        },
+        {
+          "id": 19808243,
+          "coordinates": {
+            "latitude": 55.769689,
+            "longitude": 52.428079999999994,
+            "latitudeInternal": 55769689,
+            "polar": false,
+            "longitudeInternal": 52428080
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 48000,
+          "readyTimeSeconds": 46800
+        },
+        {
+          "id": 19856806,
+          "coordinates": {
+            "latitude": 55.753327999999996,
+            "longitude": 52.429139,
+            "latitudeInternal": 55753328,
+            "polar": false,
+            "longitudeInternal": 52429139
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 49740,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19852505,
+          "coordinates": {
+            "latitude": 55.748132999999996,
+            "longitude": 52.437835,
+            "latitudeInternal": 55748133,
+            "polar": false,
+            "longitudeInternal": 52437835
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 51290,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19168622,
+          "coordinates": {
+            "latitude": 55.747146,
+            "longitude": 52.436223,
+            "latitudeInternal": 55747146,
+            "polar": false,
+            "longitudeInternal": 52436223
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 52672,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 17875365,
+          "coordinates": {
+            "latitude": 55.747146,
+            "longitude": 52.436223,
+            "latitudeInternal": 55747146,
+            "polar": false,
+            "longitudeInternal": 52436223
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 53872,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19780056,
+          "coordinates": {
+            "latitude": 55.752688,
+            "longitude": 52.439918,
+            "latitudeInternal": 55752688,
+            "polar": false,
+            "longitudeInternal": 52439918
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 55447,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19862208,
+          "coordinates": {
+            "latitude": 55.738029,
+            "longitude": 52.422424,
+            "latitudeInternal": 55738029,
+            "polar": false,
+            "longitudeInternal": 52422424
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 57202,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19693304,
+          "coordinates": {
+            "latitude": 55.745121,
+            "longitude": 52.408640999999996,
+            "latitudeInternal": 55745121,
+            "polar": false,
+            "longitudeInternal": 52408641
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 59059,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 17865485,
+          "coordinates": {
+            "latitude": 55.761691,
+            "longitude": 52.423131999999995,
+            "latitudeInternal": 55761691,
+            "polar": false,
+            "longitudeInternal": 52423132
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 60931,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19810258,
+          "coordinates": {
+            "latitude": 55.768808,
+            "longitude": 52.437248999999994,
+            "latitudeInternal": 55768808,
+            "polar": false,
+            "longitudeInternal": 52437249
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 62476,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19499239,
+          "coordinates": {
+            "latitude": 55.766476,
+            "longitude": 52.433018999999994,
+            "latitudeInternal": 55766476,
+            "polar": false,
+            "longitudeInternal": 52433019
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 63853,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19812819,
+          "coordinates": {
+            "latitude": 55.76865,
+            "longitude": 52.425543999999995,
+            "latitudeInternal": 55768650,
+            "polar": false,
+            "longitudeInternal": 52425544
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 65308,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19856200,
+          "coordinates": {
+            "latitude": 55.759167,
+            "longitude": 52.408747,
+            "latitudeInternal": 55759167,
+            "polar": false,
+            "longitudeInternal": 52408747
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 67068,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19859681,
+          "coordinates": {
+            "latitude": 55.759394,
+            "longitude": 52.40774,
+            "latitudeInternal": 55759394,
+            "polar": false,
+            "longitudeInternal": 52407740
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 68453,
+          "readyTimeSeconds": 54000
+        }
+      ]
+    },
+    {
+      "agent": {
+        "id": 28775
+      },
+      "activities": [
+        {
+          "id": 19795353,
+          "coordinates": {
+            "latitude": 55.746508,
+            "longitude": 52.384617,
+            "latitudeInternal": 55746508,
+            "polar": false,
+            "longitudeInternal": 52384617
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 36600,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19603416,
+          "coordinates": {
+            "latitude": 55.724895,
+            "longitude": 52.380953,
+            "latitudeInternal": 55724895,
+            "polar": false,
+            "longitudeInternal": 52380953
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 38462,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19839701,
+          "coordinates": {
+            "latitude": 55.724971,
+            "longitude": 52.380899,
+            "latitudeInternal": 55724971,
+            "polar": false,
+            "longitudeInternal": 52380899
+          },
+          "dueTimeSeconds": 46800,
+          "arrivalTimeSeconds": 39662,
+          "readyTimeSeconds": 39600
+        },
+        {
+          "id": 19872782,
+          "coordinates": {
+            "latitude": 55.724971,
+            "longitude": 52.380899,
+            "latitudeInternal": 55724971,
+            "polar": false,
+            "longitudeInternal": 52380899
+          },
+          "dueTimeSeconds": 43200,
+          "arrivalTimeSeconds": 40862,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19857122,
+          "coordinates": {
+            "latitude": 55.727882,
+            "longitude": 52.398553,
+            "latitudeInternal": 55727882,
+            "polar": false,
+            "longitudeInternal": 52398553
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 42552,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19852988,
+          "coordinates": {
+            "latitude": 55.735215999999994,
+            "longitude": 52.410714,
+            "latitudeInternal": 55735216,
+            "polar": false,
+            "longitudeInternal": 52410714
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 44419,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19514561,
+          "coordinates": {
+            "latitude": 55.723710999999994,
+            "longitude": 52.403890999999994,
+            "latitudeInternal": 55723711,
+            "polar": false,
+            "longitudeInternal": 52403891
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 46131,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19863018,
+          "coordinates": {
+            "latitude": 55.717211,
+            "longitude": 52.402713,
+            "latitudeInternal": 55717211,
+            "polar": false,
+            "longitudeInternal": 52402713
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 47586,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19681882,
+          "coordinates": {
+            "latitude": 55.715655,
+            "longitude": 52.401993,
+            "latitudeInternal": 55715655,
+            "polar": false,
+            "longitudeInternal": 52401993
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 48886,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19358334,
+          "coordinates": {
+            "latitude": 55.721534999999996,
+            "longitude": 52.376532999999995,
+            "latitudeInternal": 55721535,
+            "polar": false,
+            "longitudeInternal": 52376533
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 50576,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19857690,
+          "coordinates": {
+            "latitude": 55.720803999999994,
+            "longitude": 52.368499,
+            "latitudeInternal": 55720804,
+            "polar": false,
+            "longitudeInternal": 52368499
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 52081,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19598406,
+          "coordinates": {
+            "latitude": 55.720803999999994,
+            "longitude": 52.368499,
+            "latitudeInternal": 55720804,
+            "polar": false,
+            "longitudeInternal": 52368499
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 53281,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19900711,
+          "coordinates": {
+            "latitude": 55.723243,
+            "longitude": 52.3731,
+            "latitudeInternal": 55723243,
+            "polar": false,
+            "longitudeInternal": 52373100
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 54596,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19675614,
+          "coordinates": {
+            "latitude": 55.736715,
+            "longitude": 52.378809999999994,
+            "latitudeInternal": 55736715,
+            "polar": false,
+            "longitudeInternal": 52378810
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 56523,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19863350,
+          "coordinates": {
+            "latitude": 55.723903,
+            "longitude": 52.396671,
+            "latitudeInternal": 55723903,
+            "polar": false,
+            "longitudeInternal": 52396671
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 58243,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19867566,
+          "coordinates": {
+            "latitude": 55.736284999999995,
+            "longitude": 52.412583,
+            "latitudeInternal": 55736285,
+            "polar": false,
+            "longitudeInternal": 52412583
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 60025,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19868283,
+          "coordinates": {
+            "latitude": 55.736284999999995,
+            "longitude": 52.412583,
+            "latitudeInternal": 55736285,
+            "polar": false,
+            "longitudeInternal": 52412583
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 63625,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19865951,
+          "coordinates": {
+            "latitude": 55.733556,
+            "longitude": 52.398419,
+            "latitudeInternal": 55733556,
+            "polar": false,
+            "longitudeInternal": 52398419
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 64645,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19795374,
+          "coordinates": {
+            "latitude": 55.746508,
+            "longitude": 52.384617,
+            "latitudeInternal": 55746508,
+            "polar": false,
+            "longitudeInternal": 52384617
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 66517,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19951279,
+          "coordinates": {
+            "latitude": 55.743354999999994,
+            "longitude": 52.371485,
+            "latitudeInternal": 55743355,
+            "polar": false,
+            "longitudeInternal": 52371485
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 68052,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19829161,
+          "coordinates": {
+            "latitude": 55.730546,
+            "longitude": 52.356401,
+            "latitudeInternal": 55730546,
+            "polar": false,
+            "longitudeInternal": 52356401
+          },
+          "dueTimeSeconds": 75600,
+          "arrivalTimeSeconds": 69654,
+          "readyTimeSeconds": 68400
+        }
+      ]
+    },
+    {
+      "agent": {
+        "id": 52952
+      },
+      "activities": [
+        {
+          "id": 19789413,
+          "coordinates": {
+            "latitude": 55.764222,
+            "longitude": 52.457408,
+            "latitudeInternal": 55764222,
+            "polar": false,
+            "longitudeInternal": 52457408
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 36600,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19681978,
+          "coordinates": {
+            "latitude": 55.757003999999995,
+            "longitude": 52.461388,
+            "latitudeInternal": 55757004,
+            "polar": false,
+            "longitudeInternal": 52461388
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 38250,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19701243,
+          "coordinates": {
+            "latitude": 55.768808,
+            "longitude": 52.437248999999994,
+            "latitudeInternal": 55768808,
+            "polar": false,
+            "longitudeInternal": 52437249
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 39920,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19551884,
+          "coordinates": {
+            "latitude": 55.753614999999996,
+            "longitude": 52.408316,
+            "latitudeInternal": 55753615,
+            "polar": false,
+            "longitudeInternal": 52408316
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 41832,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19470883,
+          "coordinates": {
+            "latitude": 55.752029,
+            "longitude": 52.401801,
+            "latitudeInternal": 55752029,
+            "polar": false,
+            "longitudeInternal": 52401801
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 43294,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19866829,
+          "coordinates": {
+            "latitude": 55.753508,
+            "longitude": 52.399156999999995,
+            "latitudeInternal": 55753508,
+            "polar": false,
+            "longitudeInternal": 52399157
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 44651,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19642558,
+          "coordinates": {
+            "latitude": 55.753133999999996,
+            "longitude": 52.416041,
+            "latitudeInternal": 55753134,
+            "polar": false,
+            "longitudeInternal": 52416041
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 46283,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19778420,
+          "coordinates": {
+            "latitude": 55.723561,
+            "longitude": 52.435417,
+            "latitudeInternal": 55723561,
+            "polar": false,
+            "longitudeInternal": 52435417
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 48533,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19782750,
+          "coordinates": {
+            "latitude": 55.738029,
+            "longitude": 52.422424,
+            "latitudeInternal": 55738029,
+            "polar": false,
+            "longitudeInternal": 52422424
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 50700,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19935009,
+          "coordinates": {
+            "latitude": 55.740857,
+            "longitude": 52.421960999999996,
+            "latitudeInternal": 55740857,
+            "polar": false,
+            "longitudeInternal": 52421961
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 52137,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19384039,
+          "coordinates": {
+            "latitude": 55.742827999999996,
+            "longitude": 52.413956999999996,
+            "latitudeInternal": 55742828,
+            "polar": false,
+            "longitudeInternal": 52413957
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 53724,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19844607,
+          "coordinates": {
+            "latitude": 55.745557999999996,
+            "longitude": 52.414074,
+            "latitudeInternal": 55745558,
+            "polar": false,
+            "longitudeInternal": 52414074
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 55382,
+          "readyTimeSeconds": 54000
+        }
+      ]
+    },
+    {
+      "agent": {
+        "id": 29912
+      },
+      "activities": [
+        {
+          "id": 19861012,
+          "coordinates": {
+            "latitude": 55.672207,
+            "longitude": 52.27643,
+            "latitudeInternal": 55672207,
+            "polar": false,
+            "longitudeInternal": 52276430
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 36600,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19878210,
+          "coordinates": {
+            "latitude": 55.743460999999996,
+            "longitude": 52.395916,
+            "latitudeInternal": 55743461,
+            "polar": false,
+            "longitudeInternal": 52395916
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 73800,
+          "readyTimeSeconds": 54000
+        }
+      ]
+    },
+    {
+      "agent": {
+        "id": 64126
+      },
+      "activities": [
+        {
+          "id": 19680480,
+          "coordinates": {
+            "latitude": 55.743835999999995,
+            "longitude": 52.389908,
+            "latitudeInternal": 55743836,
+            "polar": false,
+            "longitudeInternal": 52389908
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 36600,
+          "readyTimeSeconds": 36000
+        }
+      ]
+    },
+    {
+      "agent": {
+        "id": 52943
+      },
+      "activities": [
+        {
+          "id": 19906528,
+          "coordinates": {
+            "latitude": 55.622121,
+            "longitude": 52.141892999999996,
+            "latitudeInternal": 55622121,
+            "polar": false,
+            "longitudeInternal": 52141893
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 36600,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19614136,
+          "coordinates": {
+            "latitude": 55.685491,
+            "longitude": 52.302892,
+            "latitudeInternal": 55685491,
+            "polar": false,
+            "longitudeInternal": 52302892
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 41435,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19705421,
+          "coordinates": {
+            "latitude": 55.682215,
+            "longitude": 52.300509999999996,
+            "latitudeInternal": 55682215,
+            "polar": false,
+            "longitudeInternal": 52300510
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 42870,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19761097,
+          "coordinates": {
+            "latitude": 55.690459999999995,
+            "longitude": 52.299327,
+            "latitudeInternal": 55690460,
+            "polar": false,
+            "longitudeInternal": 52299327
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 44417,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19865731,
+          "coordinates": {
+            "latitude": 55.689130999999996,
+            "longitude": 52.313238,
+            "latitudeInternal": 55689131,
+            "polar": false,
+            "longitudeInternal": 52313238
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 45949,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 20007527,
+          "coordinates": {
+            "latitude": 55.691984999999995,
+            "longitude": 52.336718,
+            "latitudeInternal": 55691985,
+            "polar": false,
+            "longitudeInternal": 52336718
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 47896,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19858596,
+          "coordinates": {
+            "latitude": 55.681258,
+            "longitude": 52.330709999999996,
+            "latitudeInternal": 55681258,
+            "polar": false,
+            "longitudeInternal": 52330710
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 49706,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19799157,
+          "coordinates": {
+            "latitude": 55.681686,
+            "longitude": 52.333234,
+            "latitudeInternal": 55681686,
+            "polar": false,
+            "longitudeInternal": 52333234
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 50988,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 19865239,
+          "coordinates": {
+            "latitude": 55.685908999999995,
+            "longitude": 52.309940999999995,
+            "latitudeInternal": 55685909,
+            "polar": false,
+            "longitudeInternal": 52309941
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 52695,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19869948,
+          "coordinates": {
+            "latitude": 55.685596999999994,
+            "longitude": 52.299073,
+            "latitudeInternal": 55685597,
+            "polar": false,
+            "longitudeInternal": 52299073
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 55587,
+          "readyTimeSeconds": 54000
+        },
+        {
+          "id": 19613818,
+          "coordinates": {
+            "latitude": 55.686757,
+            "longitude": 52.287538,
+            "latitudeInternal": 55686757,
+            "polar": false,
+            "longitudeInternal": 52287538
+          },
+          "dueTimeSeconds": 68400,
+          "arrivalTimeSeconds": 57072,
+          "readyTimeSeconds": 54000
+        }
+      ]
+    }
+  ],
+  "planningActivityResults": null,
+  "hardSoftScoreResults": [
+    {
+      "hardScore": -1,
+      "softScore": 338190,
+      "timeMilliseconds": 1562594013560
+    },
+    {
+      "hardScore": -1,
+      "softScore": 338190,
+      "timeMilliseconds": 1562594013567
+    },
+    {
+      "hardScore": -1,
+      "softScore": 350058,
+      "timeMilliseconds": 1562594013609
+    },
+    {
+      "hardScore": -1,
+      "softScore": 357994,
+      "timeMilliseconds": 1562594013616
+    },
+    {
+      "hardScore": -1,
+      "softScore": 369426,
+      "timeMilliseconds": 1562594013622
+    },
+    {
+      "hardScore": -1,
+      "softScore": 369989,
+      "timeMilliseconds": 1562594013635
+    },
+    {
+      "hardScore": -1,
+      "softScore": 370250,
+      "timeMilliseconds": 1562594013639
+    },
+    {
+      "hardScore": -1,
+      "softScore": 371168,
+      "timeMilliseconds": 1562594013644
+    },
+    {
+      "hardScore": -1,
+      "softScore": 371648,
+      "timeMilliseconds": 1562594013650
+    },
+    {
+      "hardScore": -1,
+      "softScore": 371897,
+      "timeMilliseconds": 1562594013654
+    },
+    {
+      "hardScore": -1,
+      "softScore": 372104,
+      "timeMilliseconds": 1562594013659
+    },
+    {
+      "hardScore": -1,
+      "softScore": 372125,
+      "timeMilliseconds": 1562594013664
+    },
+    {
+      "hardScore": -1,
+      "softScore": 373178,
+      "timeMilliseconds": 1562594013671
+    },
+    {
+      "hardScore": -1,
+      "softScore": 373183,
+      "timeMilliseconds": 1562594013679
+    },
+    {
+      "hardScore": -1,
+      "softScore": 373653,
+      "timeMilliseconds": 1562594013685
+    },
+    {
+      "hardScore": -1,
+      "softScore": 374100,
+      "timeMilliseconds": 1562594013692
+    },
+    {
+      "hardScore": -1,
+      "softScore": 374102,
+      "timeMilliseconds": 1562594013697
+    },
+    {
+      "hardScore": -1,
+      "softScore": 374240,
+      "timeMilliseconds": 1562594013700
+    },
+    {
+      "hardScore": -1,
+      "softScore": 374501,
+      "timeMilliseconds": 1562594013706
+    },
+    {
+      "hardScore": -1,
+      "softScore": 374609,
+      "timeMilliseconds": 1562594013719
+    },
+    {
+      "hardScore": -1,
+      "softScore": 374700,
+      "timeMilliseconds": 1562594013729
+    },
+    {
+      "hardScore": -1,
+      "softScore": 374850,
+      "timeMilliseconds": 1562594013733
+    },
+    {
+      "hardScore": -1,
+      "softScore": 374911,
+      "timeMilliseconds": 1562594013741
+    },
+    {
+      "hardScore": -1,
+      "softScore": 375191,
+      "timeMilliseconds": 1562594013744
+    },
+    {
+      "hardScore": -1,
+      "softScore": 375566,
+      "timeMilliseconds": 1562594013749
+    },
+    {
+      "hardScore": -1,
+      "softScore": 375581,
+      "timeMilliseconds": 1562594013753
+    },
+    {
+      "hardScore": -1,
+      "softScore": 375642,
+      "timeMilliseconds": 1562594013762
+    },
+    {
+      "hardScore": -1,
+      "softScore": 375690,
+      "timeMilliseconds": 1562594013766
+    },
+    {
+      "hardScore": -1,
+      "softScore": 375786,
+      "timeMilliseconds": 1562594013770
+    },
+    {
+      "hardScore": -1,
+      "softScore": 376149,
+      "timeMilliseconds": 1562594013775
+    },
+    {
+      "hardScore": -1,
+      "softScore": 376428,
+      "timeMilliseconds": 1562594013779
+    },
+    {
+      "hardScore": -1,
+      "softScore": 376541,
+      "timeMilliseconds": 1562594013782
+    },
+    {
+      "hardScore": -1,
+      "softScore": 376563,
+      "timeMilliseconds": 1562594013798
+    },
+    {
+      "hardScore": -1,
+      "softScore": 376824,
+      "timeMilliseconds": 1562594013802
+    },
+    {
+      "hardScore": -1,
+      "softScore": 376919,
+      "timeMilliseconds": 1562594013806
+    },
+    {
+      "hardScore": -1,
+      "softScore": 392847,
+      "timeMilliseconds": 1562594013817
+    },
+    {
+      "hardScore": -1,
+      "softScore": 393145,
+      "timeMilliseconds": 1562594013848
+    },
+    {
+      "hardScore": -1,
+      "softScore": 393195,
+      "timeMilliseconds": 1562594013851
+    },
+    {
+      "hardScore": -1,
+      "softScore": 393225,
+      "timeMilliseconds": 1562594013859
+    },
+    {
+      "hardScore": -1,
+      "softScore": 393306,
+      "timeMilliseconds": 1562594013864
+    },
+    {
+      "hardScore": -1,
+      "softScore": 393325,
+      "timeMilliseconds": 1562594013871
+    },
+    {
+      "hardScore": -1,
+      "softScore": 393436,
+      "timeMilliseconds": 1562594013879
+    },
+    {
+      "hardScore": -1,
+      "softScore": 393490,
+      "timeMilliseconds": 1562594013882
+    },
+    {
+      "hardScore": -1,
+      "softScore": 393607,
+      "timeMilliseconds": 1562594013895
+    },
+    {
+      "hardScore": -1,
+      "softScore": 393629,
+      "timeMilliseconds": 1562594013897
+    },
+    {
+      "hardScore": -1,
+      "softScore": 393846,
+      "timeMilliseconds": 1562594013902
+    },
+    {
+      "hardScore": -1,
+      "softScore": 393921,
+      "timeMilliseconds": 1562594013905
+    },
+    {
+      "hardScore": -1,
+      "softScore": 394362,
+      "timeMilliseconds": 1562594013909
+    },
+    {
+      "hardScore": -1,
+      "softScore": 394388,
+      "timeMilliseconds": 1562594013912
+    },
+    {
+      "hardScore": -1,
+      "softScore": 394412,
+      "timeMilliseconds": 1562594013915
+    },
+    {
+      "hardScore": -1,
+      "softScore": 394446,
+      "timeMilliseconds": 1562594013917
+    },
+    {
+      "hardScore": -1,
+      "softScore": 401903,
+      "timeMilliseconds": 1562594013945
+    },
+    {
+      "hardScore": -1,
+      "softScore": 401906,
+      "timeMilliseconds": 1562594013947
+    },
+    {
+      "hardScore": -1,
+      "softScore": 402294,
+      "timeMilliseconds": 1562594013949
+    },
+    {
+      "hardScore": -1,
+      "softScore": 402358,
+      "timeMilliseconds": 1562594013955
+    },
+    {
+      "hardScore": -1,
+      "softScore": 402364,
+      "timeMilliseconds": 1562594013957
+    },
+    {
+      "hardScore": -1,
+      "softScore": 402668,
+      "timeMilliseconds": 1562594013966
+    },
+    {
+      "hardScore": -1,
+      "softScore": 402847,
+      "timeMilliseconds": 1562594013968
+    },
+    {
+      "hardScore": -1,
+      "softScore": 402851,
+      "timeMilliseconds": 1562594013970
+    },
+    {
+      "hardScore": -1,
+      "softScore": 403077,
+      "timeMilliseconds": 1562594013973
+    },
+    {
+      "hardScore": -1,
+      "softScore": 403182,
+      "timeMilliseconds": 1562594013975
+    },
+    {
+      "hardScore": -1,
+      "softScore": 403343,
+      "timeMilliseconds": 1562594013978
+    },
+    {
+      "hardScore": -1,
+      "softScore": 410561,
+      "timeMilliseconds": 1562594013980
+    },
+    {
+      "hardScore": -1,
+      "softScore": 410644,
+      "timeMilliseconds": 1562594013982
+    },
+    {
+      "hardScore": -1,
+      "softScore": 410648,
+      "timeMilliseconds": 1562594013995
+    },
+    {
+      "hardScore": -1,
+      "softScore": 410939,
+      "timeMilliseconds": 1562594013997
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411056,
+      "timeMilliseconds": 1562594013999
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411269,
+      "timeMilliseconds": 1562594014000
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411271,
+      "timeMilliseconds": 1562594014011
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411282,
+      "timeMilliseconds": 1562594014023
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411328,
+      "timeMilliseconds": 1562594014025
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411339,
+      "timeMilliseconds": 1562594014028
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411373,
+      "timeMilliseconds": 1562594014029
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411381,
+      "timeMilliseconds": 1562594014080
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411405,
+      "timeMilliseconds": 1562594014086
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411415,
+      "timeMilliseconds": 1562594014104
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411418,
+      "timeMilliseconds": 1562594014105
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411446,
+      "timeMilliseconds": 1562594014107
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411447,
+      "timeMilliseconds": 1562594014108
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411458,
+      "timeMilliseconds": 1562594014110
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411489,
+      "timeMilliseconds": 1562594014111
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411512,
+      "timeMilliseconds": 1562594014112
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411521,
+      "timeMilliseconds": 1562594014115
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411592,
+      "timeMilliseconds": 1562594014120
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411603,
+      "timeMilliseconds": 1562594014126
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411620,
+      "timeMilliseconds": 1562594014127
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411673,
+      "timeMilliseconds": 1562594014132
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411806,
+      "timeMilliseconds": 1562594014134
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411813,
+      "timeMilliseconds": 1562594014135
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411820,
+      "timeMilliseconds": 1562594014136
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411826,
+      "timeMilliseconds": 1562594014167
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411846,
+      "timeMilliseconds": 1562594014168
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411858,
+      "timeMilliseconds": 1562594014170
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411871,
+      "timeMilliseconds": 1562594014171
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411879,
+      "timeMilliseconds": 1562594014177
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411896,
+      "timeMilliseconds": 1562594014179
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411912,
+      "timeMilliseconds": 1562594014180
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411927,
+      "timeMilliseconds": 1562594014182
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411930,
+      "timeMilliseconds": 1562594014185
+    },
+    {
+      "hardScore": -1,
+      "softScore": 411994,
+      "timeMilliseconds": 1562594014186
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412036,
+      "timeMilliseconds": 1562594014227
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412043,
+      "timeMilliseconds": 1562594014593
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412050,
+      "timeMilliseconds": 1562594014597
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412055,
+      "timeMilliseconds": 1562594014599
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412087,
+      "timeMilliseconds": 1562594014602
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412094,
+      "timeMilliseconds": 1562594014604
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412112,
+      "timeMilliseconds": 1562594014608
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412136,
+      "timeMilliseconds": 1562594014611
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412170,
+      "timeMilliseconds": 1562594014654
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412341,
+      "timeMilliseconds": 1562594014670
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412355,
+      "timeMilliseconds": 1562594014681
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412361,
+      "timeMilliseconds": 1562594014686
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412397,
+      "timeMilliseconds": 1562594014693
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412415,
+      "timeMilliseconds": 1562594014704
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412423,
+      "timeMilliseconds": 1562594014707
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412448,
+      "timeMilliseconds": 1562594014709
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412472,
+      "timeMilliseconds": 1562594014712
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412475,
+      "timeMilliseconds": 1562594014719
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412494,
+      "timeMilliseconds": 1562594014798
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412511,
+      "timeMilliseconds": 1562594014803
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412517,
+      "timeMilliseconds": 1562594014908
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412518,
+      "timeMilliseconds": 1562594014922
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412528,
+      "timeMilliseconds": 1562594014932
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412534,
+      "timeMilliseconds": 1562594014934
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412540,
+      "timeMilliseconds": 1562594014936
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412544,
+      "timeMilliseconds": 1562594014949
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412547,
+      "timeMilliseconds": 1562594014953
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412569,
+      "timeMilliseconds": 1562594014957
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412571,
+      "timeMilliseconds": 1562594014962
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412576,
+      "timeMilliseconds": 1562594014993
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412579,
+      "timeMilliseconds": 1562594015077
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412581,
+      "timeMilliseconds": 1562594015086
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412584,
+      "timeMilliseconds": 1562594015090
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412593,
+      "timeMilliseconds": 1562594015093
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412598,
+      "timeMilliseconds": 1562594015102
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412600,
+      "timeMilliseconds": 1562594015109
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412606,
+      "timeMilliseconds": 1562594015112
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412610,
+      "timeMilliseconds": 1562594015152
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412614,
+      "timeMilliseconds": 1562594015182
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412627,
+      "timeMilliseconds": 1562594015519
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412628,
+      "timeMilliseconds": 1562594015545
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412645,
+      "timeMilliseconds": 1562594015549
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412649,
+      "timeMilliseconds": 1562594015892
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412659,
+      "timeMilliseconds": 1562594015910
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412672,
+      "timeMilliseconds": 1562594015914
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412678,
+      "timeMilliseconds": 1562594015919
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412680,
+      "timeMilliseconds": 1562594015979
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412681,
+      "timeMilliseconds": 1562594015983
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412693,
+      "timeMilliseconds": 1562594015987
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412695,
+      "timeMilliseconds": 1562594015999
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412698,
+      "timeMilliseconds": 1562594016060
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412705,
+      "timeMilliseconds": 1562594016073
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412706,
+      "timeMilliseconds": 1562594016078
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412714,
+      "timeMilliseconds": 1562594016084
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412722,
+      "timeMilliseconds": 1562594016423
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412728,
+      "timeMilliseconds": 1562594016427
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412734,
+      "timeMilliseconds": 1562594016446
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412736,
+      "timeMilliseconds": 1562594016462
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412739,
+      "timeMilliseconds": 1562594017635
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412745,
+      "timeMilliseconds": 1562594017638
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412746,
+      "timeMilliseconds": 1562594017640
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412748,
+      "timeMilliseconds": 1562594017963
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412756,
+      "timeMilliseconds": 1562594017994
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412764,
+      "timeMilliseconds": 1562594020652
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412766,
+      "timeMilliseconds": 1562594024857
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412768,
+      "timeMilliseconds": 1562594024866
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412769,
+      "timeMilliseconds": 1562594025103
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412770,
+      "timeMilliseconds": 1562594025111
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412771,
+      "timeMilliseconds": 1562594025464
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412772,
+      "timeMilliseconds": 1562594025638
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412775,
+      "timeMilliseconds": 1562594025645
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412777,
+      "timeMilliseconds": 1562594025919
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412782,
+      "timeMilliseconds": 1562594028154
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412783,
+      "timeMilliseconds": 1562594028219
+    },
+    {
+      "hardScore": -1,
+      "softScore": 412787,
+      "timeMilliseconds": 1562594028242
+    }
+  ],
+  "scoreTimeMs": 1562594028242
+}
