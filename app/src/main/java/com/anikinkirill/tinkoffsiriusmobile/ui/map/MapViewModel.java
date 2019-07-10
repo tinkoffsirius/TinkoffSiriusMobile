@@ -55,6 +55,7 @@ public class MapViewModel extends ViewModel {
     public static final int LOCATION_UPDATE_INTERVAL = 12000;
     private static String date="";
     private static ArrayList<String> others=new ArrayList<>();
+    private static ArrayList<LatLng> meetings=new ArrayList<>();
     private static GoogleMap googleMap;
 
     @Inject
@@ -91,7 +92,12 @@ public class MapViewModel extends ViewModel {
                         Iterable<DataSnapshot> activities=next.child("activities").getChildren();
                         Iterator<DataSnapshot> activitiesIterator=activities.iterator();
                         DataSnapshot activity=activitiesIterator.next();
+                        Map<String,String> map=new HashMap<>();
+                        map.put("latitude",activity.child("coordinates").child("latitude").getValue().toString());
+                        map.put("longitude",activity.child("coordinates").child("longitude").getValue().toString());
                         LatLng markerPosition=new LatLng(Double.parseDouble(activity.child("coordinates").child("latitude").getValue().toString()),Double.parseDouble(activity.child("coordinates").child("longitude").getValue().toString()));
+                        DatabaseReference endCoordinates=FirebaseDatabase.getInstance().getReference().child(date).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("end_coordinates");
+                        endCoordinates.setValue(map);
                         googleMap.addMarker(new MarkerOptions().position(markerPosition).position(markerPosition).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
                     }
                 }
@@ -282,12 +288,15 @@ public class MapViewModel extends ViewModel {
                     if(next.child("agent").child("id").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0])){
                        Iterable<DataSnapshot> activities=next.child("activities").getChildren();
                        Iterator<DataSnapshot> activitiesIterator=activities.iterator();
-                        DataSnapshot last=null;
+                       DataSnapshot last=null;
                        while(activitiesIterator.hasNext()){
                            last=activitiesIterator.next();
+                           meetings.add(new LatLng(Double.parseDouble(last.child("coordinates").child("latitude").getValue().toString()),Double.parseDouble(last.child("coordinates").child("longitude").getValue().toString())));
                        }
-                        LatLng markerPosition=new LatLng(Double.parseDouble(last.child("coordinates").child("latitude").getValue().toString()),Double.parseDouble(last.child("coordinates").child("longitude").getValue().toString()));
-                        googleMap.addMarker(new MarkerOptions().position(markerPosition).position(markerPosition));
+                       PolylineOptions polylineOptions =new PolylineOptions().color(Color.YELLOW).width(15).addAll(meetings);
+                       googleMap.addPolyline(polylineOptions);
+                       LatLng markerPosition=new LatLng(Double.parseDouble(last.child("coordinates").child("latitude").getValue().toString()),Double.parseDouble(last.child("coordinates").child("longitude").getValue().toString()));
+                       googleMap.addMarker(new MarkerOptions().position(markerPosition).position(markerPosition));
                     }
                 }
             }
