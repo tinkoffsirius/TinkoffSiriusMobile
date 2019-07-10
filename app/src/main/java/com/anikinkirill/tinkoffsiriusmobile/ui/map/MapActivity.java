@@ -103,13 +103,6 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
         Log.d(TAG, "onMapReady: called");
         this.googleMap = googleMap;
 
-        viewModel.getRoute(googleMap);
-
-        MapViewModel.Other other = new MapViewModel.Other(this);
-        other.start();
-
-        viewModel.showStartCoordinates();
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
