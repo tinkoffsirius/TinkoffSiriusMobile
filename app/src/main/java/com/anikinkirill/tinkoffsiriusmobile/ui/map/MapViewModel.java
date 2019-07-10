@@ -78,6 +78,30 @@ public class MapViewModel extends ViewModel {
         date+=time.year;
     }
 
+    public static void getNextActivity(){
+        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
+        databaseReference.child(Constants.SOLUTION).child(Constants.AGENTS).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> iterable = dataSnapshot.getChildren();
+                Iterator<DataSnapshot> iterator = iterable.iterator();
+                while(iterator.hasNext()){
+                    DataSnapshot next=iterator.next();
+                    if(next.child("agent").child("id").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0])){
+                        Iterable<DataSnapshot> activities=next.child("activities").getChildren();
+                        Iterator<DataSnapshot> activitiesIterator=activities.iterator();
+                        DataSnapshot activity=activitiesIterator.next();
+                        LatLng markerPosition=new LatLng(Double.parseDouble(activity.child("coordinates").child("latitude").getValue().toString()),Double.parseDouble(activity.child("coordinates").child("longitude").getValue().toString()));
+                        googleMap.addMarker(new MarkerOptions().position(markerPosition).position(markerPosition).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
+    }
+
     public static void getRoute(final GoogleMap googleMap){
         MapViewModel.googleMap = googleMap;
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -148,14 +172,18 @@ public class MapViewModel extends ViewModel {
                         showStartCoordinates();
                         getRoute(googleMap);
                         getCurrentUserActivities(context);
+                        getLastActivity();
+                        getNextActivity();
                         for(String name:others){
                             if(name!=FirebaseAuth.getInstance().getCurrentUser().getUid()) {
                                 DataSnapshot userValues = dataSnapshot.child(date).child(Constants.USERS).child(name).child(Constants.HISTORY);
                                 String login=dataSnapshot.child(date).child(Constants.USERS).child(name).child(Constants.LOGIN).getValue().toString();
                                 ArrayList<Map<String, String>> arrayList = (ArrayList) userValues.getValue();
-                                Map<String, String> map = arrayList.get(arrayList.size() - 1);
-                                MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(Double.parseDouble(map.get(Constants.LATITUDE)), Double.parseDouble(map.get(Constants.LONGITTUDE)))).title(login);
-                                googleMap.addMarker(markerOptions);
+                                if(arrayList!=null) {
+                                    Map<String, String> map = arrayList.get(arrayList.size() - 1);
+                                    MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(Double.parseDouble(map.get(Constants.LATITUDE)), Double.parseDouble(map.get(Constants.LONGITTUDE)))).title(login).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+                                    googleMap.addMarker(markerOptions);
+                                }
                             }
                         }
                     }
@@ -242,4 +270,30 @@ public class MapViewModel extends ViewModel {
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
+    public static void getLastActivity(){
+        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
+        databaseReference.child(Constants.SOLUTION).child(Constants.AGENTS).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> iterable = dataSnapshot.getChildren();
+                Iterator<DataSnapshot> iterator = iterable.iterator();
+                while(iterator.hasNext()){
+                    DataSnapshot next=iterator.next();
+                    if(next.child("agent").child("id").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0])){
+                       Iterable<DataSnapshot> activities=next.child("activities").getChildren();
+                       Iterator<DataSnapshot> activitiesIterator=activities.iterator();
+                        DataSnapshot last=null;
+                       while(activitiesIterator.hasNext()){
+                           last=activitiesIterator.next();
+                       }
+                        LatLng markerPosition=new LatLng(Double.parseDouble(last.child("coordinates").child("latitude").getValue().toString()),Double.parseDouble(last.child("coordinates").child("longitude").getValue().toString()));
+                        googleMap.addMarker(new MarkerOptions().position(markerPosition).position(markerPosition));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
+    }
 }
