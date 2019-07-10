@@ -38,6 +38,7 @@ import javax.inject.Inject;
 
 /**
  * CREATED BY ANIKINKIRILL
+ * HELLO
  */
 public class MapViewModel extends ViewModel {
 
