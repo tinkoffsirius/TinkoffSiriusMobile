@@ -17,14 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
 import com.anikinkirill.tinkoffsiriusmobile.Constants;
-<<<<<<< HEAD
-import com.anikinkirill.tinkoffsiriusmobile.models.Activity;
-import com.anikinkirill.tinkoffsiriusmobile.models.Agent;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-=======
->>>>>>> e440184f06ee96614e03deafc918ea65f05c92b4
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -49,6 +43,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerAppCompatActivity;
+
 
 /**
  * CREATED BY ANIKINKIRILL
@@ -330,7 +325,6 @@ public class MapViewModel extends ViewModel {
         });
     }
 
-<<<<<<< HEAD
     @SuppressLint("MissingPermission")
     public static void drawRouteToMeeting(){
         FusedLocationProviderClient fusedLocation= LocationServices.getFusedLocationProviderClient(context);
@@ -369,11 +363,10 @@ public class MapViewModel extends ViewModel {
         PolylineOptions polylineOptions=new PolylineOptions().addAll(coordinates).width(15).color(Color.rgb(255,128,0));
         googleMap.addPolyline(polylineOptions);
     }
-=======
+
     private static void showFinishActivitySheet(String meetingId, Context context){
         FinishActivityBottomSheetDialogFragment dialogFragment = new FinishActivityBottomSheetDialogFragment(meetingId);
         dialogFragment.show(((DaggerAppCompatActivity) context).getSupportFragmentManager(), "showFragment");
     }
 
->>>>>>> e440184f06ee96614e03deafc918ea65f05c92b4
 }
