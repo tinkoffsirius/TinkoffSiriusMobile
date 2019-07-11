@@ -1,0 +1,135 @@
+{
+  "agents": [
+    {
+      "agent": {
+        "id": 28775
+      },
+      "activities": [
+        {
+          "id": 6,
+          "coordinates": {
+            "latitude": 43.402409999999996,
+            "longitude": 39.95192,
+            "latitudeInternal": 43402410,
+            "longitudeInternal": 39951920,
+            "polar": false
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 36600,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 4,
+          "coordinates": {
+            "latitude": 43.40537,
+            "longitude": 39.95474,
+            "latitudeInternal": 43405370,
+            "longitudeInternal": 39954740,
+            "polar": false
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 41760,
+          "readyTimeSeconds": 36000
+        }
+      ]
+    },
+    {
+      "agent": {
+        "id": 29912
+      },
+      "activities": [
+        {
+          "id": 3,
+          "coordinates": {
+            "latitude": 43.40311,
+            "longitude": 39.96678,
+            "latitudeInternal": 43403110,
+            "longitudeInternal": 39966780,
+            "polar": false
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 36600,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 5,
+          "coordinates": {
+            "latitude": 43.3981,
+            "longitude": 39.96313,
+            "latitudeInternal": 43398100,
+            "longitudeInternal": 39963130,
+            "polar": false
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 42180,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 2,
+          "coordinates": {
+            "latitude": 43.400529999999996,
+            "longitude": 39.963589999999996,
+            "latitudeInternal": 43400530,
+            "longitudeInternal": 39963590,
+            "polar": false
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 47280,
+          "readyTimeSeconds": 36000
+        },
+        {
+          "id": 1,
+          "coordinates": {
+            "latitude": 43.400479999999995,
+            "longitude": 39.966449999999995,
+            "latitudeInternal": 43400480,
+            "longitudeInternal": 39966450,
+            "polar": false
+          },
+          "dueTimeSeconds": 54000,
+          "arrivalTimeSeconds": 52620,
+          "readyTimeSeconds": 36000
+        }
+      ]
+    }
+  ],
+  "planningActivityResults": null,
+  "hardSoftScoreResults": [
+    {
+      "hardScore": 0,
+      "softScore": -3780,
+      "timeMilliseconds": 1562820973108
+    },
+    {
+      "hardScore": 0,
+      "softScore": -3780,
+      "timeMilliseconds": 1562820973116
+    },
+    {
+      "hardScore": 0,
+      "softScore": -3738,
+      "timeMilliseconds": 1562820973150
+    },
+    {
+      "hardScore": 0,
+      "softScore": -3729,
+      "timeMilliseconds": 1562820973158
+    },
+    {
+      "hardScore": 0,
+      "softScore": -3720,
+      "timeMilliseconds": 1562820973168
+    },
+    {
+      "hardScore": 0,
+      "softScore": -3702,
+      "timeMilliseconds": 1562820973176
+    },
+    {
+      "hardScore": 0,
+      "softScore": -3699,
+      "timeMilliseconds": 1562820973229
+    }
+  ],
+  "scoreTimeMs": 1562820973229
+}

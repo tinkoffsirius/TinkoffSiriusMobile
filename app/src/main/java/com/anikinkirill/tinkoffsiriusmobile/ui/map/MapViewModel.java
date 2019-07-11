@@ -17,11 +17,14 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
 import com.anikinkirill.tinkoffsiriusmobile.Constants;
+<<<<<<< HEAD
 import com.anikinkirill.tinkoffsiriusmobile.models.Activity;
 import com.anikinkirill.tinkoffsiriusmobile.models.Agent;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
+=======
+>>>>>>> e440184f06ee96614e03deafc918ea65f05c92b4
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -38,17 +41,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import javax.inject.Inject;
+
+import dagger.android.support.DaggerAppCompatActivity;
 
 /**
  * CREATED BY ANIKINKIRILL
@@ -211,6 +211,48 @@ public class MapViewModel extends ViewModel {
 
     private static void getCurrentUserActivities(final Context context){
 
+        googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+                LinearLayout info = new LinearLayout(context);
+                info.setOrientation(LinearLayout.VERTICAL);
+
+                TextView title = new TextView(context);
+                title.setTextColor(Color.BLACK);
+                title.setGravity(Gravity.CENTER);
+                title.setTypeface(null, Typeface.BOLD);
+                title.setText(marker.getTitle());
+
+                TextView snippet = new TextView(context);
+                snippet.setTextColor(Color.GRAY);
+                snippet.setText(marker.getSnippet());
+
+                info.addView(title);
+                info.addView(snippet);
+
+                return info;
+            }
+        });
+
+        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                String markerTitle = marker.getTitle();
+                if(markerTitle.contains("Id")){
+                    // this marker is a meeting
+                    String meetingId = markerTitle.substring(markerTitle.indexOf(":") + 1).trim();
+                    Log.d(TAG, "onMarkerClick: " + meetingId);
+                    showFinishActivitySheet(meetingId, context);
+                }
+                return false;
+            }
+        });
+
         SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.CONSTANTS, Context.MODE_PRIVATE);
         final String currentUserId = sharedPreferences.getString(Constants.CURRENT_USER_ID, "");
 
@@ -237,33 +279,6 @@ public class MapViewModel extends ViewModel {
                                     .snippet("startTime: " + getActivityTime(startTotalTime) + "\n" +
                                              "endTime: " + getActivityTime(endTotalTime))
                                     .icon(yellowMarker);
-                            googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-                                @Override
-                                public View getInfoWindow(Marker marker) {
-                                    return null;
-                                }
-
-                                @Override
-                                public View getInfoContents(Marker marker) {
-                                    LinearLayout info = new LinearLayout(context);
-                                    info.setOrientation(LinearLayout.VERTICAL);
-
-                                    TextView title = new TextView(context);
-                                    title.setTextColor(Color.BLACK);
-                                    title.setGravity(Gravity.CENTER);
-                                    title.setTypeface(null, Typeface.BOLD);
-                                    title.setText(marker.getTitle());
-
-                                    TextView snippet = new TextView(context);
-                                    snippet.setTextColor(Color.GRAY);
-                                    snippet.setText(marker.getSnippet());
-
-                                    info.addView(title);
-                                    info.addView(snippet);
-
-                                    return info;
-                                }
-                            });
                             googleMap.addMarker(markerOptions);
                         }
                     }
@@ -315,6 +330,7 @@ public class MapViewModel extends ViewModel {
         });
     }
 
+<<<<<<< HEAD
     @SuppressLint("MissingPermission")
     public static void drawRouteToMeeting(){
         FusedLocationProviderClient fusedLocation= LocationServices.getFusedLocationProviderClient(context);
@@ -353,4 +369,11 @@ public class MapViewModel extends ViewModel {
         PolylineOptions polylineOptions=new PolylineOptions().addAll(coordinates).width(15).color(Color.rgb(255,128,0));
         googleMap.addPolyline(polylineOptions);
     }
+=======
+    private static void showFinishActivitySheet(String meetingId, Context context){
+        FinishActivityBottomSheetDialogFragment dialogFragment = new FinishActivityBottomSheetDialogFragment(meetingId);
+        dialogFragment.show(((DaggerAppCompatActivity) context).getSupportFragmentManager(), "showFragment");
+    }
+
+>>>>>>> e440184f06ee96614e03deafc918ea65f05c92b4
 }
