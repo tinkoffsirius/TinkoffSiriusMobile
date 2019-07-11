@@ -63,7 +63,9 @@ public class MapViewModel extends ViewModel {
 
     @Inject
     public MapViewModel(){
-        setDate();
+        if(date.equals("")) {
+            setDate();
+        }
     }
 
     public void setDate(){
