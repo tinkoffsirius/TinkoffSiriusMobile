@@ -68,6 +68,7 @@ public class FinishActivityBottomSheetDialogFragment extends BottomSheetDialogFr
         switch (view.getId()){
             case R.id.finishActivity:{
                 flag=true;
+                getFinishedActivities();
                 removeActivity();
                 break;
             }
@@ -138,15 +139,15 @@ public class FinishActivityBottomSheetDialogFragment extends BottomSheetDialogFr
 
     public static void getFinishedActivities(){
         try{
-            DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference().child(date()).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            finishedActivities=new ArrayList<>();
+            DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference().child(date()).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("finished_activities");
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Iterable<DataSnapshot> iterable=dataSnapshot.getChildren();
                     Iterator<DataSnapshot> iterator=iterable.iterator();
                     while(iterator.hasNext()){
-                        DataSnapshot ds=iterator.next();
-
+                        finishedActivities.add(iterator.next().getValue());
                     }
                 }
 
