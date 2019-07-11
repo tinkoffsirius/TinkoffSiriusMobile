@@ -75,7 +75,11 @@ public class FinishActivityBottomSheetDialogFragment extends BottomSheetDialogFr
         }
     }
 
-    public static void removeActivity(){
+    private void hideBottomSheetDialog(){
+        dismiss();
+    }
+
+    public void removeActivity(){
         final DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
         databaseReference.child(Constants.SOLUTION).child(Constants.AGENTS).addValueEventListener(new ValueEventListener() {
             @Override
@@ -117,6 +121,7 @@ public class FinishActivityBottomSheetDialogFragment extends BottomSheetDialogFr
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
+        hideBottomSheetDialog();
     }
 
     public static String date(){
