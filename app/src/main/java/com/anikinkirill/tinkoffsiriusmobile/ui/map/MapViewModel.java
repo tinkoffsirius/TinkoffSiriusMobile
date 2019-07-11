@@ -202,6 +202,34 @@ public class MapViewModel extends ViewModel {
 
     private static void getCurrentUserActivities(final Context context){
 
+        googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+                LinearLayout info = new LinearLayout(context);
+                info.setOrientation(LinearLayout.VERTICAL);
+
+                TextView title = new TextView(context);
+                title.setTextColor(Color.BLACK);
+                title.setGravity(Gravity.CENTER);
+                title.setTypeface(null, Typeface.BOLD);
+                title.setText(marker.getTitle());
+
+                TextView snippet = new TextView(context);
+                snippet.setTextColor(Color.GRAY);
+                snippet.setText(marker.getSnippet());
+
+                info.addView(title);
+                info.addView(snippet);
+
+                return info;
+            }
+        });
+
         SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.CONSTANTS, Context.MODE_PRIVATE);
         final String currentUserId = sharedPreferences.getString(Constants.CURRENT_USER_ID, "");
 
@@ -228,33 +256,6 @@ public class MapViewModel extends ViewModel {
                                     .snippet("startTime: " + getActivityTime(startTotalTime) + "\n" +
                                              "endTime: " + getActivityTime(endTotalTime))
                                     .icon(yellowMarker);
-                            googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-                                @Override
-                                public View getInfoWindow(Marker marker) {
-                                    return null;
-                                }
-
-                                @Override
-                                public View getInfoContents(Marker marker) {
-                                    LinearLayout info = new LinearLayout(context);
-                                    info.setOrientation(LinearLayout.VERTICAL);
-
-                                    TextView title = new TextView(context);
-                                    title.setTextColor(Color.BLACK);
-                                    title.setGravity(Gravity.CENTER);
-                                    title.setTypeface(null, Typeface.BOLD);
-                                    title.setText(marker.getTitle());
-
-                                    TextView snippet = new TextView(context);
-                                    snippet.setTextColor(Color.GRAY);
-                                    snippet.setText(marker.getSnippet());
-
-                                    info.addView(title);
-                                    info.addView(snippet);
-
-                                    return info;
-                                }
-                            });
                             googleMap.addMarker(markerOptions);
                         }
                     }
