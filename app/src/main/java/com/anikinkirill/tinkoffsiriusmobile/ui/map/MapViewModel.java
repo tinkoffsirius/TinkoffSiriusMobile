@@ -36,6 +36,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import dagger.android.support.DaggerAppCompatActivity;
+
 /**
  * CREATED BY ANIKINKIRILL
  */
@@ -230,6 +232,7 @@ public class MapViewModel extends ViewModel {
                     // this marker is a meeting
                     String meetingId = markerTitle.substring(markerTitle.indexOf(":") + 1).trim();
                     Log.d(TAG, "onMarkerClick: " + meetingId);
+                    showFinishActivitySheet(meetingId, context);
                 }
                 return false;
             }
@@ -311,4 +314,10 @@ public class MapViewModel extends ViewModel {
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
     }
+
+    private static void showFinishActivitySheet(String meetingId, Context context){
+        FinishActivityBottomSheetDialogFragment dialogFragment = new FinishActivityBottomSheetDialogFragment(meetingId);
+        dialogFragment.show(((DaggerAppCompatActivity) context).getSupportFragmentManager(), "showFragment");
+    }
+
 }
