@@ -14,6 +14,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/showOtherAgents"
+        android:src="@drawable/ic_people_black"
+        android:backgroundTint="@android:color/white"
+        app:borderWidth="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
