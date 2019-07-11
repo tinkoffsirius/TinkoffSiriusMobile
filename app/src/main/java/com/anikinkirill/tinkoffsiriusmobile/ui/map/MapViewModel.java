@@ -52,7 +52,7 @@ public class MapViewModel extends ViewModel {
     private static final String TAG = "MapViewModel";
 
     // Vars
-    public static final int LOCATION_UPDATE_INTERVAL = 12000;
+    public static final int LOCATION_UPDATE_INTERVAL = 30000;
     private static String date="";
     private static ArrayList<String> others=new ArrayList<>();
     private static ArrayList<LatLng> meetings=new ArrayList<>();
