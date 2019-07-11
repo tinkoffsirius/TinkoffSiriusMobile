@@ -96,14 +96,16 @@ public class MapViewModel extends ViewModel {
                     if(next.child("agent").child("id").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0])){
                         Iterable<DataSnapshot> activities=next.child("activities").getChildren();
                         Iterator<DataSnapshot> activitiesIterator=activities.iterator();
-                        DataSnapshot activity=activitiesIterator.next();
-                        Map<String,String> map=new HashMap<>();
-                        map.put("latitude",activity.child("coordinates").child("latitude").getValue().toString());
-                        map.put("longitude",activity.child("coordinates").child("longitude").getValue().toString());
-                        LatLng markerPosition=new LatLng(Double.parseDouble(activity.child("coordinates").child("latitude").getValue().toString()),Double.parseDouble(activity.child("coordinates").child("longitude").getValue().toString()));
-                        DatabaseReference endCoordinates=FirebaseDatabase.getInstance().getReference().child(date).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("end_coordinates");
-                        endCoordinates.setValue(map);
-                        googleMap.addMarker(new MarkerOptions().position(markerPosition).position(markerPosition).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                        if(activitiesIterator.hasNext()) {
+                            DataSnapshot activity = activitiesIterator.next();
+                            Map<String, String> map = new HashMap<>();
+                            map.put("latitude", activity.child("coordinates").child("latitude").getValue().toString());
+                            map.put("longitude", activity.child("coordinates").child("longitude").getValue().toString());
+                            LatLng markerPosition = new LatLng(Double.parseDouble(activity.child("coordinates").child("latitude").getValue().toString()), Double.parseDouble(activity.child("coordinates").child("longitude").getValue().toString()));
+                            DatabaseReference endCoordinates = FirebaseDatabase.getInstance().getReference().child(date).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("end_coordinates");
+                            endCoordinates.setValue(map);
+                            googleMap.addMarker(new MarkerOptions().position(markerPosition).position(markerPosition).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                        }
                     }
                 }
             }
@@ -316,8 +318,10 @@ public class MapViewModel extends ViewModel {
                        }
                        /*PolylineOptions polylineOptions =new PolylineOptions().color(Color.YELLOW).width(15).addAll(meetings);
                        googleMap.addPolyline(polylineOptions);*/
-                       LatLng markerPosition=new LatLng(Double.parseDouble(last.child("coordinates").child("latitude").getValue().toString()),Double.parseDouble(last.child("coordinates").child("longitude").getValue().toString()));
-                       googleMap.addMarker(new MarkerOptions().position(markerPosition).position(markerPosition));
+                       try {
+                           LatLng markerPosition = new LatLng(Double.parseDouble(last.child("coordinates").child("latitude").getValue().toString()), Double.parseDouble(last.child("coordinates").child("longitude").getValue().toString()));
+                           googleMap.addMarker(new MarkerOptions().position(markerPosition).position(markerPosition));
+                       }catch (Exception e){}
                     }
                 }
             }
@@ -329,6 +333,7 @@ public class MapViewModel extends ViewModel {
 
     @SuppressLint("MissingPermission")
     public static void drawRouteToMeeting(){
+        coordinates=new ArrayList<>();
         FusedLocationProviderClient fusedLocation= LocationServices.getFusedLocationProviderClient(context);
         fusedLocation.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
             @Override
@@ -347,14 +352,18 @@ public class MapViewModel extends ViewModel {
                     if(next.child("agent").child("id").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0])){
                         Iterable<DataSnapshot> activities=next.child("activities").getChildren();
                         Iterator<DataSnapshot> activitiesIterator=activities.iterator();
-                        DataSnapshot activity=activitiesIterator.next();
-                        Map<String,String> map=new HashMap<>();
-                        map.put("latitude",activity.child("coordinates").child("latitude").getValue().toString());
-                        map.put("longitude",activity.child("coordinates").child("longitude").getValue().toString());
-                        LatLng position=new LatLng(Double.parseDouble(activity.child("coordinates").child("latitude").getValue().toString()),Double.parseDouble(activity.child("coordinates").child("longitude").getValue().toString()));
-                        DatabaseReference endCoordinates=FirebaseDatabase.getInstance().getReference().child(date).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("end_coordinates");
-                        endCoordinates.setValue(map);
-                        coordinates.add(position);
+                        if(iterator.hasNext()) {
+                            try {
+                                DataSnapshot activity = activitiesIterator.next();
+                                Map<String, String> map = new HashMap<>();
+                                map.put("latitude", activity.child("coordinates").child("latitude").getValue().toString());
+                                map.put("longitude", activity.child("coordinates").child("longitude").getValue().toString());
+                                LatLng position = new LatLng(Double.parseDouble(activity.child("coordinates").child("latitude").getValue().toString()), Double.parseDouble(activity.child("coordinates").child("longitude").getValue().toString()));
+                                DatabaseReference endCoordinates = FirebaseDatabase.getInstance().getReference().child(date).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("end_coordinates");
+                                endCoordinates.setValue(map);
+                                coordinates.add(position);
+                            }catch(Exception e){}
+                        }
                     }
                 }
             }
