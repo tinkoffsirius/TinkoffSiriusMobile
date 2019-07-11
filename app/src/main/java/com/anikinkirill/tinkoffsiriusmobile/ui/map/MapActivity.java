@@ -96,6 +96,7 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
 
     private void initViewModel(){
         viewModel = ViewModelProviders.of(this, providerFactory).get(MapViewModel.class);
+        viewModel.context=getApplicationContext();
     }
 
     @Override
@@ -104,6 +105,7 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
         this.googleMap = googleMap;
 
         viewModel.getRoute(googleMap);
+        viewModel.drawRouteToMeeting();
 
         MapViewModel.Other other = new MapViewModel.Other(this);
         other.start();

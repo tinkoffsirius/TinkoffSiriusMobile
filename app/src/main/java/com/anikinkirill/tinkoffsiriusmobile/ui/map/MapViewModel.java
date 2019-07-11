@@ -1,9 +1,11 @@
 package com.anikinkirill.tinkoffsiriusmobile.ui.map;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.location.Location;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.Gravity;
@@ -17,6 +19,8 @@ import androidx.lifecycle.ViewModel;
 import com.anikinkirill.tinkoffsiriusmobile.Constants;
 import com.anikinkirill.tinkoffsiriusmobile.models.Activity;
 import com.anikinkirill.tinkoffsiriusmobile.models.Agent;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -25,6 +29,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -57,6 +63,8 @@ public class MapViewModel extends ViewModel {
     private static ArrayList<String> others=new ArrayList<>();
     private static ArrayList<LatLng> meetings=new ArrayList<>();
     private static GoogleMap googleMap;
+    static Context context;
+    static ArrayList<LatLng> coordinates = new ArrayList<>();;
 
     @Inject
     public MapViewModel(){
@@ -180,6 +188,7 @@ public class MapViewModel extends ViewModel {
                         getCurrentUserActivities(context);
                         getLastActivity();
                         getNextActivity();
+                        drawRouteToMeeting();
                         for(String name:others){
                             if(name!=FirebaseAuth.getInstance().getCurrentUser().getUid()) {
                                 DataSnapshot userValues = dataSnapshot.child(date).child(Constants.USERS).child(name).child(Constants.HISTORY);
@@ -293,8 +302,8 @@ public class MapViewModel extends ViewModel {
                            last=activitiesIterator.next();
                            meetings.add(new LatLng(Double.parseDouble(last.child("coordinates").child("latitude").getValue().toString()),Double.parseDouble(last.child("coordinates").child("longitude").getValue().toString())));
                        }
-                       PolylineOptions polylineOptions =new PolylineOptions().color(Color.YELLOW).width(15).addAll(meetings);
-                       googleMap.addPolyline(polylineOptions);
+                       /*PolylineOptions polylineOptions =new PolylineOptions().color(Color.YELLOW).width(15).addAll(meetings);
+                       googleMap.addPolyline(polylineOptions);*/
                        LatLng markerPosition=new LatLng(Double.parseDouble(last.child("coordinates").child("latitude").getValue().toString()),Double.parseDouble(last.child("coordinates").child("longitude").getValue().toString()));
                        googleMap.addMarker(new MarkerOptions().position(markerPosition).position(markerPosition));
                     }
@@ -304,5 +313,44 @@ public class MapViewModel extends ViewModel {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
+    }
+
+    @SuppressLint("MissingPermission")
+    public static void drawRouteToMeeting(){
+        FusedLocationProviderClient fusedLocation= LocationServices.getFusedLocationProviderClient(context);
+        fusedLocation.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                coordinates.add(new LatLng(task.getResult().getLatitude(),task.getResult().getLongitude()));
+            }
+        });
+        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
+        databaseReference.child(Constants.SOLUTION).child(Constants.AGENTS).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> iterable = dataSnapshot.getChildren();
+                Iterator<DataSnapshot> iterator = iterable.iterator();
+                while(iterator.hasNext()){
+                    DataSnapshot next=iterator.next();
+                    if(next.child("agent").child("id").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0])){
+                        Iterable<DataSnapshot> activities=next.child("activities").getChildren();
+                        Iterator<DataSnapshot> activitiesIterator=activities.iterator();
+                        DataSnapshot activity=activitiesIterator.next();
+                        Map<String,String> map=new HashMap<>();
+                        map.put("latitude",activity.child("coordinates").child("latitude").getValue().toString());
+                        map.put("longitude",activity.child("coordinates").child("longitude").getValue().toString());
+                        LatLng position=new LatLng(Double.parseDouble(activity.child("coordinates").child("latitude").getValue().toString()),Double.parseDouble(activity.child("coordinates").child("longitude").getValue().toString()));
+                        DatabaseReference endCoordinates=FirebaseDatabase.getInstance().getReference().child(date).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("end_coordinates");
+                        endCoordinates.setValue(map);
+                        coordinates.add(position);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
+        PolylineOptions polylineOptions=new PolylineOptions().addAll(coordinates).width(15).color(Color.rgb(255,128,0));
+        googleMap.addPolyline(polylineOptions);
     }
 }
