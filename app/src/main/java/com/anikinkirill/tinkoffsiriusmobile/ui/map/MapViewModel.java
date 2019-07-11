@@ -15,9 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
 import com.anikinkirill.tinkoffsiriusmobile.Constants;
-import com.anikinkirill.tinkoffsiriusmobile.models.Activity;
-import com.anikinkirill.tinkoffsiriusmobile.models.Agent;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -32,15 +29,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import javax.inject.Inject;
 
@@ -227,6 +219,19 @@ public class MapViewModel extends ViewModel {
                 info.addView(snippet);
 
                 return info;
+            }
+        });
+
+        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                String markerTitle = marker.getTitle();
+                if(markerTitle.contains("Id")){
+                    // this marker is a meeting
+                    String meetingId = markerTitle.substring(markerTitle.indexOf(":") + 1).trim();
+                    Log.d(TAG, "onMarkerClick: " + meetingId);
+                }
+                return false;
             }
         });
 
