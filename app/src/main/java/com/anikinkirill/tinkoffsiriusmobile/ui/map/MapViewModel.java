@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.Gravity;
@@ -14,9 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModel;
 
 import com.anikinkirill.tinkoffsiriusmobile.Constants;
+import com.anikinkirill.tinkoffsiriusmobile.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,6 +29,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,10 +39,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.maps.DirectionsApiRequest;
+import com.google.maps.GeoApiContext;
+import com.google.maps.PendingResult;
+import com.google.maps.internal.PolylineEncoding;
+import com.google.maps.model.DirectionsResult;
+import com.google.maps.model.DirectionsRoute;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -59,7 +71,8 @@ public class MapViewModel extends ViewModel {
     private static ArrayList<LatLng> meetings=new ArrayList<>();
     private static GoogleMap googleMap;
     static Context context;
-    static ArrayList<LatLng> coordinates = new ArrayList<>();;
+    static ArrayList<LatLng> coordinates = new ArrayList<>();
+    private static GeoApiContext geoApiContext;
 
     @Inject
     public MapViewModel(){
@@ -210,6 +223,10 @@ public class MapViewModel extends ViewModel {
 
     private static void getCurrentUserActivities(final Context context){
 
+        if(geoApiContext == null){
+            geoApiContext = new GeoApiContext.Builder().apiKey(context.getString(R.string.apiKey)).build();
+        }
+
         googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(Marker marker) {
@@ -247,6 +264,7 @@ public class MapViewModel extends ViewModel {
                     String meetingId = markerTitle.substring(markerTitle.indexOf(":") + 1).trim();
                     Log.d(TAG, "onMarkerClick: " + meetingId);
                     showFinishActivitySheet(meetingId, context);
+                    calculateDirections(marker);
                 }
                 return false;
             }
@@ -378,6 +396,73 @@ public class MapViewModel extends ViewModel {
     private static void showFinishActivitySheet(String meetingId, Context context){
         FinishActivityBottomSheetDialogFragment dialogFragment = new FinishActivityBottomSheetDialogFragment(meetingId);
         dialogFragment.show(((DaggerAppCompatActivity) context).getSupportFragmentManager(), "showFragment");
+    }
+
+    private static void calculateDirections(Marker marker){
+        Log.d(TAG, "calculateDirections: calculating directions.");
+
+        com.google.maps.model.LatLng destination = new com.google.maps.model.LatLng(
+                marker.getPosition().latitude,
+                marker.getPosition().longitude
+        );
+        DirectionsApiRequest directions = new DirectionsApiRequest(geoApiContext);
+
+        directions.alternatives(true);
+        directions.origin(
+                new com.google.maps.model.LatLng(
+                        43.4002391,
+                        39.9667929
+                )
+        );
+        Log.d(TAG, "calculateDirections: destination: " + destination.toString());
+        directions.destination(destination).setCallback(new PendingResult.Callback<DirectionsResult>() {
+            @Override
+            public void onResult(DirectionsResult result) {
+                Log.d(TAG, "calculateDirections: routes: " + result.routes[0].toString());
+                Log.d(TAG, "calculateDirections: duration: " + result.routes[0].legs[0].duration);
+                Log.d(TAG, "calculateDirections: distance: " + result.routes[0].legs[0].distance);
+                Log.d(TAG, "calculateDirections: geocodedWayPoints: " + result.geocodedWaypoints[0].toString());
+                addPolylinesToMap(result);
+            }
+
+            @Override
+            public void onFailure(Throwable e) {
+                Log.e(TAG, "calculateDirections: Failed to get directions: " + e.getMessage() );
+
+            }
+        });
+    }
+
+    private static void addPolylinesToMap(final DirectionsResult result){
+        Log.d(TAG, "addPolylinesToMap: called");
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "run: result routes: " + result.routes.length);
+
+                for(DirectionsRoute route: result.routes){
+                    Log.d(TAG, "run: leg: " + route.legs[0].toString());
+                    List<com.google.maps.model.LatLng> decodedPath = PolylineEncoding.decode(route.overviewPolyline.getEncodedPath());
+
+                    List<LatLng> newDecodedPath = new ArrayList<>();
+
+                    // This loops through all the LatLng coordinates of ONE polyline.
+                    for(com.google.maps.model.LatLng latLng: decodedPath){
+
+//                        Log.d(TAG, "run: latlng: " + latLng.toString());
+
+                        newDecodedPath.add(new LatLng(
+                                latLng.lat,
+                                latLng.lng
+                        ));
+                    }
+                    Polyline polyline = googleMap.addPolyline(new PolylineOptions().addAll(newDecodedPath));
+                    polyline.setColor(Color.RED);
+                    polyline.setClickable(true);
+
+                }
+            }
+        });
     }
 
 }

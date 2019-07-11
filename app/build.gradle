@@ -17,6 +17,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    android {
+        compileOptions {
+            targetCompatibility = "8"
+            sourceCompatibility = "8"
+        }
+    }
+
 }
 
 dependencies {
@@ -33,6 +41,7 @@ dependencies {
     def firebase_auth_version = "18.0.0"
     def google_maps_version = "17.0.0"
     def google_maps_directions_version = "0.9.3"
+    def google_maps_directions_version2 = "1.7.25"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.2'
@@ -101,7 +110,7 @@ dependencies {
 
     // Google Directions
     implementation "com.google.maps:google-maps-services:$google_maps_directions_version"
-    implementation 'org.slf4j:slf4j-simple:1.7.25'
+    implementation "org.slf4j:slf4j-simple:$google_maps_directions_version2"
 
 }
 apply plugin: 'com.google.gms.google-services'
