@@ -22,6 +22,8 @@ public class Constants {
     public static final String AGENTS = "agents";
     public static String CURRENT_USER_ID = "current_user_id";
 
+    public static final String BASE_URL = "https://tinkoffsiriusmobile.firebaseio.com";
+
 
     /**
      * Функция возвращает правильную дату сегодняшнего дня
