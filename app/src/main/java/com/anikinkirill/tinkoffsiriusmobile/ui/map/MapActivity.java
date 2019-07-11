@@ -92,6 +92,9 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
 
         FloatingActionButton logoutButton = findViewById(R.id.logout);
         logoutButton.setOnClickListener(this);
+
+        FloatingActionButton showOtherAgentsButton = findViewById(R.id.showOtherAgents);
+        showOtherAgentsButton.setOnClickListener(this);
     }
 
     private void initViewModel(){
@@ -126,6 +129,10 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
                 Intent authIntent = new Intent(this, AuthActivity.class);
                 startActivity(authIntent);
                 finish();
+                break;
+            }
+            case R.id.showOtherAgents:{
+                // viewmodel logic
                 break;
             }
         }

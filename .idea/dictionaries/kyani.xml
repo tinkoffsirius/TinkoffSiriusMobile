@@ -7,6 +7,7 @@
       <w>rxandroid</w>
       <w>rxcalladapter</w>
       <w>rxjava</w>
+      <w>viewmodel</w>
     </words>
   </dictionary>
 </component>
