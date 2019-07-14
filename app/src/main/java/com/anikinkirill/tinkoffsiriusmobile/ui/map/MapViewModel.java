@@ -39,12 +39,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.maps.DirectionsApiRequest;
+/*import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
 import com.google.maps.PendingResult;
 import com.google.maps.internal.PolylineEncoding;
 import com.google.maps.model.DirectionsResult;
-import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.DirectionsRoute;*/
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,7 +72,7 @@ public class MapViewModel extends ViewModel {
     private static GoogleMap googleMap;
     static Context context;
     static ArrayList<LatLng> coordinates = new ArrayList<>();
-    private static GeoApiContext geoApiContext;
+    //private static GeoApiContext geoApiContext;
 
     @Inject
     public MapViewModel(){
@@ -223,9 +223,9 @@ public class MapViewModel extends ViewModel {
 
     private static void getCurrentUserActivities(final Context context){
 
-        if(geoApiContext == null){
+        /*if(geoApiContext == null){
             geoApiContext = new GeoApiContext.Builder().apiKey(context.getString(R.string.apiKey)).build();
-        }
+        }*/
 
         googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
@@ -264,7 +264,7 @@ public class MapViewModel extends ViewModel {
                     String meetingId = markerTitle.substring(markerTitle.indexOf(":") + 1).trim();
                     Log.d(TAG, "onMarkerClick: " + meetingId);
                     showFinishActivitySheet(meetingId, context);
-                    calculateDirections(marker);
+                    //calculateDirections(marker);
                 }
                 return false;
             }
@@ -398,7 +398,7 @@ public class MapViewModel extends ViewModel {
         dialogFragment.show(((DaggerAppCompatActivity) context).getSupportFragmentManager(), "showFragment");
     }
 
-    private static void calculateDirections(Marker marker){
+    /*private static void calculateDirections(Marker marker){
         Log.d(TAG, "calculateDirections: calculating directions.");
 
         com.google.maps.model.LatLng destination = new com.google.maps.model.LatLng(
@@ -463,6 +463,6 @@ public class MapViewModel extends ViewModel {
                 }
             }
         });
-    }
+    }*/
 
 }
