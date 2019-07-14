@@ -64,7 +64,7 @@ public class HistoryMapActivity extends DaggerAppCompatActivity implements OnMap
 
     @SuppressLint("MissingPermission")
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         this.googleMap=googleMap;
         getRoute();
         showStartCoordinates();
