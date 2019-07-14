@@ -157,9 +157,10 @@ public class HistoryMapActivity extends DaggerAppCompatActivity implements OnMap
                 while(iterator.hasNext()){
                     DataSnapshot activity = iterator.next();
                     Map<String,Double> map=(HashMap<String,Double>) activity.child("coordinates").getValue();
+                    String time=activity.child("time").getValue()+"";
                     Log.e(TAG,map.get("latitude")+"");
                     LatLng position=new LatLng(Double.parseDouble(map.get("latitude")+""),Double.parseDouble(map.get("longitude")+""));
-                    googleMap.addMarker(new MarkerOptions().position(position).icon(greenMarker));
+                    googleMap.addMarker(new MarkerOptions().position(position).icon(greenMarker)).setTitle("Finished at: "+time.replace("_",":"));
                 }
             }
 
