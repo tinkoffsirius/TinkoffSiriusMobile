@@ -36,6 +36,14 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.historyMap.HistoryMapActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.HistoryMapActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDetqZo2pMk1rER15KfYPqGPoUGaxgtwOw"/>
