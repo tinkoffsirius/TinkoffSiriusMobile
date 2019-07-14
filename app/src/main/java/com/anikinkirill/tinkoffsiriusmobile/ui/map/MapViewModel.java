@@ -264,7 +264,6 @@ public class MapViewModel extends ViewModel {
                     String meetingId = markerTitle.substring(markerTitle.indexOf(":") + 1).trim();
                     Log.d(TAG, "onMarkerClick: " + meetingId);
                     showFinishActivitySheet(meetingId, context);
-                    calculateDirections(marker);
                 }
                 return false;
             }

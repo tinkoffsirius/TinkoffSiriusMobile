@@ -144,10 +144,12 @@ public class SenderService extends Service {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<Map<String,String>> arrayList = (ArrayList)dataSnapshot.child(date).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(Constants.HISTORY).getValue();
-                if(arrayList != null){
-                    forSending=arrayList;
-                }
+                try {
+                    ArrayList<Map<String, String>> arrayList = (ArrayList) dataSnapshot.child(date).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(Constants.HISTORY).getValue();
+                    if (arrayList != null) {
+                        forSending = arrayList;
+                    }
+                }catch (Exception e){}
             }
 
             @Override
