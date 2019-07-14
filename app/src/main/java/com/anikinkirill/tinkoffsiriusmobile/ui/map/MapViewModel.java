@@ -126,6 +126,7 @@ public class MapViewModel extends ViewModel {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
+        drawRouteToMeeting();
     }
 
     public static void getRoute(final GoogleMap googleMap){
@@ -357,40 +358,42 @@ public class MapViewModel extends ViewModel {
             @Override
             public void onComplete(@NonNull Task<Location> task) {
                 coordinates.add(new LatLng(task.getResult().getLatitude(),task.getResult().getLongitude()));
-            }
-        });
-        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
-        databaseReference.child(Constants.SOLUTION).child(Constants.AGENTS).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Iterable<DataSnapshot> iterable = dataSnapshot.getChildren();
-                Iterator<DataSnapshot> iterator = iterable.iterator();
-                while(iterator.hasNext()){
-                    DataSnapshot next=iterator.next();
-                    if(next.child("agent").child("id").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0])){
-                        Iterable<DataSnapshot> activities=next.child("activities").getChildren();
-                        Iterator<DataSnapshot> activitiesIterator=activities.iterator();
-                        if(iterator.hasNext()) {
-                            try {
-                                DataSnapshot activity = activitiesIterator.next();
-                                Map<String, String> map = new HashMap<>();
-                                map.put("latitude", activity.child("coordinates").child("latitude").getValue().toString());
-                                map.put("longitude", activity.child("coordinates").child("longitude").getValue().toString());
-                                LatLng position = new LatLng(Double.parseDouble(activity.child("coordinates").child("latitude").getValue().toString()), Double.parseDouble(activity.child("coordinates").child("longitude").getValue().toString()));
-                                DatabaseReference endCoordinates = FirebaseDatabase.getInstance().getReference().child(date).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("end_coordinates");
-                                endCoordinates.setValue(map);
-                                coordinates.add(position);
-                            }catch(Exception e){}
+                Log.e(TAG,"Current position: "+task.getResult().getLatitude()+" "+task.getResult().getLongitude());
+                DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
+                databaseReference.child(Constants.SOLUTION).child(Constants.AGENTS).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Iterable<DataSnapshot> iterable = dataSnapshot.getChildren();
+                        Iterator<DataSnapshot> iterator = iterable.iterator();
+                        while(iterator.hasNext()){
+                            DataSnapshot next=iterator.next();
+                            if(next.child("agent").child("id").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0])){
+                                Iterable<DataSnapshot> activities=next.child("activities").getChildren();
+                                Iterator<DataSnapshot> activitiesIterator=activities.iterator();
+                                if(activitiesIterator.hasNext()) {
+                                    try {
+                                        DataSnapshot activity = activitiesIterator.next();
+                                        Map<String, String> map = new HashMap<>();
+                                        map.put("latitude", activity.child("coordinates").child("latitude").getValue().toString());
+                                        map.put("longitude", activity.child("coordinates").child("longitude").getValue().toString());
+                                        LatLng position = new LatLng(Double.parseDouble(activity.child("coordinates").child("latitude").getValue().toString()), Double.parseDouble(activity.child("coordinates").child("longitude").getValue().toString()));
+                                        DatabaseReference endCoordinates = FirebaseDatabase.getInstance().getReference().child(date).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("end_coordinates");
+                                        endCoordinates.setValue(map);
+                                        coordinates.add(position);
+                                        Log.e(TAG,coordinates.toString());
+                                        PolylineOptions polylineOptions=new PolylineOptions().addAll(coordinates).width(15).color(Color.rgb(255,128,0));
+                                        googleMap.addPolyline(polylineOptions);
+                                    }catch(Exception e){}
+                                }
+                            }
                         }
                     }
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {}
+                });
+            }
         });
-        PolylineOptions polylineOptions=new PolylineOptions().addAll(coordinates).width(15).color(Color.rgb(255,128,0));
-        googleMap.addPolyline(polylineOptions);
     }
 
     private static void showFinishActivitySheet(String meetingId, Context context){
