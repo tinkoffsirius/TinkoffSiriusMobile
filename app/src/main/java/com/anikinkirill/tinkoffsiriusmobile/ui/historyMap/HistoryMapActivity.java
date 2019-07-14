@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 
 import com.anikinkirill.tinkoffsiriusmobile.Constants;
 import com.anikinkirill.tinkoffsiriusmobile.R;
-import com.anikinkirill.tinkoffsiriusmobile.ui.map.MapViewModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
