@@ -181,5 +181,5 @@ public class HistoryMapActivity extends DaggerAppCompatActivity implements OnMap
                 break;
             }
         }
-    }   
+    }
 }
