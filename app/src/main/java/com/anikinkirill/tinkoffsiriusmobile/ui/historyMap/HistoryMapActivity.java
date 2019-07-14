@@ -1,5 +1,6 @@
 package com.anikinkirill.tinkoffsiriusmobile.ui.historyMap;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.Time;
@@ -54,12 +55,15 @@ public class HistoryMapActivity extends DaggerAppCompatActivity implements OnMap
         mapFragment.getMapAsync(this);
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap=googleMap;
         getRoute();
         showStartCoordinates();
         drawFinishedMeetings();
+
+        googleMap.setMyLocationEnabled(true);
     }
 
     public void getRoute(){
