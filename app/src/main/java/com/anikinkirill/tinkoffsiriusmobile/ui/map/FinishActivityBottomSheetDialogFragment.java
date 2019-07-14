@@ -24,7 +24,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -96,6 +101,8 @@ public class FinishActivityBottomSheetDialogFragment extends BottomSheetDialogFr
                         Iterator<DataSnapshot> activitiesIterator=activities.iterator();
                         if(activitiesIterator.hasNext()){
                             DataSnapshot ds=activitiesIterator.next();
+                            DatabaseReference datref=FirebaseDatabase.getInstance().getReference().child(Constants.SOLUTION).child(Constants.AGENTS).child(number+"").child("activities").child(ds.getKey()).child("time");
+                            datref.setValue(time());
                             final DatabaseReference dbr=FirebaseDatabase.getInstance().getReference().child(Constants.SOLUTION).child(Constants.AGENTS).child(number+"").child("activities").child(ds.getKey());
                             dbr.addValueEventListener(new ValueEventListener() {
                                 @Override
@@ -162,5 +169,22 @@ public class FinishActivityBottomSheetDialogFragment extends BottomSheetDialogFr
         }catch(Exception e){
             Log.e("Loading finished","failed"+e.toString());
         }
+    }
+
+    public String time(){
+        String time="";
+        Calendar c=GregorianCalendar.getInstance();
+        Date t=c.getTime();
+        if(t.getHours()<10){
+            time+="0"+t.getHours()+"_";
+        }else{
+            time+=t.getHours()+"_";
+        }
+        if(t.getMinutes()<10){
+            time+="0"+t.getMinutes();
+        }else{
+            time+=t.getMinutes();
+        }
+        return  time;
     }
 }
