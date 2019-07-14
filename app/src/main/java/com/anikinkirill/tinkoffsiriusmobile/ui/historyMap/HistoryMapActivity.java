@@ -6,6 +6,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,7 +47,7 @@ import dagger.android.support.DaggerAppCompatActivity;
  * CREATED BY ANIKINKIRILL
  */
 
-public class HistoryMapActivity extends DaggerAppCompatActivity implements OnMapReadyCallback {
+public class HistoryMapActivity extends DaggerAppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
     private GoogleMap googleMap;
     private static final String TAG="HistoryMap";
@@ -60,6 +62,9 @@ public class HistoryMapActivity extends DaggerAppCompatActivity implements OnMap
     private void init(){
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        FloatingActionButton backToMainMap = findViewById(R.id.backToMainMap);
+        backToMainMap.setOnClickListener(this);
     }
 
     @SuppressLint("MissingPermission")
@@ -167,4 +172,14 @@ public class HistoryMapActivity extends DaggerAppCompatActivity implements OnMap
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.backToMainMap:{
+                finish();
+                break;
+            }
+        }
+    }   
 }
