@@ -22,6 +22,7 @@ import com.anikinkirill.tinkoffsiriusmobile.ui.historyMap.HistoryMapActivity;
 import com.anikinkirill.tinkoffsiriusmobile.viewmodel.ViewModelProviderFactory;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -116,6 +117,7 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
 
         viewModel.showStartCoordinates();
 
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
@@ -123,6 +125,19 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
         }
 
         googleMap.setMyLocationEnabled(true);
+
+        FusedLocationProviderClient fusedLocation = LocationServices.getFusedLocationProviderClient(this);
+
+        fusedLocation.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                if(task.isSuccessful()){
+                    LatLng latLng = new LatLng(task.getResult().getLatitude(), task.getResult().getLongitude());
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 14);
+                    googleMap.animateCamera(cameraUpdate);
+                }
+            }
+        });
 
     }
 

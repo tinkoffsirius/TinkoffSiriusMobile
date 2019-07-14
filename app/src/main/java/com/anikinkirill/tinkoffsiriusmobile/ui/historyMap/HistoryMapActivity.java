@@ -2,6 +2,7 @@ package com.anikinkirill.tinkoffsiriusmobile.ui.historyMap;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
@@ -12,6 +13,10 @@ import androidx.annotation.Nullable;
 import com.anikinkirill.tinkoffsiriusmobile.Constants;
 import com.anikinkirill.tinkoffsiriusmobile.R;
 import com.anikinkirill.tinkoffsiriusmobile.ui.map.MapViewModel;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -20,6 +25,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -64,6 +71,19 @@ public class HistoryMapActivity extends DaggerAppCompatActivity implements OnMap
         drawFinishedMeetings();
 
         googleMap.setMyLocationEnabled(true);
+
+        FusedLocationProviderClient fusedLocation = LocationServices.getFusedLocationProviderClient(this);
+
+        fusedLocation.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                if(task.isSuccessful()){
+                    LatLng latLng = new LatLng(task.getResult().getLatitude(), task.getResult().getLongitude());
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 14);
+                    googleMap.animateCamera(cameraUpdate);
+                }
+            }
+        });
     }
 
     public void getRoute(){
