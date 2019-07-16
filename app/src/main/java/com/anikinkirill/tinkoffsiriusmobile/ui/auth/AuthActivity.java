@@ -230,7 +230,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
 
     private void checkDevicePermissions(){
         Log.d(TAG, "checkDevicePermissions: called");
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_DENIED
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
             || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             requestLocationPermissions();
         }
@@ -239,7 +239,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     private void requestLocationPermissions(){
         if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)
             || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
-            final AlertDialog alertDialog = new AlertDialog.Builder(this)
+            final AlertDialog alertDialog = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_DARK)
                     .setTitle("Locations Permissions")
                     .setMessage("This permissions are needed for getting your location on the map")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
