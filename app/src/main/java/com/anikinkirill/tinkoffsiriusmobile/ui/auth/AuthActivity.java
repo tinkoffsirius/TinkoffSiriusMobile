@@ -9,14 +9,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,6 +39,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.security.Permission;
 import java.security.Permissions;
 
@@ -61,6 +67,8 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     private EditText userPassword;
     private Button authUserButton;
     private RelativeLayout relativeLayout;
+    private Switch switchDark;
+    private TextView appName;
 
     // Vars
     private AuthViewModel viewModel;
@@ -101,12 +109,101 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
         userLogin = findViewById(R.id.userLogin);
         userPassword = findViewById(R.id.userPassword);
         authUserButton = findViewById(R.id.signInButton);
+        switchDark=(Switch) findViewById(R.id.switchDark);
+        appName=(TextView) findViewById(R.id.appName);
+
+        if(getColorTheme().equals(Constants.DARK_COLOR_THEME)){
+            relativeLayout.setBackgroundColor(Color.parseColor(Constants.DARK_BACK_COLOR));
+            userLogin.setBackgroundColor(Color.parseColor(Constants.DARK_BACK_COLOR));
+            userLogin.setHintTextColor(Color.parseColor(Constants.DARK_HINT_COLOR));
+            userLogin.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
+            userLogin.setHighlightColor(getResources().getColor(R.color.colorAccent));
+            userPassword.setBackgroundColor(Color.parseColor(Constants.DARK_BACK_COLOR));
+            userPassword.setHintTextColor(Color.parseColor(Constants.DARK_HINT_COLOR));
+            userPassword.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
+            userPassword.setHighlightColor(getResources().getColor(R.color.colorAccent));
+            switchDark.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
+            authUserButton.setBackgroundColor(Color.parseColor(Constants.DARK_BACK_COLOR));
+            authUserButton.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
+            appName.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
+            saveColorTheme(Constants.DARK_COLOR_THEME);
+            switchDark.setChecked(true);
+        }else{
+            relativeLayout.setBackgroundColor(Color.parseColor(Constants.LIGHT_BACK_COLOR));
+            userLogin.setBackgroundColor(Color.parseColor(Constants.LIGHT_BACK_COLOR));
+            userLogin.setHintTextColor(Color.parseColor(Constants.LIGHT_HINT_COLOR));
+            userLogin.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
+            userLogin.setHighlightColor(getResources().getColor(R.color.colorAccent));
+            userPassword.setBackgroundColor(Color.parseColor(Constants.LIGHT_BACK_COLOR));
+            userPassword.setHintTextColor(Color.parseColor(Constants.LIGHT_HINT_COLOR));
+            userPassword.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
+            userPassword.setHighlightColor(getResources().getColor(R.color.colorAccent));
+            switchDark.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
+            authUserButton.setBackgroundColor(Color.parseColor(Constants.LIGHT_BACK_COLOR));
+            authUserButton.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
+            appName.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
+            saveColorTheme(Constants.LIGHT_COLOR_THEME);
+            switchDark.setChecked(false);
+        }
+
+        switchDark.setOnCheckedChangeListener((compoundButton, b) -> {
+            if(b){
+                relativeLayout.setBackgroundColor(Color.parseColor(Constants.DARK_BACK_COLOR));
+                userLogin.setBackgroundColor(Color.parseColor(Constants.DARK_BACK_COLOR));
+                userLogin.setHintTextColor(Color.parseColor(Constants.DARK_HINT_COLOR));
+                userLogin.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
+                userLogin.setHighlightColor(getResources().getColor(R.color.colorAccent));
+                userPassword.setBackgroundColor(Color.parseColor(Constants.DARK_BACK_COLOR));
+                userPassword.setHintTextColor(Color.parseColor(Constants.DARK_HINT_COLOR));
+                userPassword.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
+                userPassword.setHighlightColor(getResources().getColor(R.color.colorAccent));
+                switchDark.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
+                authUserButton.setBackgroundColor(Color.parseColor(Constants.DARK_BACK_COLOR));
+                authUserButton.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
+                appName.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
+                saveColorTheme(Constants.DARK_COLOR_THEME);
+            }else{
+                relativeLayout.setBackgroundColor(Color.parseColor(Constants.LIGHT_BACK_COLOR));
+                userLogin.setBackgroundColor(Color.parseColor(Constants.LIGHT_BACK_COLOR));
+                userLogin.setHintTextColor(Color.parseColor(Constants.LIGHT_HINT_COLOR));
+                userLogin.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
+                userLogin.setHighlightColor(getResources().getColor(R.color.colorAccent));
+                userPassword.setBackgroundColor(Color.parseColor(Constants.LIGHT_BACK_COLOR));
+                userPassword.setHintTextColor(Color.parseColor(Constants.LIGHT_HINT_COLOR));
+                userPassword.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
+                userPassword.setHighlightColor(getResources().getColor(R.color.colorAccent));
+                switchDark.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
+                authUserButton.setBackgroundColor(Color.parseColor(Constants.LIGHT_BACK_COLOR));
+                authUserButton.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
+                appName.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
+                saveColorTheme(Constants.LIGHT_COLOR_THEME);
+            }
+        });
 
         authUserButton.setOnClickListener(this);
     }
 
     private void initViewModel(){
         viewModel = ViewModelProviders.of(this, providerFactory).get(AuthViewModel.class);
+    }
+
+    private void saveColorTheme(String colorTheme){
+        try{
+            FileOutputStream fos=new FileOutputStream(getCacheDir().toString()+"theme");
+            fos.write(colorTheme.getBytes());
+            fos.close();
+        }catch(Exception e){}
+    }
+
+    private String getColorTheme(){
+        String theme="light";
+        try{
+            FileInputStream fis=new FileInputStream(getCacheDir().toString()+"theme");
+            byte[] b=new byte[fis.available()];
+            fis.read(b);
+            theme=new String(b);
+        }catch(Exception e){}
+        return theme;
     }
 
     @Override

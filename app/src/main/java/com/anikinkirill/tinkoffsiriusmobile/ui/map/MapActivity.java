@@ -15,6 +15,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.anikinkirill.tinkoffsiriusmobile.Constants;
 import com.anikinkirill.tinkoffsiriusmobile.R;
 import com.anikinkirill.tinkoffsiriusmobile.services.SenderService;
 import com.anikinkirill.tinkoffsiriusmobile.ui.auth.AuthActivity;
@@ -29,6 +30,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,6 +43,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -102,12 +105,23 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
     private void initViewModel(){
         viewModel = ViewModelProviders.of(this, providerFactory).get(MapViewModel.class);
         viewModel.context=getApplicationContext();
+        viewModel.theme=getColorTheme();
+    }
+
+    public String getColorTheme(){
+        String colorTheme="light";
+        try{
+            FileInputStream fis=new FileInputStream(getCacheDir().toString());
+        }catch(Exception e){}
+        return colorTheme;
     }
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         Log.d(TAG, "onMapReady: called");
         this.googleMap = googleMap;
+
+        setMapStyle();
 
         viewModel.getRoute(googleMap);
 
@@ -160,5 +174,18 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
                 break;
             }
         }
+    }
+
+    private void setMapStyle(){
+        try{
+            FileInputStream fis=new FileInputStream(getCacheDir().toString()+"theme");
+            byte[] b=new byte[fis.available()];
+            fis.read(b);
+            fis.close();
+            String theme=new String(b);
+            if(theme.equals(Constants.DARK_COLOR_THEME)){
+                googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getApplicationContext(),R.raw.style));
+            }
+        }catch(Exception e){}
     }
 }

@@ -1,5 +1,6 @@
 package com.anikinkirill.tinkoffsiriusmobile.ui.map;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
@@ -24,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.FileInputStream;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -45,6 +47,7 @@ public class FinishActivityBottomSheetDialogFragment extends BottomSheetDialogFr
     private String meetingId;
     private static ArrayList<Object> finishedActivities=new ArrayList<>();
     private static boolean flag;
+    public String colorTheme="";
 
     public FinishActivityBottomSheetDialogFragment(String meetingId) {
         this.meetingId = meetingId;
@@ -66,6 +69,14 @@ public class FinishActivityBottomSheetDialogFragment extends BottomSheetDialogFr
         finishActivity = view.findViewById(R.id.finishActivity);
 
         finishActivity.setOnClickListener(this);
+
+        if(colorTheme.equals(Constants.DARK_COLOR_THEME)){
+            finishActivity.setBackgroundColor(Color.parseColor(Constants.DARK_BACK_COLOR));
+            finishActivity.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
+        }else{
+            finishActivity.setBackgroundColor(Color.parseColor(Constants.LIGHT_BACK_COLOR));
+            finishActivity.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
+        }
     }
 
     @Override

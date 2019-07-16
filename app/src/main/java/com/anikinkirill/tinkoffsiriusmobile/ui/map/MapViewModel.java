@@ -46,6 +46,7 @@ import com.google.maps.internal.PolylineEncoding;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DirectionsRoute;*/
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -70,6 +71,7 @@ public class MapViewModel extends ViewModel {
     private static ArrayList<String> others=new ArrayList<>();
     private static ArrayList<LatLng> meetings=new ArrayList<>();
     private static GoogleMap googleMap;
+    public static String theme;
     static Context context;
     static ArrayList<LatLng> coordinates = new ArrayList<>();
     //private static GeoApiContext geoApiContext;
@@ -264,7 +266,7 @@ public class MapViewModel extends ViewModel {
                     // this marker is a meeting
                     String meetingId = markerTitle.substring(markerTitle.indexOf(":") + 1).trim();
                     Log.d(TAG, "onMarkerClick: " + meetingId);
-                    showFinishActivitySheet(meetingId, context);
+                    showFinishActivitySheet(meetingId, context, theme);
                     //calculateDirections(marker);
                 }
                 return false;
@@ -396,8 +398,9 @@ public class MapViewModel extends ViewModel {
         });
     }
 
-    private static void showFinishActivitySheet(String meetingId, Context context){
+    private static void showFinishActivitySheet(String meetingId, Context context, String theme){
         FinishActivityBottomSheetDialogFragment dialogFragment = new FinishActivityBottomSheetDialogFragment(meetingId);
+        dialogFragment.colorTheme=theme;
         dialogFragment.show(((DaggerAppCompatActivity) context).getSupportFragmentManager(), "showFragment");
     }
 
