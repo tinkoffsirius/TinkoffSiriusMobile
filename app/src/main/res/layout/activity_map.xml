@@ -24,6 +24,16 @@
         android:layout_marginEnd="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/profile"
+        android:src="@drawable/profile_floating_button"
+        android:backgroundTint="@android:color/white"
+        app:borderWidth="0dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="200dp"
+        android:layout_marginEnd="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <fragment
         android:id="@+id/map"

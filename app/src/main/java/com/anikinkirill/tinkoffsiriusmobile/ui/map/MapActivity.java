@@ -21,6 +21,7 @@ import com.anikinkirill.tinkoffsiriusmobile.R;
 import com.anikinkirill.tinkoffsiriusmobile.services.SenderService;
 import com.anikinkirill.tinkoffsiriusmobile.ui.auth.AuthActivity;
 import com.anikinkirill.tinkoffsiriusmobile.ui.historyMap.HistoryMapActivity;
+import com.anikinkirill.tinkoffsiriusmobile.ui.profile.ProfileActivity;
 import com.anikinkirill.tinkoffsiriusmobile.viewmodel.ViewModelProviderFactory;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -101,6 +102,9 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
 
         FloatingActionButton historyMap = findViewById(R.id.historyMap);
         historyMap.setOnClickListener(this);
+
+        FloatingActionButton profile = findViewById(R.id.profile);
+        profile.setOnClickListener(this);
     }
 
     private void initViewModel(){
@@ -172,6 +176,11 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
             case R.id.historyMap:{
                 Intent historyMapIntent = new Intent(this, HistoryMapActivity.class);
                 startActivity(historyMapIntent);
+                break;
+            }
+            case R.id.profile:{
+                Intent profileIntent = new Intent(this, ProfileActivity.class);
+                startActivity(profileIntent);
                 break;
             }
         }
