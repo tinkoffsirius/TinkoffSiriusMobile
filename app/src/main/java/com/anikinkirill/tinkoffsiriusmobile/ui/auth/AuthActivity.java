@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
@@ -27,7 +26,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.PermissionChecker;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.anikinkirill.tinkoffsiriusmobile.Constants;
@@ -41,8 +39,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.security.Permission;
-import java.security.Permissions;
 
 import javax.inject.Inject;
 
@@ -239,7 +235,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     private void requestLocationPermissions(){
         if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)
             || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
-            final AlertDialog alertDialog = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_DARK)
+            final AlertDialog alertDialog = new AlertDialog.Builder(this)
                     .setTitle("Locations Permissions")
                     .setMessage("This permissions are needed for getting your location on the map")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -282,17 +278,28 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     }
 
     private void buildAlertMessageNoGps() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("This application requires GPS to work properly, do you want to enable it?")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        Intent enableGpsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivityForResult(enableGpsIntent, PERMISSIONS_REQUEST_ENABLE_GPS);
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
+        if(getColorTheme().equals(Constants.LIGHT_COLOR_THEME)) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setView(R.layout.custom_alertdialog_light);
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                    Intent enableGpsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivityForResult(enableGpsIntent, PERMISSIONS_REQUEST_ENABLE_GPS);
+                }
+            });
+            builder.show();
+        }else{
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setView(R.layout.custom_alertdialog_dark);
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                    Intent enableGpsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivityForResult(enableGpsIntent, PERMISSIONS_REQUEST_ENABLE_GPS);
+                }
+            });
+            AlertDialog alertDialog = builder.show();
+            alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.back));
+        }
     }
 
     public boolean isMapsEnabled(){
