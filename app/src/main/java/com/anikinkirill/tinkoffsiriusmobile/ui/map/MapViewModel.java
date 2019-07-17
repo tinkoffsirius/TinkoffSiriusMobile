@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -71,7 +72,7 @@ public class MapViewModel extends ViewModel {
     private static ArrayList<String> others=new ArrayList<>();
     private static ArrayList<LatLng> meetings=new ArrayList<>();
     private static GoogleMap googleMap;
-    public static String theme;
+    static String theme;
     static Context context;
     static ArrayList<LatLng> coordinates = new ArrayList<>();
     //private static GeoApiContext geoApiContext;
@@ -81,6 +82,7 @@ public class MapViewModel extends ViewModel {
         if(date.equals("")) {
             setDate();
         }
+        //Log.e(TAG,theme);
     }
 
     public void setDate(){
@@ -261,14 +263,16 @@ public class MapViewModel extends ViewModel {
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                String markerTitle = marker.getTitle();
-                if(markerTitle.contains("Id")){
-                    // this marker is a meeting
-                    String meetingId = markerTitle.substring(markerTitle.indexOf(":") + 1).trim();
-                    Log.d(TAG, "onMarkerClick: " + meetingId);
-                    showFinishActivitySheet(meetingId, context, theme);
-                    //calculateDirections(marker);
-                }
+                try {
+                    String markerTitle = marker.getTitle();
+                    if (markerTitle.contains("Id")) {
+                        // this marker is a meeting
+                        String meetingId = markerTitle.substring(markerTitle.indexOf(":") + 1).trim();
+                        Log.d(TAG, "onMarkerClick: " + meetingId);
+                        showFinishActivitySheet(meetingId, context, theme);
+                        //calculateDirections(marker);
+                    }
+                }catch(Exception e){}
                 return false;
             }
         });
@@ -400,7 +404,6 @@ public class MapViewModel extends ViewModel {
 
     private static void showFinishActivitySheet(String meetingId, Context context, String theme){
         FinishActivityBottomSheetDialogFragment dialogFragment = new FinishActivityBottomSheetDialogFragment(meetingId);
-        dialogFragment.colorTheme=theme;
         dialogFragment.show(((DaggerAppCompatActivity) context).getSupportFragmentManager(), "showFragment");
     }
 

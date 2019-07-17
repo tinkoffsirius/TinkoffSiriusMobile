@@ -47,7 +47,7 @@ public class FinishActivityBottomSheetDialogFragment extends BottomSheetDialogFr
     private String meetingId;
     private static ArrayList<Object> finishedActivities=new ArrayList<>();
     private static boolean flag;
-    public String colorTheme="";
+    public String cacheDir="/data/user/0/com.anikinkirill.tinkoffsiriusmobile/cache";
 
     public FinishActivityBottomSheetDialogFragment(String meetingId) {
         this.meetingId = meetingId;
@@ -70,7 +70,7 @@ public class FinishActivityBottomSheetDialogFragment extends BottomSheetDialogFr
 
         finishActivity.setOnClickListener(this);
 
-        if(colorTheme.equals(Constants.DARK_COLOR_THEME)){
+        if(getColorTheme().equals(Constants.DARK_COLOR_THEME)){
             finishActivity.setBackgroundColor(Color.parseColor(Constants.DARK_BACK_COLOR));
             finishActivity.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
         }else{
@@ -197,5 +197,19 @@ public class FinishActivityBottomSheetDialogFragment extends BottomSheetDialogFr
             time+=t.getMinutes();
         }
         return  time;
+    }
+
+    public String getColorTheme(){
+        String theme="light";
+        try{
+            FileInputStream fis=new FileInputStream(cacheDir+"theme");
+            byte[] b=new byte[fis.available()];
+            fis.read(b);
+            fis.close();
+            theme=new String(b);
+        }catch(Exception e){
+            Log.e("Failed to get theme",e+"");
+        }
+        return theme;
     }
 }
