@@ -35,6 +35,7 @@ public class AuthViewModel extends ViewModel {
     private RelativeLayout view;
     private String date = "";
     private String login;
+    private int clickNumber=0;
 
     @Inject
     public AuthViewModel(){
@@ -59,8 +60,9 @@ public class AuthViewModel extends ViewModel {
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if(task.isSuccessful() && clickNumber==0){
                     Log.d(TAG, "onComplete: user created account");
+                    clickNumber++;
                     goToMainActivity();
                 }else if(task.getException() instanceof FirebaseAuthUserCollisionException){
                     Log.d(TAG, "onComplete: user's been already created");

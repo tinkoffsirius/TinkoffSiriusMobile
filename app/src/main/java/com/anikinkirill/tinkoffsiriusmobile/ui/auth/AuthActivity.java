@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.LocationManager;
@@ -68,7 +69,6 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
 
     // Vars
     private AuthViewModel viewModel;
-    private int numberClicks=0;
     private static final int REQUEST_LOCATION_PERMISSIONS_CODE = 1;
     public static final int ERROR_DIALOG_REQUEST = 9001;
     public static final int PERMISSIONS_REQUEST_ENABLE_GPS = 9003;
@@ -77,6 +77,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_signin);
 
         if(checkMapServices()){
@@ -207,7 +208,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.signInButton:{
-                if(numberClicks==0) {
+                if(!userPassword.getText().toString().equals("") && !userLogin.getText().toString().equals("")) {
                     viewModel.signInUser(userLogin.getText().toString().trim(), userPassword.getText().toString().trim(), relativeLayout);
 
                     SharedPreferences sharedPreferences = getSharedPreferences(Constants.CONSTANTS, MODE_PRIVATE);
@@ -216,8 +217,6 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
                     editor.apply();
 
                     hideSoftKeyboard(this, view);
-
-                    numberClicks++;
                 }
                 break;
             }

@@ -1,6 +1,7 @@
 package com.anikinkirill.tinkoffsiriusmobile.ui.historyMap;
 
 import android.annotation.SuppressLint;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -56,6 +57,7 @@ public class HistoryMapActivity extends DaggerAppCompatActivity implements OnMap
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_historymap);
         init();
     }
