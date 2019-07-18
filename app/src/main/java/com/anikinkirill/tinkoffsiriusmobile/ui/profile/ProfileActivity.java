@@ -340,6 +340,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
         if(colorTheme().equals(Constants.LIGHT_COLOR_THEME)){
+            ad.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.back_light));
             if(startLat!=null) {
                 startLat.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
                 startLon.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));

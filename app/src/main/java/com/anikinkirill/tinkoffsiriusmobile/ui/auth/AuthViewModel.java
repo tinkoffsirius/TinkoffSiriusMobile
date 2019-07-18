@@ -54,20 +54,21 @@ public class AuthViewModel extends ViewModel {
      */
 
     public void signInUser(String login, final String password, final RelativeLayout view){
+        clickNumber++;
         this.view = view;
         this.login = login;
         final String email = login + "@mail.ru";
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful() && clickNumber==0){
+                if(task.isSuccessful()){
                     Log.d(TAG, "onComplete: user created account");
-                    clickNumber++;
                     goToMainActivity();
                 }else if(task.getException() instanceof FirebaseAuthUserCollisionException){
                     Log.d(TAG, "onComplete: user's been already created");
                     authUser(email, password);
                 }else if(!task.isSuccessful()){
+                    clickNumber--;
                     Log.d(TAG, "onComplete: error while signing in : " + task.getException().getMessage());
                     Snackbar.make(view, task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
                 }
@@ -85,10 +86,11 @@ public class AuthViewModel extends ViewModel {
      */
 
     private void authUser(String email, String password){
+        clickNumber++;
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if(task.isSuccessful()) {
                     Log.d(TAG, "onComplete: user logged in successfully");
                     Snackbar.make(view, "User has logged in", Snackbar.LENGTH_LONG).show();
                     goToMainActivity();

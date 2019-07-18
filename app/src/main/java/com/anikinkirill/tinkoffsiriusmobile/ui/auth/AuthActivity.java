@@ -210,6 +210,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
             case R.id.signInButton:{
                 if(!userPassword.getText().toString().equals("") && !userLogin.getText().toString().equals("")) {
                     viewModel.signInUser(userLogin.getText().toString().trim(), userPassword.getText().toString().trim(), relativeLayout);
+                    Button signInButton=findViewById(R.id.signInButton);
 
                     SharedPreferences sharedPreferences = getSharedPreferences(Constants.CONSTANTS, MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();

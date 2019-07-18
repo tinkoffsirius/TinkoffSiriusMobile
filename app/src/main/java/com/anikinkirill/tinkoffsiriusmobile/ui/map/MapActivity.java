@@ -50,6 +50,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -85,6 +86,14 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try {
+            FileOutputStream fos = new FileOutputStream(getCacheDir() + "/logged");
+            fos.write("in".getBytes());
+            fos.flush();
+            fos.close();
+        }catch(Exception e){
+            Log.e(TAG,e+"");
+        }
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         startService();
         setContentView(R.layout.activity_map);
@@ -178,6 +187,14 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.logout:{
+                try {
+                    FileOutputStream fos = new FileOutputStream(getCacheDir() + "/logged");
+                    fos.write("out".getBytes());
+                    fos.flush();
+                    fos.close();
+                }catch(Exception e){
+                    Log.e(TAG,e+"");
+                }
                 Intent intent = new Intent(this, SenderService.class);
                 stopService(intent);
 
@@ -220,84 +237,99 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
         @Override
         public void run() {
             while(true) {
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                databaseReference.child(Constants.SOLUTION).child(Constants.AGENTS).addValueEventListener(new ValueEventListener() {
-                    @SuppressLint("MissingPermission")
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Iterable<DataSnapshot> iterable = dataSnapshot.getChildren();
-                        Iterator<DataSnapshot> iterator = iterable.iterator();
-                        while (iterator.hasNext()) {
-                            DataSnapshot next = iterator.next();
-                            if (next.child("agent").child("id").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0])) {
-                                Iterable<DataSnapshot> activities = next.child("activities").getChildren();
-                                Iterator<DataSnapshot> activitiesIterator = activities.iterator();
-                                if (activitiesIterator.hasNext()) {
-                                    DataSnapshot a = activitiesIterator.next();
-                                    DataSnapshot activity = a.child("dueTimeSeconds");
-                                    Double lat = Double.parseDouble(a.child("coordinates").child("latitude").getValue() + "");
-                                    Double lon = Double.parseDouble(a.child("coordinates").child("longitude").getValue() + "");
-                                    String time = (Integer.parseInt(activity.getValue().toString() + "")) / 3600 + ":" + (Integer.parseInt(activity.getValue() + "")) % 3600 / 60;
-                                    Log.e("End time", time);
-                                    endTime = time;
-                                    fusedLocation.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Location> task) {
-                                            double lat2 = task.getResult().getLatitude();
-                                            double lon2 = task.getResult().getLongitude();
-                                            double res = calculateDistanse(lat, lat2, lon, lon2);
-                                            double lateTime = res / 6.0 * 60;
-                                            Log.e("Time minutes", lateTime + "");
-                                            Date d = new Date();
-                                            double minutes = d.getMinutes() + lateTime;
-                                            double hours = minutes / 60;
-                                            minutes %= 60;
-                                            String arrivalTime = (int) (d.getHours() + hours) + ":" + (int) (minutes);
-                                            Log.e("Arrival time", arrivalTime + "");
-                                            if (Integer.parseInt(arrivalTime.split(":")[0]) < Integer.parseInt(time.split(":")[0])) {
-                                                runOnUiThread(new Runnable() {
+                try{
+                    FileInputStream fis=new FileInputStream(getCacheDir()+"/logged");
+                    byte[] b=new byte[fis.available()];
+                    fis.read(b);
+                    fis.close();
+                    String r=new String(b);
+                    if(r.length()==2){
+                        try {
+                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                            databaseReference.child(Constants.SOLUTION).child(Constants.AGENTS).addValueEventListener(new ValueEventListener() {
+                                @SuppressLint("MissingPermission")
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    Iterable<DataSnapshot> iterable = dataSnapshot.getChildren();
+                                    Iterator<DataSnapshot> iterator = iterable.iterator();
+                                    while (iterator.hasNext()) {
+                                        DataSnapshot next = iterator.next();
+                                        if (next.child("agent").child("id").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0])) {
+                                            Iterable<DataSnapshot> activities = next.child("activities").getChildren();
+                                            Iterator<DataSnapshot> activitiesIterator = activities.iterator();
+                                            if (activitiesIterator.hasNext()) {
+                                                DataSnapshot a = activitiesIterator.next();
+                                                DataSnapshot activity = a.child("dueTimeSeconds");
+                                                Double lat = Double.parseDouble(a.child("coordinates").child("latitude").getValue() + "");
+                                                Double lon = Double.parseDouble(a.child("coordinates").child("longitude").getValue() + "");
+                                                String time = (Integer.parseInt(activity.getValue().toString() + "")) / 3600 + ":" + (Integer.parseInt(activity.getValue() + "")) % 3600 / 60;
+                                                Log.e("End time", time);
+                                                endTime = time;
+                                                fusedLocation.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                                                     @Override
-                                                    public void run() {
-                                                        textLate.setVisibility(View.GONE);
-                                                    }
-                                                });
-                                            } else if (Integer.parseInt(arrivalTime.split(":")[0]) == Integer.parseInt(time.split(":")[0])) {
-                                                if (Integer.parseInt(arrivalTime.split(":")[1]) < Integer.parseInt(time.split(":")[1])) {
-                                                    runOnUiThread(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            textLate.setVisibility(View.GONE);
+                                                    public void onComplete(@NonNull Task<Location> task) {
+                                                        double lat2 = task.getResult().getLatitude();
+                                                        double lon2 = task.getResult().getLongitude();
+                                                        double res = calculateDistanse(lat, lat2, lon, lon2);
+                                                        double lateTime = res / 6.0 * 60;
+                                                        Log.e("Time minutes", lateTime + "");
+                                                        Date d = new Date();
+                                                        double minutes = d.getMinutes() + lateTime;
+                                                        double hours = minutes / 60;
+                                                        minutes %= 60;
+                                                        String arrivalTime = (int) (d.getHours() + hours) + ":" + (int) (minutes);
+                                                        Log.e("Arrival time", arrivalTime + "");
+                                                        if (Integer.parseInt(arrivalTime.split(":")[0]) < Integer.parseInt(time.split(":")[0])) {
+                                                            runOnUiThread(new Runnable() {
+                                                                @Override
+                                                                public void run() {
+                                                                    textLate.setVisibility(View.GONE);
+                                                                }
+                                                            });
+                                                        } else if (Integer.parseInt(arrivalTime.split(":")[0]) == Integer.parseInt(time.split(":")[0])) {
+                                                            if (Integer.parseInt(arrivalTime.split(":")[1]) < Integer.parseInt(time.split(":")[1])) {
+                                                                runOnUiThread(new Runnable() {
+                                                                    @Override
+                                                                    public void run() {
+                                                                        textLate.setVisibility(View.GONE);
+                                                                    }
+                                                                });
+                                                            } else {
+                                                                runOnUiThread(new Runnable() {
+                                                                    @Override
+                                                                    public void run() {
+                                                                        textLate.setVisibility(View.VISIBLE);
+                                                                    }
+                                                                });
+                                                            }
+                                                        } else {
+                                                            runOnUiThread(new Runnable() {
+                                                                @Override
+                                                                public void run() {
+                                                                    textLate.setVisibility(View.VISIBLE);
+                                                                }
+                                                            });
                                                         }
-                                                    });
-                                                } else {
-                                                    runOnUiThread(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            textLate.setVisibility(View.VISIBLE);
-                                                        }
-                                                    });
-                                                }
-                                            } else {
-                                                runOnUiThread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        textLate.setVisibility(View.VISIBLE);
                                                     }
                                                 });
                                             }
                                         }
-                                    });
+                                    }
                                 }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                }
+                            });
+                            try {
+                                sleep(2000);
+                            } catch (Exception e) {
+                                Log.e(TAG, e + "");
                             }
+                        }catch(Exception e){
+                            Log.e(TAG,e+"");
                         }
                     }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
-                try {
-                    sleep(2000);
                 }catch(Exception e){
                     Log.e(TAG,e+"");
                 }
