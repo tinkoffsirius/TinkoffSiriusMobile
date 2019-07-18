@@ -3,6 +3,7 @@ package com.anikinkirill.tinkoffsiriusmobile.ui.auth;
 import android.content.Intent;
 import android.text.format.Time;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
 import com.anikinkirill.tinkoffsiriusmobile.Constants;
+import com.anikinkirill.tinkoffsiriusmobile.R;
 import com.anikinkirill.tinkoffsiriusmobile.services.SenderService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,6 +21,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.io.FileOutputStream;
 
 import javax.inject.Inject;
 
@@ -62,12 +66,30 @@ public class AuthViewModel extends ViewModel {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
+                    try {
+                        Button signIn = (Button) view.findViewById(R.id.signInButton);
+                        signIn.setClickable(false);
+                        FileOutputStream fos = new FileOutputStream("/data/user/0/com.anikinkirill.tinkoffsiriusmobile/cache/unblock");
+                        fos.write("blocked".getBytes());
+                        fos.close();
+                    }catch(Exception e){
+                        Log.e(TAG,e+"");
+                    }
                     Log.d(TAG, "onComplete: user created account");
                     goToMainActivity();
                 }else if(task.getException() instanceof FirebaseAuthUserCollisionException){
                     Log.d(TAG, "onComplete: user's been already created");
                     authUser(email, password);
                 }else if(!task.isSuccessful()){
+                    try {
+                        Button signIn = (Button) view.findViewById(R.id.signInButton);
+                        signIn.setClickable(false);
+                        FileOutputStream fos = new FileOutputStream("/data/user/0/com.anikinkirill.tinkoffsiriusmobile/cache/unblock");
+                        fos.write("unblocked".getBytes());
+                        fos.close();
+                    }catch(Exception e){
+                        Log.e(TAG,e+"");
+                    }
                     clickNumber--;
                     Log.d(TAG, "onComplete: error while signing in : " + task.getException().getMessage());
                     Snackbar.make(view, task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
@@ -86,11 +108,19 @@ public class AuthViewModel extends ViewModel {
      */
 
     private void authUser(String email, String password){
-        clickNumber++;
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
+                    try {
+                        Button signIn = (Button) view.findViewById(R.id.signInButton);
+                        signIn.setClickable(false);
+                        FileOutputStream fos = new FileOutputStream("/data/user/0/com.anikinkirill.tinkoffsiriusmobile/cache/unblock");
+                        fos.write("blocked".getBytes());
+                        fos.close();
+                    }catch(Exception e){
+                        Log.e(TAG,e+"");
+                    }
                     Log.d(TAG, "onComplete: user logged in successfully");
                     Snackbar.make(view, "User has logged in", Snackbar.LENGTH_LONG).show();
                     goToMainActivity();
@@ -98,6 +128,15 @@ public class AuthViewModel extends ViewModel {
                 if(!task.isSuccessful()){
                     Log.d(TAG, "onComplete: user's credentials're incorrect");
                     Snackbar.make(view, "Login or password is incorrect", Snackbar.LENGTH_LONG).show();
+                    try {
+                        Button signIn = (Button) view.findViewById(R.id.signInButton);
+                        signIn.setClickable(false);
+                        FileOutputStream fos = new FileOutputStream("/data/user/0/com.anikinkirill.tinkoffsiriusmobile/cache/unblock");
+                        fos.write("unblocked".getBytes());
+                        fos.close();
+                    }catch(Exception e){
+                        Log.e(TAG,e+"");
+                    }
                 }
             }
         });

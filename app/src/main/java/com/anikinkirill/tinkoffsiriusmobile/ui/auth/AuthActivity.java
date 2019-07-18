@@ -100,6 +100,8 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
             startActivity(mapIntent);
         }
 
+        Unblocker u=new Unblocker();
+        u.start();
     }
 
     private void init(){
@@ -210,7 +212,16 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
             case R.id.signInButton:{
                 if(!userPassword.getText().toString().equals("") && !userLogin.getText().toString().equals("")) {
                     viewModel.signInUser(userLogin.getText().toString().trim(), userPassword.getText().toString().trim(), relativeLayout);
-                    Button signInButton=findViewById(R.id.signInButton);
+
+                    try {
+                        Button signIn = (Button) findViewById(R.id.signInButton);
+                        signIn.setClickable(false);
+                        FileOutputStream fos = new FileOutputStream(getCacheDir().toString() + "/unblock");
+                        fos.write("blocked".getBytes());
+                        fos.close();
+                    }catch(Exception e){
+                        Log.e(TAG,e+"");
+                    }
 
                     SharedPreferences sharedPreferences = getSharedPreferences(Constants.CONSTANTS, MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -344,6 +355,34 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == PERMISSIONS_REQUEST_ENABLE_GPS){
             checkDevicePermissions();
+        }
+    }
+
+    private class Unblocker extends Thread{
+        @Override
+        public void run(){
+            while(true) {
+                try {
+                    sleep(200);
+                    FileInputStream fis = new FileInputStream(getCacheDir().toString() + "/unblock");
+                    byte[] b = new byte[fis.available()];
+                    fis.read(b);
+                    fis.close();
+                    String r = new String(b);
+                    Log.e(TAG,r);
+                    if (r.equals("unblocked")) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Button signIn = (Button) findViewById(R.id.signInButton);
+                                signIn.setClickable(true);
+                            }
+                        });
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, e + "");
+                }
+            }
         }
     }
 }
