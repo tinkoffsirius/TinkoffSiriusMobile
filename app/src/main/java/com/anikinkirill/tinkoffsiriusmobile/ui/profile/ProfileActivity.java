@@ -241,6 +241,8 @@ public class ProfileActivity extends AppCompatActivity {
             map.put("latitude",sa[0]);
             map.put("longitude",sa[1]);
             dbr.setValue(map);
+            startlat.setText("Start latitude: \""+sa[0]+"\"");
+            startlon.setText("Start longitude: \""+sa[1]+"\"");
         }catch(Exception e){
             Log.e("Problem",e+"");
         }
