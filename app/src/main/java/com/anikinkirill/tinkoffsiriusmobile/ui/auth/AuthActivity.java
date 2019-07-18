@@ -68,6 +68,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
 
     // Vars
     private AuthViewModel viewModel;
+    private int numberClicks=0;
     private static final int REQUEST_LOCATION_PERMISSIONS_CODE = 1;
     public static final int ERROR_DIALOG_REQUEST = 9001;
     public static final int PERMISSIONS_REQUEST_ENABLE_GPS = 9003;
@@ -206,14 +207,18 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.signInButton:{
-                viewModel.signInUser(userLogin.getText().toString().trim(), userPassword.getText().toString().trim(), relativeLayout);
+                if(numberClicks==0) {
+                    viewModel.signInUser(userLogin.getText().toString().trim(), userPassword.getText().toString().trim(), relativeLayout);
 
-                SharedPreferences sharedPreferences = getSharedPreferences(Constants.CONSTANTS, MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(Constants.CURRENT_USER_ID, userLogin.getText().toString().trim());
-                editor.apply();
+                    SharedPreferences sharedPreferences = getSharedPreferences(Constants.CONSTANTS, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(Constants.CURRENT_USER_ID, userLogin.getText().toString().trim());
+                    editor.apply();
 
-                hideSoftKeyboard(this, view);
+                    hideSoftKeyboard(this, view);
+
+                    numberClicks++;
+                }
                 break;
             }
         }

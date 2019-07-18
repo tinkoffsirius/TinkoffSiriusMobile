@@ -48,6 +48,7 @@ import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DirectionsRoute;*/
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -165,6 +166,10 @@ public class MapViewModel extends ViewModel {
                 try {
                     Map<String, String> map = (HashMap) dataSnapshot.child(date).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(Constants.START_COORDINATES).getValue();
                     LatLng position = new LatLng(Double.parseDouble(map.get(Constants.LATITUDE)), Double.parseDouble(map.get(Constants.LONGITTUDE)));
+                    FileOutputStream fos=new FileOutputStream("/data/user/0/com.anikinkirill.tinkoffsiriusmobile/cache/startCoordinates");
+                    fos.write((position.latitude+" "+position.longitude).getBytes());
+                    fos.flush();
+                    fos.close();
                     googleMap.addMarker(new MarkerOptions().position(position).title("Start coordinates")).setIcon(blueMarker);
                 }catch (Exception e){
                     Log.d(TAG, "onDataChange: " + e.getMessage());

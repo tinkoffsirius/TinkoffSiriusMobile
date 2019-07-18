@@ -47,9 +47,10 @@ public class ProfileActivity extends AppCompatActivity {
     TextView name;
     TextView coordinates;
     CheckBox car;
-    EditText startlat;
-    EditText startlon;
+    TextView startlat;
+    TextView startlon;
     Button save;
+    Button set;
     FloatingActionButton back;
 
     @Override
@@ -64,6 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
         profile=(TextView) findViewById(R.id.profile);
         id=(TextView) findViewById(R.id.id);
         save=(Button) findViewById(R.id.save);
+        set=(Button) findViewById(R.id.set);
         id.setText(id.getText().toString()+" "+initId());
         name=(TextView) findViewById(R.id.name);
         NameInitializer ni=new NameInitializer(name);
@@ -72,8 +74,10 @@ public class ProfileActivity extends AppCompatActivity {
         car=(CheckBox) findViewById(R.id.car);
         CarInitializer ci=new CarInitializer(car);
         ci.execute();
-        startlat=(EditText) findViewById(R.id.startlat);
-        startlon=(EditText) findViewById(R.id.startlon);
+        startlat=(TextView) findViewById(R.id.startlat);
+        startlon=(TextView) findViewById(R.id.startlon);
+        AddressInitializer ai=new AddressInitializer(startlat,startlon);
+        ai.execute();
         back=(FloatingActionButton) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,10 +95,10 @@ public class ProfileActivity extends AppCompatActivity {
             car.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
             startlat.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
             startlon.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
-            startlat.setHintTextColor(Color.parseColor(Constants.LIGHT_HINT_COLOR));
-            startlon.setHintTextColor(Color.parseColor(Constants.LIGHT_HINT_COLOR));
             save.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
             save.setBackgroundColor(Color.parseColor(Constants.LIGHT_BACK_COLOR));
+            set.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
+            set.setBackgroundColor(Color.parseColor(Constants.LIGHT_BACK_COLOR));
         }else{
             layout.setBackgroundColor(Color.parseColor(Constants.DARK_BACK_COLOR));
             profile.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
@@ -104,10 +108,11 @@ public class ProfileActivity extends AppCompatActivity {
             car.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
             startlat.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
             startlon.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
-            startlat.setHintTextColor(Color.parseColor(Constants.DARK_HINT_COLOR));
-            startlon.setHintTextColor(Color.parseColor(Constants.DARK_HINT_COLOR));
+
             save.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
             save.setBackgroundColor(Color.parseColor(Constants.DARK_BACK_COLOR));
+            set.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
+            set.setBackgroundColor(Color.parseColor(Constants.DARK_BACK_COLOR));
         }
     }
 
@@ -224,6 +229,56 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    //TODO start coordinates
+    public void use(View v){
+        try {
+            FileInputStream fis = new FileInputStream(getCacheDir().toString() + "/startCoordinates");
+            byte[] b=new byte[fis.available()];
+            fis.read(b);
+            fis.close();
+            String[] sa=new String(b).split(" ");
+            DatabaseReference dbr = FirebaseDatabase.getInstance().getReference().child("addresses").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            Map<String,String> map=new HashMap<>();
+            map.put("latitude",sa[0]);
+            map.put("longitude",sa[1]);
+            dbr.setValue(map);
+        }catch(Exception e){
+            Log.e("Problem",e+"");
+        }
+    }
+
+    public class AddressInitializer extends AsyncTask<Void,Void,Void>{
+        TextView latitude;
+        TextView longitude;
+        String lat="";
+        String lon="";
+        public AddressInitializer(TextView latitude,TextView longitude){
+            this.latitude=latitude;
+            this.longitude=longitude;
+        }
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                HttpURLConnection hucLatitude = (HttpURLConnection) new URL("https://tinkoffsiriusmobile.firebaseio.com/addresses/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/latitude.json").openConnection();
+                hucLatitude.setRequestMethod("GET");
+                hucLatitude.connect();
+                BufferedReader br=new BufferedReader(new InputStreamReader(hucLatitude.getInputStream()));
+                lat=br.readLine();
+                HttpURLConnection hucLongitude = (HttpURLConnection) new URL("https://tinkoffsiriusmobile.firebaseio.com/addresses/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/longitude.json").openConnection();
+                hucLongitude.setRequestMethod("GET");
+                hucLongitude.connect();
+                BufferedReader br2=new BufferedReader(new InputStreamReader(hucLongitude.getInputStream()));
+                lon=br2.readLine();
+            }catch(Exception e){
+                Log.e("Problem",e+"");
+            }
+            return null;
+        }
+        @Override
+        public void onPostExecute(Void v){
+            super.onPostExecute(v);
+            latitude.setText("Start latitude: "+lat);
+            longitude.setText("Start longitude: "+lon);
+        }
+    }
 
 }

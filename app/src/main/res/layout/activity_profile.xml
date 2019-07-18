@@ -42,6 +42,8 @@
     <TextView
         android:id="@+id/id"
         android:layout_marginTop="15dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Identifier:"
@@ -50,6 +52,8 @@
     <TextView
         android:id="@+id/name"
         android:layout_marginTop="15dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Name:"
@@ -60,6 +64,8 @@
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:text="Car"
         android:textSize="24sp" />
 
@@ -68,31 +74,55 @@
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:text="Coordinates:"
         android:textSize="24sp" />
 
-    <EditText
-        android:id="@+id/startlat"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:ems="10"
-        android:hint="Start latitude: "
-        android:inputType="numberSigned|numberDecimal" />
+        android:gravity="center"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/startlon"
-        android:layout_marginTop="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Start longitude:"
-        android:inputType="numberSigned|number|numberDecimal" />
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/startlat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/startlon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="use"
+            android:text="Set" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/save"
         android:onClick="save"
         android:layout_width="match_parent"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:layout_height="wrap_content"
         android:text="Save" />
 
