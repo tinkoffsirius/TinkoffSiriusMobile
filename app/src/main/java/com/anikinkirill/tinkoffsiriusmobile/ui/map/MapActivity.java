@@ -250,6 +250,7 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
                                 @SuppressLint("MissingPermission")
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    databaseReference.removeEventListener(this);
                                     Iterable<DataSnapshot> iterable = dataSnapshot.getChildren();
                                     Iterator<DataSnapshot> iterator = iterable.iterator();
                                     while (iterator.hasNext()) {
