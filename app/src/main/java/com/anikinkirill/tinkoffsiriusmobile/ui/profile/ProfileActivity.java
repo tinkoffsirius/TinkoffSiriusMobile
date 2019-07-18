@@ -1,5 +1,7 @@
 package com.anikinkirill.tinkoffsiriusmobile.ui.profile;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -14,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,6 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     //UI
     LinearLayout layout;
+    LinearLayout background;
     TextView profile;
     TextView id;
     TextView name;
@@ -52,6 +56,11 @@ public class ProfileActivity extends AppCompatActivity {
     Button save;
     Button set;
     FloatingActionButton back;
+    EditText startLat;
+    EditText startLon;
+    Switch settingType;
+    TextView settings;
+    TextView textDescription;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -230,22 +239,46 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void use(View v){
-        try {
-            FileInputStream fis = new FileInputStream(getCacheDir().toString() + "/startCoordinates");
-            byte[] b=new byte[fis.available()];
-            fis.read(b);
-            fis.close();
-            String[] sa=new String(b).split(" ");
-            DatabaseReference dbr = FirebaseDatabase.getInstance().getReference().child("addresses").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-            Map<String,String> map=new HashMap<>();
-            map.put("latitude",sa[0]);
-            map.put("longitude",sa[1]);
-            dbr.setValue(map);
-            startlat.setText("Start latitude: \""+sa[0]+"\"");
-            startlon.setText("Start longitude: \""+sa[1]+"\"");
-        }catch(Exception e){
-            Log.e("Problem",e+"");
-        }
+        AlertDialog.Builder adb=new AlertDialog.Builder(this);
+        adb.setView(R.layout.start_settings_light);
+        adb.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if(settingType.isChecked()){
+                    try {
+                        FileInputStream fis = new FileInputStream(getCacheDir().toString() + "/startCoordinates");
+                        byte[] b=new byte[fis.available()];
+                        fis.read(b);
+                        fis.close();
+                        String[] sa=new String(b).split(" ");
+                        DatabaseReference dbr = FirebaseDatabase.getInstance().getReference().child("addresses").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        Map<String,String> map=new HashMap<>();
+                        map.put("latitude",sa[0]);
+                        map.put("longitude",sa[1]);
+                        dbr.setValue(map);
+                        startlat.setText("Start latitude: \""+sa[0]+"\"");
+                        startlon.setText("Start longitude: \""+sa[1]+"\"");
+                    }catch(Exception e){
+                        Log.e("Problem",e+"");
+                    }
+                }else{
+                    try {
+                        DatabaseReference dbr = FirebaseDatabase.getInstance().getReference().child("addresses").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        Map<String,String> map=new HashMap<>();
+                        map.put("latitude",startLat.getText().toString());
+                        map.put("longitude",startLon.getText().toString());
+                        dbr.setValue(map);
+                        startlat.setText("Start latitude: \""+startLat.getText().toString()+"\"");
+                        startlon.setText("Start longitude: \""+startLon.getText().toString()+"\"");
+                    }catch(Exception e){
+                        Log.e("Problem",e+"");
+                    }
+                }
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog ad=adb.show();
+        initAlertDialogViews(ad);
     }
 
     public class AddressInitializer extends AsyncTask<Void,Void,Void>{
@@ -283,4 +316,50 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+    public void initAlertDialogViews(AlertDialog ad){
+        startLat=(EditText) ad.getWindow().findViewById(R.id.startLat);
+        startLon=(EditText) ad.getWindow().findViewById(R.id.startLon);
+        settingType=(Switch) ad.getWindow().findViewById(R.id.settingType);
+        background=(LinearLayout) ad.getWindow().findViewById(R.id.background);
+        settings=(TextView) ad.getWindow().findViewById(R.id.settings);
+        textDescription=(TextView) ad.getWindow().findViewById(R.id.textDescription);
+        settingType.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b) {
+                    startLat.setVisibility(View.GONE);
+                    startLon.setVisibility(View.GONE);
+                    textDescription.setVisibility(View.VISIBLE);
+                }else{
+                    startLat.setVisibility(View.VISIBLE);
+                    startLon.setVisibility(View.VISIBLE);
+                    textDescription.setVisibility(View.GONE);
+                }
+            }
+        });
+        if(colorTheme().equals(Constants.LIGHT_COLOR_THEME)){
+            if(startLat!=null) {
+                startLat.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
+                startLon.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
+                textDescription.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
+                settings.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
+                settingType.setTextColor(Color.parseColor(Constants.LIGHT_TEXT_COLOR));
+                background.setBackgroundColor(Color.parseColor(Constants.LIGHT_BACK_COLOR));
+                startLat.setHintTextColor(Color.parseColor(Constants.LIGHT_HINT_COLOR));
+                startLon.setHintTextColor(Color.parseColor(Constants.LIGHT_HINT_COLOR));
+            }
+        }else{
+            ad.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.back));
+            if(startLat!=null) {
+                startLat.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
+                startLon.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
+                textDescription.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
+                settings.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
+                settingType.setTextColor(Color.parseColor(Constants.DARK_TEXT_COLOR));
+                background.setBackgroundColor(Color.parseColor(Constants.DARK_BACK_COLOR));
+                startLat.setHintTextColor(Color.parseColor(Constants.DARK_HINT_COLOR));
+                startLon.setHintTextColor(Color.parseColor(Constants.DARK_HINT_COLOR));
+            }
+        }
+    }
 }
