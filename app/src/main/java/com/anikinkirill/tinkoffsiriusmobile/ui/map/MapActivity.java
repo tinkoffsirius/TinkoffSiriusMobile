@@ -152,6 +152,7 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
 
         setMapStyle();
 
+        viewModel.drawAll();
         viewModel.getRoute(googleMap);
 
         MapViewModel.Other other = new MapViewModel.Other(this);
@@ -172,7 +173,7 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
         fusedLocation.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
             @Override
             public void onComplete(@NonNull Task<Location> task) {
-                if(task.isSuccessful()){
+                if(task.isSuccessful() && task.getResult()!=null){
                     LatLng latLng = new LatLng(task.getResult().getLatitude(), task.getResult().getLongitude());
                     CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 14);
                     googleMap.animateCamera(cameraUpdate);

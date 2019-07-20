@@ -168,15 +168,17 @@ public class MapViewModel extends ViewModel {
                    databaseReference.addValueEventListener(new ValueEventListener() {
                        @Override
                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                           ArrayList<Map<String,String>> arrayList = (ArrayList)dataSnapshot.child(date).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(Constants.HISTORY).getValue();
-                           ArrayList<LatLng> forSetting=new ArrayList<>();
-                           if(arrayList != null){
-                               for(Map<String,String> map : arrayList){
-                                   forSetting.add(new LatLng(Double.parseDouble(map.get(Constants.LATITUDE)),Double.parseDouble(map.get(Constants.LONGITTUDE))));
+                           if(loggedin && FirebaseAuth.getInstance().getCurrentUser()!=null) {
+                               ArrayList<Map<String, String>> arrayList = (ArrayList) dataSnapshot.child(date).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(Constants.HISTORY).getValue();
+                               ArrayList<LatLng> forSetting = new ArrayList<>();
+                               if (arrayList != null) {
+                                   for (Map<String, String> map : arrayList) {
+                                       forSetting.add(new LatLng(Double.parseDouble(map.get(Constants.LATITUDE)), Double.parseDouble(map.get(Constants.LONGITTUDE))));
+                                   }
+                                   PolylineOptions polylineOptions = new PolylineOptions().width(15).color(Color.BLUE);
+                                   polylineOptions.addAll(forSetting);
+                                   googleMap.addPolyline(polylineOptions);
                                }
-                               PolylineOptions polylineOptions=new PolylineOptions().width(15).color(Color.BLUE);
-                               polylineOptions.addAll(forSetting);
-                               googleMap.addPolyline(polylineOptions);
                            }
                            databaseReference.removeEventListener(this);
                        }
@@ -415,8 +417,6 @@ public class MapViewModel extends ViewModel {
                                         last=activitiesIterator.next();
                                         meetings.add(new LatLng(Double.parseDouble(last.child("coordinates").child("latitude").getValue().toString()),Double.parseDouble(last.child("coordinates").child("longitude").getValue().toString())));
                                     }
-                       /*PolylineOptions polylineOptions =new PolylineOptions().color(Color.YELLOW).width(15).addAll(meetings);
-                       googleMap.addPolyline(polylineOptions);*/
                                     try {
                                         LatLng markerPosition = new LatLng(Double.parseDouble(last.child("coordinates").child("latitude").getValue().toString()), Double.parseDouble(last.child("coordinates").child("longitude").getValue().toString()));
                                         googleMap.addMarker(new MarkerOptions().position(markerPosition).position(markerPosition));
@@ -525,6 +525,49 @@ public class MapViewModel extends ViewModel {
                 }
             }
         }
+    }
+
+    public static void drawAll(){
+        DatabaseReference dbr = FirebaseDatabase.getInstance().getReference();
+        dbr.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> iterable = dataSnapshot.child(date).child(Constants.USERS).getChildren();
+                Iterator iterator = iterable.iterator();
+                while (iterator.hasNext()) {
+                    DataSnapshot string = (DataSnapshot) iterator.next();
+                    if (!others.contains(string.getKey())) {
+                        if (!string.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                            others.add(string.getKey());
+                        }
+                    }
+                    googleMap.clear();
+                    showStartCoordinates();
+                    getRoute(googleMap);
+                    getCurrentUserActivities(context);
+                    getLastActivity();
+                    getNextActivity();
+                    drawRouteToMeeting();
+                    for (String name : others) {
+                        if (name != FirebaseAuth.getInstance().getCurrentUser().getUid()) {
+                            DataSnapshot userValues = dataSnapshot.child(date).child(Constants.USERS).child(name).child(Constants.HISTORY);
+                            String login = dataSnapshot.child(date).child(Constants.USERS).child(name).child(Constants.LOGIN).getValue().toString();
+                            ArrayList<Map<String, String>> arrayList = (ArrayList) userValues.getValue();
+                            if (arrayList != null) {
+                                Map<String, String> map = arrayList.get(arrayList.size() - 1);
+                                MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(Double.parseDouble(map.get(Constants.LATITUDE)), Double.parseDouble(map.get(Constants.LONGITTUDE)))).title(login).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+                                googleMap.addMarker(markerOptions);
+                            }
+                        }
+                    }
+                }
+                dbr.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     /*private static void calculateDirections(Marker marker){
