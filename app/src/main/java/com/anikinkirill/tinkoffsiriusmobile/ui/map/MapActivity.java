@@ -255,7 +255,7 @@ public class MapActivity extends DaggerAppCompatActivity implements OnMapReadyCa
                                     Iterator<DataSnapshot> iterator = iterable.iterator();
                                     while (iterator.hasNext()) {
                                         DataSnapshot next = iterator.next();
-                                        if (next.child("agent").child("id").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0])) {
+                                        if (FirebaseAuth.getInstance().getCurrentUser()!=null && FirebaseAuth.getInstance().getCurrentUser().getEmail()!=null  && next.child("agent").child("id").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0])) {
                                             Iterable<DataSnapshot> activities = next.child("activities").getChildren();
                                             Iterator<DataSnapshot> activitiesIterator = activities.iterator();
                                             if (activitiesIterator.hasNext()) {

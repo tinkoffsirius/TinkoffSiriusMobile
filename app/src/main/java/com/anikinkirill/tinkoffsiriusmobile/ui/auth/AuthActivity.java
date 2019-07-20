@@ -369,7 +369,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
                     fis.read(b);
                     fis.close();
                     String r = new String(b);
-                    Log.e(TAG,r);
+                    //Log.e(TAG,r);
                     if (r.equals("unblocked")) {
                         runOnUiThread(new Runnable() {
                             @Override

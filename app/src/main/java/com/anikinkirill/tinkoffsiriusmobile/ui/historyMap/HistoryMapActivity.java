@@ -53,6 +53,7 @@ public class HistoryMapActivity extends DaggerAppCompatActivity implements OnMap
 
     private GoogleMap googleMap;
     private static final String TAG="HistoryMap";
+    private boolean loggedin=true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +61,8 @@ public class HistoryMapActivity extends DaggerAppCompatActivity implements OnMap
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_historymap);
         init();
+        LogoutCheck lc=new LogoutCheck();
+        lc.start();
     }
 
     private void init(){
@@ -98,25 +101,41 @@ public class HistoryMapActivity extends DaggerAppCompatActivity implements OnMap
     }
 
     public void getRoute(){
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        class RouteGetter extends Thread{
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<Map<String,String>> arrayList = (ArrayList)dataSnapshot.child(date()).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(Constants.HISTORY).getValue();
-                ArrayList<LatLng> forSetting=new ArrayList<>();
-                if(arrayList != null){
-                    for(Map<String,String> map : arrayList){
-                        forSetting.add(new LatLng(Double.parseDouble(map.get(Constants.LATITUDE)),Double.parseDouble(map.get(Constants.LONGITTUDE))));
+            public void run(){
+                while(loggedin) {
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                    databaseReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            ArrayList<Map<String, String>> arrayList = (ArrayList) dataSnapshot.child(date()).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(Constants.HISTORY).getValue();
+                            ArrayList<LatLng> forSetting = new ArrayList<>();
+                            if (arrayList != null) {
+                                for (Map<String, String> map : arrayList) {
+                                    forSetting.add(new LatLng(Double.parseDouble(map.get(Constants.LATITUDE)), Double.parseDouble(map.get(Constants.LONGITTUDE))));
+                                }
+                                PolylineOptions polylineOptions = new PolylineOptions().width(15).color(Color.BLUE);
+                                polylineOptions.addAll(forSetting);
+                                googleMap.addPolyline(polylineOptions);
+                            }
+                            databaseReference.removeEventListener(this);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
+                    try{
+                        sleep(20000);
+                    }catch(Exception e){
+                        Log.e(TAG,e+"");
                     }
-                    PolylineOptions polylineOptions=new PolylineOptions().width(15).color(Color.BLUE);
-                    polylineOptions.addAll(forSetting);
-                    googleMap.addPolyline(polylineOptions);
                 }
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
-        });
+        }
+        RouteGetter rg=new RouteGetter();
+        rg.start();
     }
 
     public static String date(){
@@ -150,6 +169,7 @@ public class HistoryMapActivity extends DaggerAppCompatActivity implements OnMap
                 }catch (Exception e){
                     Log.d(TAG, "onDataChange: " + e.getMessage());
                 }
+                databaseReference.removeEventListener(this);
             }
 
             @Override
@@ -158,26 +178,41 @@ public class HistoryMapActivity extends DaggerAppCompatActivity implements OnMap
     }
 
     public void drawFinishedMeetings(){
-        final BitmapDescriptor greenMarker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
-        DatabaseReference dbr=FirebaseDatabase.getInstance().getReference().child(date()).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("finished_activities");
-        dbr.addValueEventListener(new ValueEventListener() {
+        class FinishedDrawer extends Thread{
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Iterable<DataSnapshot> iterable=dataSnapshot.getChildren();
-                Iterator<DataSnapshot> iterator=iterable.iterator();
-                while(iterator.hasNext()){
-                    DataSnapshot activity = iterator.next();
-                    Map<String,Double> map=(HashMap<String,Double>) activity.child("coordinates").getValue();
-                    String time=activity.child("time").getValue()+"";
-                    Log.e(TAG,map.get("latitude")+"");
-                    LatLng position=new LatLng(Double.parseDouble(map.get("latitude")+""),Double.parseDouble(map.get("longitude")+""));
-                    googleMap.addMarker(new MarkerOptions().position(position).icon(greenMarker)).setTitle("Finished at: "+time.replace("_",":"));
+            public void run(){
+                while(loggedin){
+                    final BitmapDescriptor greenMarker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+                    DatabaseReference dbr=FirebaseDatabase.getInstance().getReference().child(date()).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("finished_activities");
+                    dbr.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Iterable<DataSnapshot> iterable=dataSnapshot.getChildren();
+                            Iterator<DataSnapshot> iterator=iterable.iterator();
+                            while(iterator.hasNext()){
+                                DataSnapshot activity = iterator.next();
+                                Map<String,Double> map=(HashMap<String,Double>) activity.child("coordinates").getValue();
+                                String time=activity.child("time").getValue()+"";
+                                Log.e(TAG,map.get("latitude")+"");
+                                LatLng position=new LatLng(Double.parseDouble(map.get("latitude")+""),Double.parseDouble(map.get("longitude")+""));
+                                googleMap.addMarker(new MarkerOptions().position(position).icon(greenMarker)).setTitle("Finished at: "+time.replace("_",":"));
+                            }
+                            dbr.removeEventListener(this);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}
+                    });
+                    try{
+                        sleep(10000);
+                    }catch(Exception e){
+                        Log.e(TAG,e+"");
+                    }
                 }
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
-        });
+        }
+        FinishedDrawer fd=new FinishedDrawer();
+        fd.start();
     }
 
     @Override
@@ -201,5 +236,29 @@ public class HistoryMapActivity extends DaggerAppCompatActivity implements OnMap
                 googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getApplicationContext(),R.raw.style));
             }
         }catch(Exception e){}
+    }
+
+    private class LogoutCheck extends Thread{
+        @Override
+        public void run(){
+            while(true){
+                try{
+                    FileInputStream fis=new FileInputStream("/data/user/0/com.anikinkirill.tinkoffsiriusmobile/cache/logged");
+                    byte[] b=new byte[fis.available()];
+                    fis.read(b);
+                    fis.close();
+                    String s=new String(b);
+                    Log.e(TAG,s);
+                    if(!s.equals("out")){
+                        loggedin=true;
+                    }else{
+                        loggedin=false;
+                    }
+                    sleep(2000);
+                }catch (Exception e){
+                    Log.e(TAG,e+"");
+                }
+            }
+        }
     }
 }
