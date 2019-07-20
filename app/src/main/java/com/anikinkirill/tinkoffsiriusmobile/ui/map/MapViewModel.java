@@ -86,7 +86,7 @@ public class MapViewModel extends ViewModel {
             LogoutCheck lc=new LogoutCheck();
             lc.start();
         }
-        //Log.e(TAG,theme);
+        //Log.i(TAG,theme);
     }
 
     public void setDate(){
@@ -135,7 +135,7 @@ public class MapViewModel extends ViewModel {
                                             }
                                         }
                                     }catch(Exception e){
-                                        Log.e(TAG,e+"");
+                                        Log.i(TAG,e+"");
                                     }
                                 }
                             }
@@ -149,7 +149,7 @@ public class MapViewModel extends ViewModel {
                     try{
                         sleep(10000);
                     }catch(Exception e){
-                        Log.e(TAG,e+"");
+                        Log.i(TAG,e+"");
                     }
                 }
             }
@@ -189,7 +189,7 @@ public class MapViewModel extends ViewModel {
                    try{
                        sleep(60000);
                    }catch(Exception e){
-                       Log.e(TAG,e+"");
+                       Log.i(TAG,e+"");
                    }
                }
             }
@@ -277,7 +277,7 @@ public class MapViewModel extends ViewModel {
                 try{
                     sleep(15000);
                 }catch(Exception e){
-                    Log.e(TAG,e+"");
+                    Log.i(TAG,e+"");
                 }
             }
         }
@@ -381,7 +381,7 @@ public class MapViewModel extends ViewModel {
                 try {
                     sleep(15000);
                 }catch(Exception e){
-                    Log.e(TAG,e+"");
+                    Log.i(TAG,e+"");
                 }
             }
         }
@@ -432,7 +432,7 @@ public class MapViewModel extends ViewModel {
                     try{
                         sleep(15000);
                     }catch(Exception e){
-                        Log.e(TAG,e+"");
+                        Log.i(TAG,e+"");
                     }
                 }
             }
@@ -448,52 +448,54 @@ public class MapViewModel extends ViewModel {
         fusedLocation.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
             @Override
             public void onComplete(@NonNull Task<Location> task) {
-                coordinates.add(new LatLng(task.getResult().getLatitude(),task.getResult().getLongitude()));
-                Log.e(TAG,"Current position: "+task.getResult().getLatitude()+" "+task.getResult().getLongitude());
-                class Drawer extends Thread{
-                    @Override
-                    public void run(){
-                        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
-                        databaseReference.child(Constants.SOLUTION).child(Constants.AGENTS).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                Iterable<DataSnapshot> iterable = dataSnapshot.getChildren();
-                                Iterator<DataSnapshot> iterator = iterable.iterator();
-                                while(iterator.hasNext()){
-                                    DataSnapshot next=iterator.next();
-                                    if(loggedin && FirebaseAuth.getInstance().getCurrentUser()!=null) {
-                                        if (next.child("agent").child("id").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0])) {
-                                            Iterable<DataSnapshot> activities = next.child("activities").getChildren();
-                                            Iterator<DataSnapshot> activitiesIterator = activities.iterator();
-                                            if (activitiesIterator.hasNext()) {
-                                                try {
-                                                    DataSnapshot activity = activitiesIterator.next();
-                                                    Map<String, String> map = new HashMap<>();
-                                                    map.put("latitude", activity.child("coordinates").child("latitude").getValue().toString());
-                                                    map.put("longitude", activity.child("coordinates").child("longitude").getValue().toString());
-                                                    LatLng position = new LatLng(Double.parseDouble(activity.child("coordinates").child("latitude").getValue().toString()), Double.parseDouble(activity.child("coordinates").child("longitude").getValue().toString()));
-                                                    DatabaseReference endCoordinates = FirebaseDatabase.getInstance().getReference().child(date).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("end_coordinates");
-                                                    endCoordinates.setValue(map);
-                                                    coordinates.add(position);
-                                                    Log.e(TAG, coordinates.toString());
-                                                    PolylineOptions polylineOptions = new PolylineOptions().addAll(coordinates).width(15).color(Color.rgb(255, 128, 0));
-                                                    googleMap.addPolyline(polylineOptions);
-                                                } catch (Exception e) {
+                if(task.getResult()!=null) {
+                    coordinates.add(new LatLng(task.getResult().getLatitude(), task.getResult().getLongitude()));
+                    class Drawer extends Thread {
+                        @Override
+                        public void run() {
+                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                            databaseReference.child(Constants.SOLUTION).child(Constants.AGENTS).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    Iterable<DataSnapshot> iterable = dataSnapshot.getChildren();
+                                    Iterator<DataSnapshot> iterator = iterable.iterator();
+                                    while (iterator.hasNext()) {
+                                        DataSnapshot next = iterator.next();
+                                        if (loggedin && FirebaseAuth.getInstance().getCurrentUser() != null) {
+                                            if (next.child("agent").child("id").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0])) {
+                                                Iterable<DataSnapshot> activities = next.child("activities").getChildren();
+                                                Iterator<DataSnapshot> activitiesIterator = activities.iterator();
+                                                if (activitiesIterator.hasNext()) {
+                                                    try {
+                                                        DataSnapshot activity = activitiesIterator.next();
+                                                        Map<String, String> map = new HashMap<>();
+                                                        map.put("latitude", activity.child("coordinates").child("latitude").getValue().toString());
+                                                        map.put("longitude", activity.child("coordinates").child("longitude").getValue().toString());
+                                                        LatLng position = new LatLng(Double.parseDouble(activity.child("coordinates").child("latitude").getValue().toString()), Double.parseDouble(activity.child("coordinates").child("longitude").getValue().toString()));
+                                                        DatabaseReference endCoordinates = FirebaseDatabase.getInstance().getReference().child(date).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("end_coordinates");
+                                                        endCoordinates.setValue(map);
+                                                        coordinates.add(position);
+                                                        Log.i(TAG, coordinates.toString());
+                                                        PolylineOptions polylineOptions = new PolylineOptions().addAll(coordinates).width(15).color(Color.rgb(255, 128, 0));
+                                                        googleMap.addPolyline(polylineOptions);
+                                                    } catch (Exception e) {
+                                                    }
                                                 }
                                             }
                                         }
                                     }
+                                    databaseReference.removeEventListener(this);
                                 }
-                                databaseReference.removeEventListener(this);
-                            }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {}
-                        });
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                }
+                            });
+                        }
                     }
+                    Drawer d = new Drawer();
+                    d.start();
                 }
-                Drawer d=new Drawer();
-                d.start();
             }
         });
     }
@@ -513,7 +515,7 @@ public class MapViewModel extends ViewModel {
                     fis.read(b);
                     fis.close();
                     String s=new String(b);
-                    Log.e(TAG,s);
+                    Log.i(TAG,s);
                     if(!s.equals("out")){
                         loggedin=true;
                     }else{
@@ -521,7 +523,7 @@ public class MapViewModel extends ViewModel {
                     }
                     sleep(2000);
                 }catch (Exception e){
-                    Log.e(TAG,e+"");
+                    Log.i(TAG,e+"");
                 }
             }
         }
@@ -599,7 +601,7 @@ public class MapViewModel extends ViewModel {
 
             @Override
             public void onFailure(Throwable e) {
-                Log.e(TAG, "calculateDirections: Failed to get directions: " + e.getMessage() );
+                Log.i(TAG, "calculateDirections: Failed to get directions: " + e.getMessage() );
 
             }
         });
