@@ -109,7 +109,7 @@ public class MapViewModel extends ViewModel {
         class NextActivityGetter extends Thread{
             @Override
             public void run(){
-                while(loggedin){
+                //while(loggedin){
                     DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
                     databaseReference.child(Constants.SOLUTION).child(Constants.AGENTS).addValueEventListener(new ValueEventListener() {
                         @Override
@@ -146,12 +146,12 @@ public class MapViewModel extends ViewModel {
                         public void onCancelled(@NonNull DatabaseError databaseError) {}
                     });
                     drawRouteToMeeting();
-                    try{
+                    /*try{
                         sleep(10000);
                     }catch(Exception e){
                         Log.i(TAG,e+"");
                     }
-                }
+                }*/
             }
         }
         NextActivityGetter nag=new NextActivityGetter();
@@ -162,7 +162,7 @@ public class MapViewModel extends ViewModel {
         class RouteGetter extends Thread{
             @Override
             public void run(){
-               while(loggedin){
+               //while(loggedin){
                    MapViewModel.googleMap = googleMap;
                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                    databaseReference.addValueEventListener(new ValueEventListener() {
@@ -186,12 +186,12 @@ public class MapViewModel extends ViewModel {
                        @Override
                        public void onCancelled(@NonNull DatabaseError databaseError) {}
                    });
-                   try{
+                   /*try{
                        sleep(60000);
                    }catch(Exception e){
                        Log.i(TAG,e+"");
                    }
-               }
+               }*/
             }
         }
         RouteGetter rg=new RouteGetter();
@@ -249,10 +249,10 @@ public class MapViewModel extends ViewModel {
                             }
                             googleMap.clear();
                             showStartCoordinates();
-                            //getRoute(googleMap);
+                            getRoute(googleMap);
                             getCurrentUserActivities(context);
-                            //getLastActivity();
-                            //getNextActivity();
+                            getLastActivity();
+                            getNextActivity();
                             drawRouteToMeeting();
                             for (String name : others) {
                                 if (name != FirebaseAuth.getInstance().getCurrentUser().getUid()) {
@@ -275,7 +275,7 @@ public class MapViewModel extends ViewModel {
                     }
                 });
                 try{
-                    sleep(15000);
+                    sleep(25000);
                 }catch(Exception e){
                     Log.i(TAG,e+"");
                 }
@@ -400,7 +400,7 @@ public class MapViewModel extends ViewModel {
         class LastActivityGetter extends Thread{
             @Override
             public void run(){
-                while(loggedin){
+                //while(loggedin){
                     DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
                     databaseReference.child(Constants.SOLUTION).child(Constants.AGENTS).addValueEventListener(new ValueEventListener() {
                         @Override
@@ -429,12 +429,12 @@ public class MapViewModel extends ViewModel {
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {}
                     });
-                    try{
+                    /*try{
                         sleep(15000);
                     }catch(Exception e){
                         Log.i(TAG,e+"");
                     }
-                }
+                }*/
             }
         }
         LastActivityGetter lag=new LastActivityGetter();

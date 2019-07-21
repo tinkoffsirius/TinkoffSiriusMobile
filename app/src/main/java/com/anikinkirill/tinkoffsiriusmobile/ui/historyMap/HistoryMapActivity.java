@@ -109,7 +109,7 @@ public class HistoryMapActivity extends DaggerAppCompatActivity implements OnMap
                     databaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
+                            if(loggedin && FirebaseAuth.getInstance().getCurrentUser()!=null) {
                                 try {
                                     ArrayList<Map<String, String>> arrayList = (ArrayList) dataSnapshot.child(date()).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(Constants.HISTORY).getValue();
                                     ArrayList<LatLng> forSetting = new ArrayList<>();
