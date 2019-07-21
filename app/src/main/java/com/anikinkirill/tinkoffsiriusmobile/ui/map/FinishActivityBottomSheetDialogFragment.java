@@ -84,10 +84,18 @@ public class FinishActivityBottomSheetDialogFragment extends BottomSheetDialogFr
         switch (view.getId()){
             case R.id.finishActivity:{
                 flag=true;
-                getFinishedActivities();
-                removeActivity();
+                Finisher f=new Finisher();
+                f.start();
                 break;
             }
+        }
+    }
+
+    class Finisher extends Thread{
+        @Override
+        public void run(){
+            getFinishedActivities();
+            removeActivity();
         }
     }
 

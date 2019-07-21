@@ -249,10 +249,10 @@ public class MapViewModel extends ViewModel {
                             }
                             googleMap.clear();
                             showStartCoordinates();
-                            getRoute(googleMap);
+                            //getRoute(googleMap);
                             getCurrentUserActivities(context);
-                            getLastActivity();
-                            getNextActivity();
+                            //getLastActivity();
+                            //getNextActivity();
                             drawRouteToMeeting();
                             for (String name : others) {
                                 if (name != FirebaseAuth.getInstance().getCurrentUser().getUid()) {
@@ -378,11 +378,11 @@ public class MapViewModel extends ViewModel {
 
                     }
                 });
-                try {
+                /*try {
                     sleep(15000);
                 }catch(Exception e){
                     Log.i(TAG,e+"");
-                }
+                }*/
             }
         }
         Refresher r=new Refresher();
@@ -553,12 +553,18 @@ public class MapViewModel extends ViewModel {
                     for (String name : others) {
                         if (name != FirebaseAuth.getInstance().getCurrentUser().getUid()) {
                             DataSnapshot userValues = dataSnapshot.child(date).child(Constants.USERS).child(name).child(Constants.HISTORY);
-                            String login = dataSnapshot.child(date).child(Constants.USERS).child(name).child(Constants.LOGIN).getValue().toString();
-                            ArrayList<Map<String, String>> arrayList = (ArrayList) userValues.getValue();
-                            if (arrayList != null) {
-                                Map<String, String> map = arrayList.get(arrayList.size() - 1);
-                                MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(Double.parseDouble(map.get(Constants.LATITUDE)), Double.parseDouble(map.get(Constants.LONGITTUDE)))).title(login).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-                                googleMap.addMarker(markerOptions);
+                            if(dataSnapshot.child(date).child(Constants.USERS).child(name).child(Constants.LOGIN).getValue()!=null) {
+                                try {
+                                    String login = dataSnapshot.child(date).child(Constants.USERS).child(name).child(Constants.LOGIN).getValue().toString();
+                                    ArrayList<Map<String, String>> arrayList = (ArrayList) userValues.getValue();
+                                    if (arrayList != null) {
+                                        Map<String, String> map = arrayList.get(arrayList.size() - 1);
+                                        MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(Double.parseDouble(map.get(Constants.LATITUDE)), Double.parseDouble(map.get(Constants.LONGITTUDE)))).title(login).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+                                        googleMap.addMarker(markerOptions);
+                                    }
+                                }catch (Exception e){
+                                    Log.e(TAG,e+"");
+                                }
                             }
                         }
                     }
