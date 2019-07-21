@@ -109,15 +109,21 @@ public class HistoryMapActivity extends DaggerAppCompatActivity implements OnMap
                     databaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            ArrayList<Map<String, String>> arrayList = (ArrayList) dataSnapshot.child(date()).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(Constants.HISTORY).getValue();
-                            ArrayList<LatLng> forSetting = new ArrayList<>();
-                            if (arrayList != null) {
-                                for (Map<String, String> map : arrayList) {
-                                    forSetting.add(new LatLng(Double.parseDouble(map.get(Constants.LATITUDE)), Double.parseDouble(map.get(Constants.LONGITTUDE))));
+                            if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
+                                try {
+                                    ArrayList<Map<String, String>> arrayList = (ArrayList) dataSnapshot.child(date()).child(Constants.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(Constants.HISTORY).getValue();
+                                    ArrayList<LatLng> forSetting = new ArrayList<>();
+                                    if (arrayList != null) {
+                                        for (Map<String, String> map : arrayList) {
+                                            forSetting.add(new LatLng(Double.parseDouble(map.get(Constants.LATITUDE)), Double.parseDouble(map.get(Constants.LONGITTUDE))));
+                                        }
+                                        PolylineOptions polylineOptions = new PolylineOptions().width(15).color(Color.BLUE);
+                                        polylineOptions.addAll(forSetting);
+                                        googleMap.addPolyline(polylineOptions);
+                                    }
+                                }catch(Exception e){
+                                    Log.e(TAG,e+"");
                                 }
-                                PolylineOptions polylineOptions = new PolylineOptions().width(15).color(Color.BLUE);
-                                polylineOptions.addAll(forSetting);
-                                googleMap.addPolyline(polylineOptions);
                             }
                             databaseReference.removeEventListener(this);
                         }
